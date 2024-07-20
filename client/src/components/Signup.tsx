@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, FormControl, FormLabel, TextField, Typography, Grid } from '@mui/material';
 import { useAuth } from '@/contexts/AuthContext';
 import AppLogo from '@/assets/AppLogo.png';
-import { theme } from '@/configs';
 import { HOME_URL } from '@/router/router.const';
+import theme from '@/Theme';
 
 const SignUp: React.FC = () => {
   const [name, setName] = useState('');
