@@ -31,6 +31,7 @@
     "react-router-dom": "^6.23.1",
     "stylis-plugin-rtl": "^2.1.1",
     "sweetalert2": "^11.12.3",
+    "uuid": "^10.0.0",
     "vite-plugin-checker": "^0.7.2",
     "vite-plugin-image-optimizer": "^1.1.8",
     "yup": "^1.4.0"
@@ -41,6 +42,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.2.22",
     "@types/stylis": "^4.2.6",
+    "@types/uuid": "^10.0.0",
     "@types/yup": "^0.32.0",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
