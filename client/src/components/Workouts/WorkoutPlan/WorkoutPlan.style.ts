@@ -1,4 +1,4 @@
-import { theme } from "@/configs"
+import theme from "@/Theme"
 import { SxProps, Theme } from "@mui/material"
 
 const outerBox: SxProps = {

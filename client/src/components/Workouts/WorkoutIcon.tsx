@@ -1,4 +1,3 @@
-import { theme } from '@/configs';
 import { WorkoutType } from '@/types/workout.type';
 import {
   AccessibilityNew,
@@ -7,6 +6,7 @@ import {
   FitnessCenter,
 } from '@mui/icons-material';
 import { SxProps } from '@mui/material';
+import theme from '@/Theme';
 
 const WorkoutIcon = ({ type }: { type: WorkoutType }) => {
   const workoutIcon: SxProps = {
