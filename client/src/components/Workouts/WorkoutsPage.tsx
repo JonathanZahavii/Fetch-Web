@@ -1,4 +1,3 @@
-import PromptApi from "@/api/promptApi"
 import { Workout } from "@/types/workout.type"
 import { Box, Stack } from "@mui/material"
 import { find, map } from "lodash"
@@ -6,6 +5,7 @@ import React, { useEffect, useState } from "react"
 import WorkoutActivity from "./WorkoutActivity/WorkoutActivity"
 import WorkoutPlan from "./WorkoutPlan/WorkoutPlan"
 import Styles from "./WorkoutsPage.style"
+import Api from "@/api/api"
 
 const WorkoutsPage: React.FC = () => {
   const [workouts, setWorkouts] = useState<Workout[] | null>(null)
@@ -16,7 +16,7 @@ const WorkoutsPage: React.FC = () => {
   }, [])
 
   const fetchWorkouts = async () => {
-    const res = await PromptApi.get("/workout/plan")
+    const res = await Api.get("/workout/plan")
     const serverWorkouts = res.data
 
     setWorkouts(null)

@@ -1,9 +1,8 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { AppLogo } from '@/assets';
-import { WithTrainersImages } from './HOC';
+import AppLogo from '@/assets/AppLogo.png';
 
-export const Home: React.FC = WithTrainersImages(() => {
+export const Home: React.FC = (() => {
   return (
     <Grid container height={'100%'} justifyContent={'center'} alignItems={'center'}>
       <Grid item>
