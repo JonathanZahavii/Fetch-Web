@@ -1,83 +1,75 @@
-import React, { createContext, useContext, useEffect, useState } from "react"
+import { auth } from '@/configs/firebaseConfig';
+import { NewUser } from '@shared/types/user.type';
 import {
   User,
+  UserCredential,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
-} from "firebase/auth"
-import { auth } from "@/configs/firebaseConfig"
-import { UserCredential } from "firebase/auth"
+} from 'firebase/auth';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface AuthContextType {
-  currentUser: User | null
-  login: (email: string, password: string) => Promise<UserCredential>
-  signup: (
-    email: string,
-    password: string,
-    displayName: string
-  ) => Promise<UserCredential>
-  logout: () => Promise<void>
+  currentUser: User | null;
+  login: (email: string, password: string) => Promise<UserCredential>;
+  signup: (data: NewUser) => Promise<UserCredential>;
+  logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
-  const context = useContext(AuthContext)
+  const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider")
+    throw new Error('useAuth must be used within an AuthProvider');
   }
-  return context
-}
+  return context;
+};
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user)
-      setLoading(false)
-    })
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
 
-    return unsubscribe
-  }, [])
+    return unsubscribe;
+  }, []);
 
   const login = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password)
-  }
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
-  const signup = async (
-    email: string,
-    password: string,
-    displayName: string
-  ) => {
+  const signup = async (data: NewUser) => {
+    const { email, password, name } = data;
     const userCredential = await createUserWithEmailAndPassword(
       auth,
-      email,
-      password
-    )
+      email as string,
+      password as string
+    );
     if (userCredential.user) {
       await updateProfile(userCredential.user, {
-        displayName: displayName,
-      })
+        displayName: name as string,
+      });
     }
 
-    return userCredential
-  }
+    return userCredential;
+  };
 
   const logout = () => {
     return signOut(auth)
       .then(() => {
-        setCurrentUser(null)
+        setCurrentUser(null);
       })
-      .catch((error) => {
-        console.error("Error signing out: ", error)
-      })
-  }
+      .catch(error => {
+        console.error('Error signing out: ', error);
+      });
+  };
 
   const value = {
     currentUser,
@@ -85,11 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     login,
     logout,
     signup,
-  }
+  };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  )
-}
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+};

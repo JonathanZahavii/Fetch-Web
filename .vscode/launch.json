@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "compounds": [
     {
-      "name": "Launch Train",
+      "name": "Launch Fetch-Web",
       "configurations": ["Launch client", "Start Client", "Start Server"]
     },
     {
