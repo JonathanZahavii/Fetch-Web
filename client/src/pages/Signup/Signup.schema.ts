@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { UserForm } from './Signup';
+import { UserForm } from './Signup.config';
 
 export const createUserSchema = (): yup.ObjectSchema<UserForm> =>
   yup.object({
