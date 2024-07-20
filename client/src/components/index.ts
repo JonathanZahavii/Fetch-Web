@@ -2,5 +2,4 @@
 export * from './Home';
 export * from './HOC';
 export * from './Navbar';
-export * from './PreferenceQuestionnaire';
 export * from './TrainersImages';
