@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, FormControl, FormLabel, Grid, TextField, Typography } from '@mui/material';
 import { useAuth } from '@/contexts/AuthContext';
 import AppLogo from '@/assets/AppLogo.png';
-import { theme } from '@/configs';
+import theme from '@/Theme';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
