@@ -121,14 +121,7 @@ const SignUp: React.FC = () => {
           </Grid>
 
           <Grid item xs={12} sm={12}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="info"
-              sx={{ mt: 3, mb: 2, borderRadius: '10px' }}
-              onClick={handleSubmit(onSubmit)}
-            >
+            <Button onClick={handleSubmit(onSubmit)} {...Styles.buttonProps} sx={Styles.button}>
               Sign Up
             </Button>
           </Grid>
