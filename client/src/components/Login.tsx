@@ -1,9 +1,9 @@
+import AppLogo from '@/assets/AppLogo.png';
+import { useAuth } from '@/contexts/AuthContext';
+import theme from '@/Theme';
+import { Box, Button, FormControl, FormLabel, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Grid, TextField, Typography } from '@mui/material';
-import { useAuth } from '@/contexts/AuthContext';
-import AppLogo from '@/assets/AppLogo.png';
-import theme from '@/Theme';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -63,7 +63,7 @@ const Login: React.FC = () => {
               <img src={AppLogo} width={100} height={'fit-content'} />
             </Grid>
           </Grid>
-          <FormControl fullWidth margin='normal'>
+          <FormControl fullWidth margin="normal">
             <FormLabel
               sx={{
                 color: theme.palette.primary.contrastText,
@@ -73,17 +73,17 @@ const Login: React.FC = () => {
               Email Address
             </FormLabel>
             <TextField
-              size='small'
-              variant='outlined'
+              size="small"
+              variant="outlined"
               required
               fullWidth
-              id='email'
-              name='email'
-              autoComplete='email'
+              id="email"
+              name="email"
+              autoComplete="email"
               autoFocus
               value={email}
-              placeholder='example@trainer.com'
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="example@trainer.com"
+              onChange={e => setEmail(e.target.value)}
               sx={{
                 backgroundColor: theme.palette.primary.contrastText,
                 borderRadius: '4px',
@@ -91,7 +91,7 @@ const Login: React.FC = () => {
             />
           </FormControl>
 
-          <FormControl fullWidth margin='normal'>
+          <FormControl fullWidth margin="normal">
             <FormLabel
               sx={{
                 color: theme.palette.primary.contrastText,
@@ -101,17 +101,17 @@ const Login: React.FC = () => {
               Password
             </FormLabel>
             <TextField
-              size='small'
-              variant='outlined'
+              size="small"
+              variant="outlined"
               required
               fullWidth
-              name='password'
-              type='password'
-              id='password'
-              autoComplete='current-password'
+              name="password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
               value={password}
-              placeholder='******'
-              onChange={(e) => setPassword(e.target.value)}
+              placeholder="******"
+              onChange={e => setPassword(e.target.value)}
               sx={{
                 backgroundColor: theme.palette.primary.contrastText,
                 borderRadius: '4px',
@@ -119,15 +119,15 @@ const Login: React.FC = () => {
             />
           </FormControl>
           {error && (
-            <Typography color='error' sx={{ mb: 2 }}>
+            <Typography color="error" sx={{ mb: 2 }}>
               {error}
             </Typography>
           )}
           <Button
-            type='submit'
+            type="submit"
             fullWidth
-            variant='contained'
-            color='info'
+            variant="contained"
+            color="info"
             sx={{ mt: 3, mb: 2, borderRadius: '10px' }}
           >
             Sign In

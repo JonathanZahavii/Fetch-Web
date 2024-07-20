@@ -12,7 +12,7 @@ function Router() {
     {
       path: '/',
       element: (
-        <ErrorBoundary FallbackComponent={() => <AppLogo />}>
+        <ErrorBoundary FallbackComponent={() => <img src={AppLogo} />}>
           <AuthProvider>
             <Navbar />
             <Outlet />

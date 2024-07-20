@@ -61,9 +61,15 @@ const theme = createTheme({
       '600': 'rgba(108, 108, 122, 1)',
       '700': 'rgba(59, 59, 77, 1)',
     },
-    mode: 'light',
     primary: {
-      main: '#007AFF',
+      light: '#ffffff',
+      main: '#000000',
+      contrastText: '#ffffff',
+    },
+    secondary: {
+      light: '#D9D9D9',
+      main: '#BFBFBF',
+      dark: '#5E5E5E',
     },
     success: {
       main: '#74E69B',
