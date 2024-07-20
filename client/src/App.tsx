@@ -1,13 +1,11 @@
 import Router from '@/router/router';
 import { CssBaseline, Stack, ThemeProvider } from '@mui/material';
-import globalStyles from './globalStyles';
 import './App.css';
 import theme from './Theme';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      {globalStyles}
       <CssBaseline>
         <Stack
           sx={{
