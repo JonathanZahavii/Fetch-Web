@@ -1,20 +1,9 @@
 import { auth } from '@/configs/firebaseConfig';
-import { NewUser } from '@shared/types/user.type';
-import {
-  User,
-  UserCredential,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-  updateProfile,
-} from 'firebase/auth';
+import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface AuthContextType {
   currentUser: User | null;
-  login: (email: string, password: string) => Promise<UserCredential>;
-  signup: (data: NewUser) => Promise<UserCredential>;
   logout: () => Promise<void>;
 }
 
@@ -41,26 +30,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return unsubscribe;
   }, []);
 
-  const login = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const signup = async (data: NewUser) => {
-    const { email, password, name } = data;
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email as string,
-      password as string
-    );
-    if (userCredential.user) {
-      await updateProfile(userCredential.user, {
-        displayName: name as string,
-      });
-    }
-
-    return userCredential;
-  };
-
   const logout = () => {
     return signOut(auth)
       .then(() => {
@@ -74,9 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const value = {
     currentUser,
     loading,
-    login,
     logout,
-    signup,
   };
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;

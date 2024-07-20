@@ -5,6 +5,7 @@ import { NewUser } from '@shared/types/user.type';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
   updateProfile,
 } from 'firebase/auth';
 
@@ -31,4 +32,10 @@ export const signup = async (user: NewUser) => {
 export const login = async (user: UserFormLogin) => {
   const { email, password } = user;
   return signInWithEmailAndPassword(auth, email, password);
+};
+
+// export const logout = async (user: User) => await Api.post('/auth/user/login', { user });
+
+export const logout = () => {
+  return signOut(auth);
 };
