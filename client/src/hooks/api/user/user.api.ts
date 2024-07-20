@@ -1,6 +1,6 @@
 import { EmptyFunction } from '@shared/types/emptyFunction.type';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { login, signup } from './user.service';
+import { login, logout, signup } from './user.service';
 
 export const useSaveUser = (onSuccess: EmptyFunction, onError: (error: Error) => void) => {
   const queryClient = useQueryClient();
@@ -29,3 +29,17 @@ export const useLoginUser = (onSuccess: EmptyFunction, onError: (error: Error) =
     },
   });
 };
+
+export const useLogoutUser = (onSuccess: EmptyFunction, onError: (error: Error) => void) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [] });
+      onSuccess?.();
+    },
+    onError: (error: Error) => {
+      onError(error);
+    },
+  });
+}
