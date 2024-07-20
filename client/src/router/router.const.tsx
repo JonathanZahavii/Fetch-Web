@@ -2,9 +2,9 @@ import { Home } from '@/components/Home';
 import Unauthorized from '@/components/Unauthorized';
 import WorkoutsPage from '@/components/Workouts/WorkoutsPage';
 import Signup from '@/pages/Signup/Signup';
-import Login from '@components/Login';
 import { RouteObject } from 'react-router-dom';
 import { protectedRoute } from './ProtectedRoute';
+import Login from '@/pages/Login/Login';
 
 export const HOME_URL = '/';
 export const LOGIN_URL = '/login';
