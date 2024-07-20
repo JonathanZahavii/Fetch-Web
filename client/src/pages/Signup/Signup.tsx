@@ -52,12 +52,12 @@ const SignUp: React.FC = () => {
               render={({ field, fieldState: { invalid } }) => (
                 <TextField
                   autoFocus
+                  helperText={errors.name?.message}
                   label="Name"
                   error={invalid}
                   placeholder="Your name"
                   {...Styles.baseFieldProps}
                   sx={Styles.baseField}
-                  helperText={errors.name?.message}
                   {...field}
                 />
               )}
@@ -70,6 +70,7 @@ const SignUp: React.FC = () => {
               name="email"
               render={({ field, fieldState: { invalid } }) => (
                 <TextField
+                  helperText={errors.email?.message}
                   label="Email Address"
                   placeholder="example@trainer.com"
                   error={invalid}
@@ -87,6 +88,7 @@ const SignUp: React.FC = () => {
               name="password"
               render={({ field, fieldState: { invalid } }) => (
                 <TextField
+                  helperText={errors.password?.message}
                   label="Password"
                   placeholder="******"
                   type="password"
@@ -105,6 +107,7 @@ const SignUp: React.FC = () => {
               name="confirmPassword"
               render={({ field, fieldState: { invalid } }) => (
                 <TextField
+                  helperText={errors.confirmPassword?.message}
                   label="Confirm Password"
                   placeholder="******"
                   type="password"

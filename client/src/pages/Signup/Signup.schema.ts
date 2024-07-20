@@ -5,12 +5,11 @@ export const createUserSchema = (): yup.ObjectSchema<UserForm> =>
   yup.object({
     name: yup.string().required(),
     email: yup.string().email().required(),
-    password: yup
+    password: yup.string().min(6).required(),
+    confirmPassword: yup
       .string()
-      .min(6)
       .required()
-      .test('passwords-match', 'Passwords must match', function (value) {
+      .test('passwords-match', 'Passwords must match', function () {
         return this.parent.password === this.parent.confirmPassword;
       }),
-    confirmPassword: yup.string().required(),
   });
