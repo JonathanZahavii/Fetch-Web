@@ -1,14 +1,14 @@
 import AppLogo from '@/assets/AppLogo.png';
-import { useAuth } from '@/contexts/AuthContext';
+import AuthContext from '@/contexts/AuthContext';
 import { HOME_URL, LOGIN_URL, SIGNUP_URL, WORKOUTS_URL } from '@/router/router.const';
 import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <AppBar position="sticky">
@@ -31,9 +31,9 @@ const Navbar: React.FC = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {currentUser ? (
             <>
-              <Avatar alt={currentUser.displayName || ''} src="" sx={{ marginRight: 1 }} />
+              <Avatar src="" sx={{ marginRight: 1 }} />
               <Typography variant="body1" color="inherit" sx={{ marginRight: 2 }}>
-                Hello, {currentUser.displayName}
+                Hello, {currentUser.name}
               </Typography>
               <LogoutButton />
             </>

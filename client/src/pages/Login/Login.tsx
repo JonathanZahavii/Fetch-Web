@@ -1,9 +1,11 @@
 import AppLogo from '@/assets/AppLogo.png';
+import AuthContext from '@/contexts/AuthContext';
 import { useLoginUser } from '@/hooks/api/user/user.api';
 import { HOME_URL } from '@/router/router.const';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Grid, TextField } from '@mui/material';
-import React from 'react';
+import { User } from '@shared/types/user.type';
+import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -13,12 +15,17 @@ import Styles from './Login.style';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const { login: loginAuth } = useContext(AuthContext);
 
-  const onSuccess = () => navigate(HOME_URL);
+  const onSuccess = (data: { user: User; token: string; refreshToken: string }) => {
+    loginAuth(data.user, data.token, data.refreshToken);
+    navigate(HOME_URL);
+  };
   const onError = (error: Error) =>
     Swal.fire({ icon: 'error', title: 'Error', text: error.message });
 
   const { mutate: login } = useLoginUser(onSuccess, onError);
+
   const {
     control,
     formState: { errors },
