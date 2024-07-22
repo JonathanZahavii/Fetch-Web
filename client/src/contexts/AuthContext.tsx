@@ -5,8 +5,8 @@ interface AuthContext {
   login: (user: User, token: string, refreshToken: string) => void;
   logout: () => void;
   currentUser: User | undefined;
-  accessToken: string;
-  refreshToken: string;
+  accessToken: string | undefined;
+  refreshToken: string | undefined;
   setAccessToken: (token: string) => void;
 }
 
@@ -14,8 +14,8 @@ const initialContext: AuthContext = {
   login: () => {},
   logout: () => {},
   currentUser: undefined,
-  accessToken: '',
-  refreshToken: '',
+  accessToken: undefined,
+  refreshToken: undefined,
   setAccessToken: () => {},
 };
 
@@ -34,17 +34,23 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     JSON.parse(localStorage.getItem(REFRESH_TOKEN_STORAGE_ITEM) as string);
 
   const [currentUser, setCurrentUser] = useState<User | undefined>(getCurrentUser());
-  const [accessToken, setAccessToken] = useState<string>(getAccessToken());
-  const [refreshToken, setRefreshToken] = useState<string>(getRefreshToken());
+  const [accessToken, setAccessToken] = useState<string | undefined>(getAccessToken());
+  const [refreshToken, setRefreshToken] = useState<string | undefined>(getRefreshToken());
 
   useEffect(() => {
-    localStorage.setItem(CURRENT_USER_STORAGE_ITEM, JSON.stringify(currentUser));
+    currentUser
+      ? localStorage.setItem(CURRENT_USER_STORAGE_ITEM, JSON.stringify(currentUser))
+      : localStorage.removeItem(CURRENT_USER_STORAGE_ITEM);
   }, [currentUser]);
   useEffect(() => {
-    localStorage.setItem(ACCESS_TOKEN_STORAGE_ITEM, accessToken);
+    accessToken
+      ? localStorage.setItem(ACCESS_TOKEN_STORAGE_ITEM, accessToken)
+      : localStorage.removeItem(ACCESS_TOKEN_STORAGE_ITEM);
   }, [accessToken]);
   useEffect(() => {
-    localStorage.setItem(REFRESH_TOKEN_STORAGE_ITEM, refreshToken);
+    refreshToken
+      ? localStorage.setItem(REFRESH_TOKEN_STORAGE_ITEM, refreshToken)
+      : localStorage.removeItem(REFRESH_TOKEN_STORAGE_ITEM);
   }, [refreshToken]);
 
   const login = (user: User, accessToken: string, refreshToken: string) => {
@@ -54,13 +60,9 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const logout = () => {
-    setAccessToken('');
-    setRefreshToken('');
+    setAccessToken(undefined);
+    setRefreshToken(undefined);
     setCurrentUser(undefined);
-
-    localStorage.removeItem(CURRENT_USER_STORAGE_ITEM);
-    localStorage.removeItem(ACCESS_TOKEN_STORAGE_ITEM);
-    localStorage.removeItem(REFRESH_TOKEN_STORAGE_ITEM);
   };
 
   const value = {
