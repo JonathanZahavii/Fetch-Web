@@ -1,6 +1,6 @@
 import AppLogo from '@/assets/AppLogo.png';
 import AuthContext from '@/contexts/AuthContext';
-import { HOME_URL, LOGIN_URL, SIGNUP_URL, WORKOUTS_URL } from '@/router/router.const';
+import { HOME_URL, LOGIN_URL, PROFILE_URL, SIGNUP_URL, WORKOUTS_URL } from '@/router/router.const';
 import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +31,9 @@ const Navbar: React.FC = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {currentUser ? (
             <>
-              <Avatar src="" sx={{ marginRight: 1 }} />
+              <Button>
+                <Avatar src="" sx={{ marginRight: 1 }} onClick={() => navigate(PROFILE_URL)} />
+              </Button>
               <Typography variant="body1" color="inherit" sx={{ marginRight: 2 }}>
                 Hello, {currentUser.name}
               </Typography>
