@@ -36,7 +36,11 @@ export const signup = async (user: NewUser) => {
 export const login = async (user: UserFormLogin) => {
   const { email, password } = user;
   const u = await signInWithEmailAndPassword(auth, email, password);
-  return { email: u.user?.email ?? "", name: u.user?.displayName ?? "", uuid: uuidv4() };
+  return {
+    user: { email: u.user?.email ?? '', name: u.user?.displayName ?? '', uuid: uuidv4() },
+    token: '1234',
+    refreshToken: '1234',
+  };
 };
 
 // export const logout = async (user: User) => await Api.post('/auth/user/login', { user });

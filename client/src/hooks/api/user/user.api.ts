@@ -15,7 +15,10 @@ export const useSaveUser = (onSuccess: EmptyFunction, onError: (error: Error) =>
   });
 };
 
-export const useLoginUser = (onSuccess: (data: User) => void, onError: (error: Error) => void) => {
+export const useLoginUser = (
+  onSuccess: (data: { user: User; token: string; refreshToken: string }) => void,
+  onError: (error: Error) => void
+) => {
   return useMutation({
     mutationFn: login,
     onSuccess,

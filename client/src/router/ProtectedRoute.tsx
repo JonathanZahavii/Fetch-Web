@@ -4,9 +4,9 @@ import { Navigate } from 'react-router-dom';
 import { UNAUTHORIZED_URL } from './router.const';
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const { currentUser } = useContext(AuthContext);
+  const accessToken = useContext(AuthContext).accessToken();
 
-  return currentUser ? children : <Navigate to={UNAUTHORIZED_URL} replace />;
+  return accessToken ? children : <Navigate to={UNAUTHORIZED_URL} replace />;
 };
 
 export const protectedRoute = (step: ReactNode) => <ProtectedRoute>{step}</ProtectedRoute>;

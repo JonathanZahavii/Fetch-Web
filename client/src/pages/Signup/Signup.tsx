@@ -1,6 +1,6 @@
 import AppLogo from '@/assets/AppLogo.png';
 import { useSaveUser } from '@/hooks/api/user/user.api';
-import { HOME_URL } from '@/router/router.const';
+import { LOGIN_URL } from '@/router/router.const';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Grid, TextField } from '@mui/material';
 import React from 'react';
@@ -16,7 +16,7 @@ const SignUp: React.FC = () => {
 
   const onSuccess = () => {
     Swal.fire({ icon: 'success', title: 'User added successfully' });
-    navigate(HOME_URL);
+    navigate(LOGIN_URL);
   };
   const onError = (error: Error) =>
     Swal.fire({ icon: 'error', title: 'Error', text: error.message });

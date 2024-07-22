@@ -15,10 +15,10 @@ import Styles from './Login.style';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { setCurrentUser } = useContext(AuthContext);
+  const { login: loginAuth } = useContext(AuthContext);
 
-  const onSuccess = (data: User) => {
-    setCurrentUser(data);
+  const onSuccess = (data: { user: User; token: string; refreshToken: string }) => {
+    loginAuth(data.user, data.token, data.refreshToken);
     navigate(HOME_URL);
   };
   const onError = (error: Error) =>
