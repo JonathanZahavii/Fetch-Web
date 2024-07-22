@@ -13,9 +13,9 @@ const Api = axios.create({
 
 Api.interceptors.request.use(
   config => {
-    const accessToken = useContext(AuthContext).accessToken();
+    const { accessToken } = useContext(AuthContext);
     if (accessToken) {
-      config.headers.Authorizatio = `Bearer ${accessToken}`;
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
@@ -29,11 +29,10 @@ Api.interceptors.response.use(
     return response;
   },
   async error => {
-    const { logout, setAccessToken } = useContext(AuthContext);
+    const { logout, setAccessToken, refreshToken } = useContext(AuthContext);
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = useContext(AuthContext).refreshToken();
       if (refreshToken) {
         try {
           const response = await axios.post(`${BASE_PATH}/refreshToken`, { refreshToken });

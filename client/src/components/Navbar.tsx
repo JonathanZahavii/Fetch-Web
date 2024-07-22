@@ -8,7 +8,7 @@ import LogoutButton from './LogoutButton';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
-  const currentUser = useContext(AuthContext).currentUser();
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <AppBar position="sticky">
