@@ -10,7 +10,7 @@ const LogoutButton: React.FC = () => {
   const { logout: logoutAuth } = useContext(AuthContext);
 
   const logout = () => {
-    logoutAuth;
+    logoutAuth();
     navigate(HOME_URL);
   };
 

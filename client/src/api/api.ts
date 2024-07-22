@@ -42,7 +42,7 @@ Api.interceptors.response.use(
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axios(originalRequest);
         } catch (error) {
-          logout;
+          logout();
         }
       }
     }
