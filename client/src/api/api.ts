@@ -13,7 +13,7 @@ const Api = axios.create({
 
 Api.interceptors.request.use(
   config => {
-    const { accessToken } = useContext(AuthContext);
+    const accessToken = useContext(AuthContext).accessToken();
     if (accessToken) {
       config.headers.Authorizatio = `Bearer ${accessToken}`;
     }
