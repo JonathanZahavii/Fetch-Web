@@ -4,6 +4,7 @@ import { useLogin } from '@/hooks/api/user/user.api';
 import { HOME_URL } from '@/router/router.const';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Grid, TextField } from '@mui/material';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { User } from '@shared/types/user.type';
 import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -37,6 +38,14 @@ const Login: React.FC = () => {
 
   const onSubmit = async (user: UserFormLogin) => {
     await login(user);
+  };
+
+  const googleResponseMessage = (credentialResponse: CredentialResponse) => {
+    console.log(credentialResponse);
+  };
+
+  const googleErrorMessage = () => {
+    console.log('Google Error');
   };
 
   return (
@@ -91,6 +100,9 @@ const Login: React.FC = () => {
           <Button onClick={handleSubmit(onSubmit)} {...Styles.buttonProps} sx={Styles.button}>
             Log In
           </Button>
+        </Grid>
+        <Grid container item>
+          <GoogleLogin onSuccess={googleResponseMessage} onError={googleErrorMessage} />
         </Grid>
       </Grid>
     </Box>

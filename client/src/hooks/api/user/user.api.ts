@@ -22,6 +22,17 @@ export const useLogin = (
   });
 };
 
+export const useGoogleLogin = (
+  onSuccess: (data: { user: User; token: string; refreshToken: string }) => void,
+  onError: (error: Error) => void
+) => {
+  return useMutation({
+    mutationFn: login,
+    onSuccess,
+    onError,
+  });
+}
+
 export const useLogout = (onSuccess: EmptyFunction, onError: (error: Error) => void) => {
   return useMutation({
     mutationFn: logout,
