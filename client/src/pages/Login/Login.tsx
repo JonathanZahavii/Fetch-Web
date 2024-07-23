@@ -1,6 +1,6 @@
 import AppLogo from '@/assets/AppLogo.png';
 import AuthContext from '@/contexts/AuthContext';
-import { useLoginUser } from '@/hooks/api/user/user.api';
+import { useLogin } from '@/hooks/api/user/user.api';
 import { HOME_URL } from '@/router/router.const';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Grid, TextField } from '@mui/material';
@@ -24,7 +24,7 @@ const Login: React.FC = () => {
   const onError = (error: Error) =>
     Swal.fire({ icon: 'error', title: 'Error', text: error.message });
 
-  const { mutate: login } = useLoginUser(onSuccess, onError);
+  const { mutate: login } = useLogin(onSuccess, onError);
 
   const {
     control,

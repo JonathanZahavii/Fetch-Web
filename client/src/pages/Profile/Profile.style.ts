@@ -1,7 +1,7 @@
 import theme from '@/Theme';
 import { SxProps } from '@mui/material';
 
-const outerBox: SxProps = {
+const profileImage: SxProps = {
   width: '100%',
   height: '100vh',
   display: 'flex',
@@ -10,4 +10,4 @@ const outerBox: SxProps = {
   backgroundColor: theme.palette.secondary.dark,
 };
 
-export default { outerBox };
+export default { profileImage };

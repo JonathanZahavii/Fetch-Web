@@ -47,3 +47,14 @@ export const login = async (user: UserFormLogin) => {
 export const logout = () => {
   return signOut(auth);
 };
+
+// export const updateUser = async (user: User) => await Api.put('/auth/user/', { user });
+export const updateUser = async (user: User) => {
+  const { currentUser } = auth;
+  currentUser &&
+    (await updateProfile(currentUser, {
+      displayName: user?.name,
+      photoURL: user?.photoURL,
+    }));
+  return user;
+};

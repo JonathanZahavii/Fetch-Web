@@ -1,5 +1,5 @@
 import AppLogo from '@/assets/AppLogo.png';
-import { useSaveUser } from '@/hooks/api/user/user.api';
+import { useSignup } from '@/hooks/api/user/user.api';
 import { LOGIN_URL } from '@/router/router.const';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Grid, TextField } from '@mui/material';
@@ -21,7 +21,7 @@ const SignUp: React.FC = () => {
   const onError = (error: Error) =>
     Swal.fire({ icon: 'error', title: 'Error', text: error.message });
 
-  const { mutate: signup } = useSaveUser(onSuccess, onError);
+  const { mutate: signup } = useSignup(onSuccess, onError);
   const {
     control,
     formState: { errors },

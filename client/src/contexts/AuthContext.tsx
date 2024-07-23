@@ -8,6 +8,7 @@ interface AuthContext {
   accessToken: string | undefined;
   refreshToken: string | undefined;
   setAccessToken: (token: string) => void;
+  setCurrentUser: (user: User) => void;
 }
 
 const initialContext: AuthContext = {
@@ -17,6 +18,7 @@ const initialContext: AuthContext = {
   accessToken: undefined,
   refreshToken: undefined,
   setAccessToken: () => {},
+  setCurrentUser: () => {},
 };
 
 const AuthContext = createContext<AuthContext>(initialContext);
@@ -72,6 +74,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     login,
     logout,
     setAccessToken,
+    setCurrentUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
