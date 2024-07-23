@@ -43,6 +43,17 @@ export const login = async (user: UserFormLogin) => {
   };
 };
 
+// TODO: Both signup and login 
+// export const login = async (user: User) => await Api.post('/auth/user/googleLogin', { credential });
+export const googleLogin = async (credential: string) => {
+  console.log(credential);
+  return {
+    user: { email: 'j@g.com', name: 'Jonathan', uuid: uuidv4() },
+    token: '1234',
+    refreshToken: '1234',
+  };
+};
+
 // export const logout = async (user: User) => await Api.post('/auth/user/login', { user });
 export const logout = () => {
   return signOut(auth);
