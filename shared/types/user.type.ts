@@ -1,11 +1,12 @@
 export type User = {
-  uuid: String
-  name: String
-  email: String
+  uuid: string
+  name: string
+  email: string
+  photoURL?: string
 }
 
 export type NewUser = {
-  name: String
-  email: String
-  password: String
+  name: string
+  email: string
+  password: string
 }

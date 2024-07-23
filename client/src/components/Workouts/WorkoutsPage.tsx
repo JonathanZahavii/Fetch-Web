@@ -1,58 +1,50 @@
-import { Workout } from "@/types/workout.type"
-import { Box, Stack } from "@mui/material"
-import { find, map } from "lodash"
-import React, { useEffect, useState } from "react"
-import WorkoutActivity from "./WorkoutActivity/WorkoutActivity"
-import WorkoutPlan from "./WorkoutPlan/WorkoutPlan"
-import Styles from "./WorkoutsPage.style"
-import Api from "@/api/api"
+import Api from '@/api/api';
+import { Workout } from '@/types/workout.type';
+import { Stack } from '@mui/material';
+import { find, map } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import WorkoutActivity from './WorkoutActivity/WorkoutActivity';
+import WorkoutPlan from './WorkoutPlan/WorkoutPlan';
+import Styles from './WorkoutsPage.style';
 
 const WorkoutsPage: React.FC = () => {
-  const [workouts, setWorkouts] = useState<Workout[] | null>(null)
-  const [workout, setWorkout] = useState<Workout | null>(null)
+  const [workouts, setWorkouts] = useState<Workout[] | null>(null);
+  const [workout, setWorkout] = useState<Workout | null>(null);
 
   useEffect(() => {
-    fetchWorkouts()
-  }, [])
+    fetchWorkouts();
+  }, []);
 
   const fetchWorkouts = async () => {
-    const res = await Api.get("/workout/plan")
-    const serverWorkouts = res.data
+    const res = await Api.get('/workout/plan');
+    const serverWorkouts = res.data;
 
-    setWorkouts(null)
-    setWorkouts(serverWorkouts)
+    setWorkouts(null);
+    setWorkouts(serverWorkouts);
     const updatedWorkout =
-      find(serverWorkouts, { id: workout?.id }) ||
-      (serverWorkouts && serverWorkouts[0]) ||
-      null
-    setWorkout(updatedWorkout)
-  }
+      find(serverWorkouts, { id: workout?.id }) || (serverWorkouts && serverWorkouts[0]) || null;
+    setWorkout(updatedWorkout);
+  };
 
   const updateWorkout = (updatedWorkout: Workout) => {
-    if (!workouts) return
+    if (!workouts) return;
 
     // const updatedWorkouts = api.post('/workout/:id', { workout: updatedWorkout })
     // fetchWorkouts()
 
     const updatedWorkouts = map(workouts, (currentWorkout: Workout) =>
       currentWorkout.id === updatedWorkout.id ? updatedWorkout : currentWorkout
-    )
-    setWorkouts(updatedWorkouts)
-    setWorkout(updatedWorkout)
-  }
+    );
+    setWorkouts(updatedWorkouts);
+    setWorkout(updatedWorkout);
+  };
 
   return (
-    <Box sx={Styles.outerBox}>
-      <Stack {...Styles.stack}>
-        <WorkoutPlan
-          workouts={workouts}
-          setWorkout={setWorkout}
-          fetchWorkouts={fetchWorkouts}
-        />
-        <WorkoutActivity workout={workout} updateWorkout={updateWorkout} />
-      </Stack>
-    </Box>
-  )
-}
+    <Stack {...Styles.stack}>
+      <WorkoutPlan workouts={workouts} setWorkout={setWorkout} fetchWorkouts={fetchWorkouts} />
+      <WorkoutActivity workout={workout} updateWorkout={updateWorkout} />
+    </Stack>
+  );
+};
 
-export default WorkoutsPage
+export default WorkoutsPage;
