@@ -48,6 +48,7 @@ export const logout = () => {
   return signOut(auth);
 };
 
+// TODO: Set User type photo to file?
 // export const updateUser = async (user: User) => await Api.put('/auth/user/', { user });
 export const updateUser = async (user: User) => {
   const { currentUser } = auth;

@@ -4,32 +4,49 @@ import { useUpdateUser } from '@/hooks/api/user/user.api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveButton from '@mui/icons-material/Save';
-import { Grid, IconButton, TextField } from '@mui/material';
+import { Button, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { User } from '@shared/types/user.type';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import * as yup from 'yup';
 
 export type ProfileForm = {
   name: string;
+  photo?: File | null;
 };
 
 const createProfileSchema = (): yup.ObjectSchema<ProfileForm> =>
   yup.object({
     name: yup.string().required(),
+    photo: yup
+      .mixed<File>()
+      .nullable()
+      .test(
+        'fileSize',
+        'File too large',
+        value => !value || (value && value.size <= 1024 * 1024 * 5) // 5MB limit
+      )
+      .test(
+        'fileFormat',
+        'Unsupported Format',
+        value => !value || (value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type))
+      ),
   });
 
 const Profile: React.FC = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
-  const [isNameEdit, setIsNameEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(AppLogo);
 
   const onSuccess = (updatedUser: User) => {
     setCurrentUser(updatedUser);
-    setIsNameEdit(false);
+    setIsEdit(false);
   };
   const onError = (error: Error) => {
-    console.log(error);
+    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
   };
   const { mutate: updateUser } = useUpdateUser(onSuccess, onError);
 
@@ -37,10 +54,25 @@ const Profile: React.FC = () => {
     control,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<ProfileForm>({
     resolver: yupResolver<ProfileForm>(createProfileSchema()),
-    values: { name: currentUser?.name || '' },
+    defaultValues: { name: currentUser?.name || '', photo: null },
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setValue('photo', file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+    }
+  };
 
   const onSubmit = async (data: ProfileForm) => {
     updateUser({
@@ -54,7 +86,32 @@ const Profile: React.FC = () => {
   return (
     <Grid container direction="column" spacing={2} alignItems="center" justifyContent="flex-start">
       <Grid item>
-        <Box component="img" src={AppLogo} sx={{ width: '6vw' }} />
+        <Box component="img" src={imagePreview || AppLogo} sx={{ width: '6vw' }} />
+        {isEdit && (
+          <>
+            <Controller
+              name="photo"
+              control={control}
+              render={({ field }) => (
+                <>
+                  <Button onClick={() => fileInputRef.current?.click()}>Choose File</Button>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    hidden
+                    onChange={e => {
+                      field.onChange(e.target.files);
+                      handleFileChange(e);
+                    }}
+                  />
+                  {errors.photo?.message && (
+                    <Typography sx={{ color: 'red' }}>{errors.photo?.message}</Typography>
+                  )}
+                </>
+              )}
+            />
+          </>
+        )}
       </Grid>
       <Grid item container direction={'row'} justifyContent="center">
         <Grid item>
@@ -64,7 +121,7 @@ const Profile: React.FC = () => {
             render={({ field, fieldState: { invalid } }) => (
               <TextField
                 autoFocus
-                disabled={!isNameEdit}
+                disabled={!isEdit}
                 helperText={errors.name?.message}
                 label="Name"
                 error={invalid}
@@ -75,8 +132,8 @@ const Profile: React.FC = () => {
           />
         </Grid>
         <Grid item alignItems={'center'} justifyContent={'center'}>
-          {!isNameEdit ? (
-            <IconButton onClick={() => setIsNameEdit(true)}>
+          {!isEdit ? (
+            <IconButton onClick={() => setIsEdit(true)}>
               <EditIcon />
             </IconButton>
           ) : (

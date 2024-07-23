@@ -32,7 +32,11 @@ const Navbar: React.FC = () => {
           {currentUser ? (
             <>
               <Button>
-                <Avatar src="" sx={{ marginRight: 1 }} onClick={() => navigate(PROFILE_URL)} />
+                {currentUser.photoURL ? (
+                  <Box component="img" src={currentUser.photoURL} sx={{ width: '6vw' }} />
+                ) : (
+                  <Avatar src="" sx={{ marginRight: 1 }} onClick={() => navigate(PROFILE_URL)} />
+                )}
               </Button>
               <Typography variant="body1" color="inherit" sx={{ marginRight: 2 }}>
                 Hello, {currentUser.name}

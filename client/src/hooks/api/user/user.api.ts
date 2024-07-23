@@ -2,7 +2,6 @@ import { EmptyFunction } from '@shared/types/emptyFunction.type';
 import { User } from '@shared/types/user.type';
 import { useMutation } from '@tanstack/react-query';
 import { login, logout, signup, updateUser } from './user.service';
-import { ProfileForm } from '@/pages/Profile/Profile';
 
 export const useSignup = (onSuccess: EmptyFunction, onError: (error: Error) => void) => {
   return useMutation({
@@ -37,4 +36,4 @@ export const useUpdateUser = (onSuccess: (data: User) => void, onError: (error: 
     onSuccess,
     onError,
   });
-}
+};
