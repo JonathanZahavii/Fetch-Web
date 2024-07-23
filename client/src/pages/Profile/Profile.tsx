@@ -10,30 +10,7 @@ import { User } from '@shared/types/user.type';
 import React, { useContext, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-import * as yup from 'yup';
-
-export type ProfileForm = {
-  name: string;
-  photo?: File | null;
-};
-
-const createProfileSchema = (): yup.ObjectSchema<ProfileForm> =>
-  yup.object({
-    name: yup.string().required(),
-    photo: yup
-      .mixed<File>()
-      .nullable()
-      .test(
-        'fileSize',
-        'File too large',
-        value => !value || (value && value.size <= 1024 * 1024 * 5) // 5MB limit
-      )
-      .test(
-        'fileFormat',
-        'Unsupported Format',
-        value => !value || (value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type))
-      ),
-  });
+import { ProfileForm, createProfileSchema } from './Profile.config';
 
 const Profile: React.FC = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
