@@ -1,4 +1,8 @@
 import { alpha, createTheme } from '@mui/material';
+const CREAM = '#F7F3D9';
+const PINK = '#FEAB97'
+const BLUE = '#58C2C7';
+const WHITE = '#ffffff';
 
 const theme = createTheme({
   breakpoints: {
@@ -46,8 +50,8 @@ const theme = createTheme({
   },
   palette: {
     background: {
-      default: '#000000',
-      paper: '#000000',
+      default: CREAM,
+      paper: CREAM,
     },
     error: {
       main: 'rgba(255, 84, 84, 1)',
@@ -63,7 +67,7 @@ const theme = createTheme({
     },
     primary: {
       light: '#ffffff',
-      main: '#000000',
+      main: PINK,
       contrastText: '#ffffff',
     },
     secondary: {
@@ -76,7 +80,7 @@ const theme = createTheme({
     },
     text: {
       disabled: 'rgba(137, 137, 148, 1)',
-      primary: 'rgba(59, 59, 77, 1)',
+      primary: BLUE,
       secondary: 'rgba(108, 108, 122, 1)',
     },
     warning: {
@@ -93,12 +97,10 @@ const theme = createTheme({
       lineHeight: '1',
     },
     body2: {
-      color: '#626a77',
       fontSize: '0.8em',
       fontWeight: '400',
     },
     caption: {
-      color: '#626a77',
       fontSize: '0.8rem',
       fontWeight: '400',
     },
@@ -118,7 +120,6 @@ const theme = createTheme({
       fontSize: '1.2rem',
     },
     subtitle1: {
-      color: '#203C87',
       fontSize: '1.1rem',
       fontWeight: '500',
     },

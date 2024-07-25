@@ -1,7 +1,7 @@
 import AuthContext from '@/contexts/AuthContext';
 import { HOME_URL } from '@/router/router.const';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,9 +15,11 @@ const LogoutButton: React.FC = () => {
   };
 
   return (
-    <IconButton color="inherit" onClick={() => logout()}>
-      <LogoutIcon />
-    </IconButton>
+    <Tooltip title="Logout">
+      <IconButton color="inherit" onClick={() => logout()}>
+        <LogoutIcon />
+      </IconButton>
+    </Tooltip>
   );
 };
 

@@ -90,7 +90,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
               />
             )}
           </Grid>
-          <Grid item container spacing={2} direction={'row'}>
+          <Grid item container spacing={2} direction={'row'} sx={{ marginBottom: '2vh' }}>
             <Grid item xs={6}>
               <Controller
                 control={control}
@@ -154,6 +154,8 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
                     error={invalid}
                     sx={{ width: '20vw' }}
                     {...field}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{ inputProps: { max: new Date().toISOString().slice(0, 16) } }}
                   />
                 )}
               />
