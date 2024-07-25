@@ -1,5 +1,7 @@
 import AppLogo from '@/assets/AppLogo.png';
 import AuthContext from '@/contexts/AuthContext';
+import useDialog from '@/hooks/useDialog';
+import AddPost from '@/pages/AddPost/AddPost';
 import { HOME_URL, LOGIN_URL, PROFILE_URL, SIGNUP_URL, WORKOUTS_URL } from '@/router/router.const';
 import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import React, { useContext } from 'react';
@@ -9,6 +11,7 @@ import LogoutButton from './LogoutButton';
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
+  const { isOpen, close, open } = useDialog();
 
   return (
     <AppBar position="sticky">
@@ -18,10 +21,12 @@ const Navbar: React.FC = () => {
           <IconButton onClick={() => navigate(HOME_URL)}>
             <Box component="img" src={AppLogo} sx={{ width: '6vw' }} />
           </IconButton>
+          <Button color="inherit" onClick={open}>
+            Add Post
+          </Button>
           <Button color="inherit" onClick={() => navigate(WORKOUTS_URL)}>
             WORKOUTS
           </Button>
-          <Button color="inherit">MENU</Button>
         </Box>
 
         {/* Spacer to push content to the right */}
@@ -61,6 +66,7 @@ const Navbar: React.FC = () => {
           )}
         </Box>
       </Toolbar>
+      <AddPost isOpen={isOpen} close={close} />
     </AppBar>
   );
 };

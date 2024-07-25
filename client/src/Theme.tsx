@@ -46,8 +46,8 @@ const theme = createTheme({
   },
   palette: {
     background: {
-      default: '#F8F9FA',
-      paper: 'rgba(255, 255, 255, 1)',
+      default: '#000000',
+      paper: '#000000',
     },
     error: {
       main: 'rgba(255, 84, 84, 1)',
