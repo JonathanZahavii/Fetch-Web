@@ -16,7 +16,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   close,
 }: CommentSectionProps) => {
   return (
-    <Dialog open={true || isOpen} onClose={close} maxWidth={'md'} fullWidth>
+    <Dialog open={isOpen} onClose={close} maxWidth={'md'} fullWidth>
       <DialogTitle>Comments</DialogTitle>
       <DialogContent>
         <AddComment />
