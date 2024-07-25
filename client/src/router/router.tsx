@@ -21,7 +21,6 @@ function Router() {
                 width: '100%',
                 minHeight: '100vh',
                 display: 'flex',
-                backgroundColor: theme.palette.secondary.dark,
               }}
             >
               <Outlet />

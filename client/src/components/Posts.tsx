@@ -1,5 +1,6 @@
-import { Grid } from '@mui/material';
+import { Divider, Grid } from '@mui/material';
 import { Post as PostType } from '@shared/types/post.type';
+import { Fragment } from 'react';
 import Post from './Post';
 
 type PostsProps = {
@@ -20,8 +21,11 @@ const Posts: React.FC<PostsProps> = ({ posts, isEditable = false }: PostsProps) 
           paddingY: '3vh',
         }}
       >
-        {posts?.map((post: PostType) => (
-          <Post post={post} key={post.uuid} isEditable={isEditable} />
+        {posts?.map((post: PostType, index) => (
+          <Fragment key={post.uuid}>
+            <Post post={post} key={post.uuid} isEditable={isEditable} />
+            {posts.length - 1 !== index && <Divider />}
+          </Fragment>
         ))}
       </Grid>
     </Grid>

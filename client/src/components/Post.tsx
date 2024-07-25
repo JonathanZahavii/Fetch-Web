@@ -21,10 +21,8 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
       container
       item
       sx={{
-        backgroundColor: 'white',
         padding: '3vh 3vh',
         flexDirection: 'column',
-        marginBottom: '4vh',
       }}
     >
       <Grid item container sx={{ alignItems: 'center', flexDirection: 'row' }}>
@@ -73,7 +71,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
         </Button>
       </Grid>
 
-      <Grid container item sx={{ flexDirection: 'column', padding: '1vh' }}>
+      <Grid container item sx={{ flexDirection: 'column' }}>
         <Typography variant="h4">{post.caption}</Typography>
       </Grid>
       <CommentSection isOpen={isOpenComment} close={closeComment} comments={post.comments} />

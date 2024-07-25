@@ -36,9 +36,14 @@ const Navbar: React.FC = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {currentUser ? (
             <>
-              <Button>
+              <Button onClick={() => navigate(PROFILE_URL)}>
                 {currentUser.photoURL ? (
-                  <Box component="img" src={currentUser.photoURL} sx={{ width: '6vw' }} />
+                  <Box
+                    component="img"
+                    src={currentUser.photoURL}
+                    sx={{ width: '6vw' }}
+                    onClick={() => navigate(PROFILE_URL)}
+                  />
                 ) : (
                   <Avatar src="" sx={{ marginRight: 1 }} onClick={() => navigate(PROFILE_URL)} />
                 )}
