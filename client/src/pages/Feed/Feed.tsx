@@ -1,5 +1,5 @@
 import Post from '@/components/Post';
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Post as PostType } from '@shared/types/post.type';
 import { useQuery } from '@tanstack/react-query';
 
@@ -98,10 +98,11 @@ const Feed: React.FC = () => {
 
   return (
     <Grid container direction={'column'} sx={{ paddingX: '10vh', justifyContent: 'center' }}>
-      <Grid item container justifyContent={'center'}>
-        <Typography variant="h4">Feed</Typography>
-      </Grid>
-      <Grid item container sx={{ justifyContent: 'center', flexDirection: 'column', paddingX: '25vw' }}>
+      <Grid
+        item
+        container
+        sx={{ justifyContent: 'center', flexDirection: 'column', paddingX: '25vw', paddingY: '3vh' }}
+      >
         {data?.map((post: PostType) => (
           <Post post={post} key={post.uuid} />
         ))}
