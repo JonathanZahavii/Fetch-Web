@@ -9,6 +9,7 @@ const Loader: React.FC = () => {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: '1.5vh'
   };
 
   return (
