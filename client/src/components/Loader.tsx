@@ -1,21 +1,21 @@
-import { Box, CircularProgress, SxProps } from "@mui/material"
-import React from "react"
+import { Box, CircularProgress, SxProps } from '@mui/material';
+import React from 'react';
 
 const Loader: React.FC = () => {
   const loaderBox: SxProps = {
     flexGrow: 1,
-    overflowY: "auto",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  }
+    overflowY: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
 
   return (
     <Box sx={loaderBox}>
       <CircularProgress color="error" />
     </Box>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;

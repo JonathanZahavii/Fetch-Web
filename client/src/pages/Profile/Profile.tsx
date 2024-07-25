@@ -1,125 +1,108 @@
-import AppLogo from '@/assets/AppLogo.png';
+import Loader from '@/components/Loader';
+import Posts from '@/components/Posts';
 import AuthContext from '@/contexts/AuthContext';
-import { useUpdateUser } from '@/hooks/api/user/user.api';
-import { yupResolver } from '@hookform/resolvers/yup';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveButton from '@mui/icons-material/Save';
-import { Button, Grid, IconButton, TextField, Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import { User } from '@shared/types/user.type';
-import React, { useContext, useRef, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import Swal from 'sweetalert2';
-import { ProfileForm, createProfileSchema } from './Profile.config';
+import { Grid } from '@mui/material';
+import { Post } from '@shared/types/post.type';
+import { useQuery } from '@tanstack/react-query';
+import React, { useContext } from 'react';
+import ProfileForm from './ProfileForm';
+
+//TODO: Put out of the component?
+const fetchPosts = async () => {
+  //   const data = (await api.get<PostType[]>('/posts')).data;
+  const mockPosts: Post[] = [
+    {
+      image: 'https://example.com/image1.jpg',
+      caption: 'This is the first post',
+      createdAt: '2022-01-01',
+      updatedAt: '2022-01-01',
+      uuid: '1',
+      user: {
+        uuid: '1',
+        name: 'John Doe',
+        email: 'johndoe',
+        photoURL: 'https://example.com/avatar1.jpg',
+      },
+      comments: [
+        {
+          uuid: '1',
+          content: 'Great post!',
+          createdAt: '2022-01-01',
+          user: {
+            uuid: '2',
+            name: 'Jane Smith',
+            email: 'janesmith',
+            photoURL: 'https://example.com/avatar2.jpg',
+          },
+        },
+        {
+          uuid: '2',
+          content: 'Nice photo!',
+          createdAt: '2022-01-01',
+          user: {
+            uuid: '3',
+            name: 'Bob Johnson',
+            email: 'bobjohnson',
+            photoURL: 'https://example.com/avatar3.jpg',
+          },
+        },
+      ],
+      likes: 10,
+      location: 'New York City',
+    },
+    {
+      image: 'https://example.com/image1.jpg',
+      caption: 'This is the second post',
+      createdAt: '2022-01-01',
+      updatedAt: '2022-01-01',
+      uuid: '2',
+      user: {
+        uuid: '1',
+        name: 'John Doe',
+        email: 'johndoe',
+        photoURL: 'https://example.com/avatar1.jpg',
+      },
+      comments: [
+        {
+          uuid: '3',
+          content: 'Great post!',
+          createdAt: '2022-01-01',
+          user: {
+            uuid: '2',
+            name: 'Jane Smith',
+            email: 'janesmith',
+            photoURL: 'https://example.com/avatar2.jpg',
+          },
+        },
+        {
+          uuid: '4',
+          content: 'Nice photo!',
+          createdAt: '2022-01-01',
+          user: {
+            uuid: '3',
+            name: 'Bob Johnson',
+            email: 'bobjohnson',
+            photoURL: 'https://example.com/avatar3.jpg',
+          },
+        },
+      ],
+      likes: 20,
+      location: 'New York City',
+    },
+  ];
+  return mockPosts;
+};
 
 const Profile: React.FC = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
-  const [isEdit, setIsEdit] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(AppLogo);
-
-  const onSuccess = (updatedUser: User) => {
-    setCurrentUser(updatedUser);
-    setIsEdit(false);
-  };
-  const onError = (error: Error) => {
-    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
-  };
-  const { mutate: updateUser } = useUpdateUser(onSuccess, onError);
-
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    setValue,
-  } = useForm<ProfileForm>({
-    resolver: yupResolver<ProfileForm>(createProfileSchema()),
-    defaultValues: { name: currentUser?.name || '', photo: null },
+  const { data, isLoading } = useQuery({
+    queryKey: ['profilePosts'],
+    queryFn: fetchPosts,
   });
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setValue('photo', file);
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
-    }
-  };
-
-  const onSubmit = async (data: ProfileForm) => {
-    updateUser({
-      name: data.name,
-      email: currentUser?.email || '',
-      photoURL: currentUser?.photoURL,
-      uuid: currentUser?.uuid || '',
-    });
-  };
-
   return (
     <Grid container direction="column" spacing={2} alignItems="center" justifyContent="flex-start">
-      <Grid item>
-        <Box component="img" src={imagePreview || AppLogo} sx={{ width: '6vw' }} />
-        {isEdit && (
-          <>
-            <Controller
-              name="photo"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Button onClick={() => fileInputRef.current?.click()}>Choose File</Button>
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    hidden
-                    onChange={e => {
-                      field.onChange(e.target.files);
-                      handleFileChange(e);
-                    }}
-                  />
-                  {errors.photo?.message && (
-                    <Typography sx={{ color: 'red' }}>{errors.photo?.message}</Typography>
-                  )}
-                </>
-              )}
-            />
-          </>
-        )}
-      </Grid>
-      <Grid item container direction={'row'} justifyContent="center">
-        <Grid item>
-          <Controller
-            control={control}
-            name="name"
-            render={({ field, fieldState: { invalid } }) => (
-              <TextField
-                autoFocus
-                disabled={!isEdit}
-                helperText={errors.name?.message}
-                label="Name"
-                error={invalid}
-                sx={{ width: '20vw' }}
-                {...field}
-              />
-            )}
-          />
-        </Grid>
-        <Grid item alignItems={'center'} justifyContent={'center'}>
-          {!isEdit ? (
-            <IconButton onClick={() => setIsEdit(true)}>
-              <EditIcon />
-            </IconButton>
-          ) : (
-            <IconButton onClick={handleSubmit(onSubmit)}>
-              <SaveButton />
-            </IconButton>
-          )}
-        </Grid>
-      </Grid>
+      {currentUser && <ProfileForm currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+      {isLoading || !data ? <Loader /> : <Posts posts={data} />}
     </Grid>
   );
 };
