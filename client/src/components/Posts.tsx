@@ -4,9 +4,10 @@ import Post from './Post';
 
 type PostsProps = {
   posts: PostType[];
+  isEditable?: boolean;
 };
 
-const Posts: React.FC<PostsProps> = ({ posts }: PostsProps) => {
+const Posts: React.FC<PostsProps> = ({ posts, isEditable = false }: PostsProps) => {
   return (
     <Grid container direction={'column'} sx={{ paddingX: '10vh', justifyContent: 'center' }}>
       <Grid
@@ -20,7 +21,7 @@ const Posts: React.FC<PostsProps> = ({ posts }: PostsProps) => {
         }}
       >
         {posts?.map((post: PostType) => (
-          <Post post={post} key={post.uuid} />
+          <Post post={post} key={post.uuid} isEditable={isEditable} />
         ))}
       </Grid>
     </Grid>

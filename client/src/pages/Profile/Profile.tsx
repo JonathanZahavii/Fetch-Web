@@ -102,7 +102,7 @@ const Profile: React.FC = () => {
   return (
     <Grid container direction="column" spacing={2} alignItems="center" justifyContent="flex-start">
       {currentUser && <ProfileForm currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-      {isLoading || !data ? <Loader /> : <Posts posts={data} />}
+      {isLoading || !data ? <Loader /> : <Posts posts={data} isEditable={true} />}
     </Grid>
   );
 };
