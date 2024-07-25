@@ -1,5 +1,4 @@
-import Post from '@/components/Post';
-import { Grid } from '@mui/material';
+import Posts from '@/components/Posts';
 import { Post as PostType } from '@shared/types/post.type';
 import { useQuery } from '@tanstack/react-query';
 
@@ -94,21 +93,7 @@ const Feed: React.FC = () => {
     queryFn: fetchPosts,
   });
 
-  isLoading && <p>Loading...</p>;
-
-  return (
-    <Grid container direction={'column'} sx={{ paddingX: '10vh', justifyContent: 'center' }}>
-      <Grid
-        item
-        container
-        sx={{ justifyContent: 'center', flexDirection: 'column', paddingX: '25vw', paddingY: '3vh' }}
-      >
-        {data?.map((post: PostType) => (
-          <Post post={post} key={post.uuid} />
-        ))}
-      </Grid>
-    </Grid>
-  );
+  return isLoading || !data ? <p>Loading...</p> : <Posts posts={data} />;
 };
 
 export default Feed;
