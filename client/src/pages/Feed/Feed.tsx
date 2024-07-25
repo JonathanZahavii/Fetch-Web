@@ -1,3 +1,4 @@
+import Loader from '@/components/Loader';
 import Posts from '@/components/Posts';
 import { Post as PostType } from '@shared/types/post.type';
 import { useQuery } from '@tanstack/react-query';
@@ -93,7 +94,7 @@ const Feed: React.FC = () => {
     queryFn: fetchPosts,
   });
 
-  return isLoading || !data ? <p>Loading...</p> : <Posts posts={data} />;
+  return isLoading || !data ? <Loader /> : <Posts posts={data} />;
 };
 
 export default Feed;
