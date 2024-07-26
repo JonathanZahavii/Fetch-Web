@@ -1,8 +1,11 @@
+import AuthContext from '@/contexts/AuthContext';
+import { useAddComment } from '@/hooks/post/useAddComment';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import { Grid, IconButton, TextField } from '@mui/material';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import * as yup from 'yup';
 
 type AddCommentType = {
@@ -15,12 +18,13 @@ const createAddCommentSchema = () =>
   });
 
 const AddComment: React.FC = () => {
-  // const onSuccess = () => {
-  //   //TODO: reload comments - parent func
-  // };
-  // const onError = (error: Error) => {
-  //   Swal.fire({ icon: 'error', title: 'Error', text: error.message });
-  // };
+  const { currentUser } = useContext(AuthContext);
+
+  const onError = (error: Error) => {
+    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+  };
+
+  const { mutate: addComment } = useAddComment(onError);
 
   const {
     control,
@@ -33,9 +37,9 @@ const AddComment: React.FC = () => {
   });
 
   const onSubmit = async (data: AddCommentType) => {
-    console.log(data.comment);
+    const comment = { content: data.comment, user: currentUser! };
+    addComment(comment);
     reset();
-    //TODO: Send comment string and other metadata to backend
   };
 
   return (
