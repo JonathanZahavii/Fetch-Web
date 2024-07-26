@@ -16,14 +16,13 @@ import {
 } from '@mui/material';
 import React, { useContext, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { AddPostFormType, AddPostProps, createAddPostSchema } from './AddPost.config';
 import Swal from 'sweetalert2';
+import { AddPostFormType, AddPostProps, createAddPostSchema } from './AddPost.config';
 
 const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { currentUser } = useContext(AuthContext);
-  const { mutate: addPost } = useAddPost(onSuccess, onError);
 
   const {
     control,
@@ -52,12 +51,14 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
 
   const onSuccess = () => {
     reset();
+    setImagePreview(null);
     close();
   };
 
   const onError = (error: Error) => {
     Swal.fire({ icon: 'error', title: 'Error', text: error.message });
   };
+  const { mutate: addPost } = useAddPost(onSuccess, onError);
 
   const onSubmit = async (data: AddPostFormType) => {
     const post = {
@@ -72,6 +73,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
   };
   const onCancel = () => {
     reset();
+    setImagePreview(null);
     close();
   };
 
