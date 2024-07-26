@@ -1,5 +1,5 @@
 import AppLogo from '@/assets/AppLogo.png';
-import { useUpdateUser } from '@/hooks/api/user/user.api';
+import { useUpdateUser } from '@/hooks/user/useUpdateUser';
 import {
   ProfileForm as ProfileFormType,
   createProfileSchema,

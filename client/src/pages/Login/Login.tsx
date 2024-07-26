@@ -1,12 +1,13 @@
 import AppLogo from '@/assets/AppLogo.png';
 import { PageWrapperCenter } from '@/components/PageWrapper';
 import AuthContext from '@/contexts/AuthContext';
-import { useLogin } from '@/hooks/api/user/user.api';
+import { useGoogleLogin } from '@/hooks/user/useGoogleLogin';
+import { useLogin } from '@/hooks/user/useLogin';
 import { HOME_URL } from '@/router/router.const';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Grid, TextField } from '@mui/material';
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
-import { User } from '@shared/types/user.type';
+import { GoogleLogin } from '@react-oauth/google';
+import { responseLogin } from '@shared/types/user.type';
 import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -19,14 +20,15 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login: loginAuth } = useContext(AuthContext);
 
-  const onSuccess = (data: { user: User; token: string; refreshToken: string }) => {
+  const onSuccess = (data: responseLogin) => {
     loginAuth(data.user, data.token, data.refreshToken);
     navigate(HOME_URL);
   };
-  const onError = (error: Error) =>
-    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+  const onError = (error?: Error) =>
+    Swal.fire({ icon: 'error', title: 'Error', text: error?.message });
 
   const { mutate: login } = useLogin(onSuccess, onError);
+  const { mutate: loginGoogle } = useGoogleLogin(onSuccess, onError);
 
   const {
     control,
@@ -39,14 +41,6 @@ const Login: React.FC = () => {
 
   const onSubmit = async (user: UserFormLogin) => {
     await login(user);
-  };
-
-  const googleResponseMessage = (credentialResponse: CredentialResponse) => {
-    console.log(credentialResponse);
-  };
-
-  const googleErrorMessage = () => {
-    console.log('Google Error');
   };
 
   return (
@@ -104,7 +98,7 @@ const Login: React.FC = () => {
             </Button>
           </Grid>
           <Grid container item>
-            <GoogleLogin onSuccess={googleResponseMessage} onError={googleErrorMessage} />
+            <GoogleLogin onSuccess={loginGoogle} onError={onError} />
           </Grid>
         </Grid>
       </Box>

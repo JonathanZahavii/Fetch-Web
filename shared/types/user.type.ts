@@ -10,3 +10,9 @@ export type NewUser = {
   email: string
   password: string
 }
+
+export type responseLogin = {
+  user: User
+  token: string
+  refreshToken: string
+}
