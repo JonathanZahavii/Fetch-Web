@@ -1,4 +1,5 @@
 import { CredentialResponse } from '@react-oauth/google';
+import { ErrorFunction } from '@shared/types/errorFunction.type';
 import { responseLogin } from '@shared/types/user.type';
 import { useMutation } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,7 +17,7 @@ export const googleLogin = async (credentialResponse: CredentialResponse) => {
 
 export const useGoogleLogin = (
   onSuccess: (data: responseLogin) => void,
-  onError: (error: Error) => void
+  onError: ErrorFunction
 ) => {
   return useMutation({
     mutationFn: googleLogin,

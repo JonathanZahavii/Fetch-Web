@@ -1,4 +1,5 @@
 import { EmptyFunction } from '@shared/types/emptyFunction.type';
+import { ErrorFunction } from '@shared/types/errorFunction.type';
 import { addPost as addPostFormType } from '@shared/types/post.type';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { USE_GET_POSTS_KEY } from './useGetPosts';
@@ -8,7 +9,7 @@ const addPost = async (post: addPostFormType) => {
   //    await api.post<PostType>('/post', post);
 };
 
-export const useAddPost = (onSuccess: EmptyFunction, onError: (error: Error) => void) => {
+export const useAddPost = (onSuccess: EmptyFunction, onError: ErrorFunction) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (post: addPostFormType) => addPost(post),

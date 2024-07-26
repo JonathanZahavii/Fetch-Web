@@ -1,5 +1,6 @@
 import { auth } from '@/configs/firebaseConfig';
 import { UserFormLogin } from '@/pages/Login/Login.config';
+import { ErrorFunction } from '@shared/types/errorFunction.type';
 import { responseLogin } from '@shared/types/user.type';
 import { useMutation } from '@tanstack/react-query';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -16,10 +17,7 @@ export const login = async (user: UserFormLogin) => {
   };
 };
 
-export const useLogin = (
-  onSuccess: (data: responseLogin) => void,
-  onError: (error: Error) => void
-) => {
+export const useLogin = (onSuccess: (data: responseLogin) => void, onError: ErrorFunction) => {
   return useMutation({
     mutationFn: login,
     onSuccess,
