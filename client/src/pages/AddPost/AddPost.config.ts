@@ -6,22 +6,22 @@ export type AddPostProps = {
 };
 
 export type AddPostFormType = {
+  image: File | null;
   caption: string;
   petName: string;
-  where: string;
+  location: string;
   when: Date;
-  photo?: File | null;
 };
 
-export   const createAddPostSchema = (): yup.ObjectSchema<AddPostFormType> =>
+export const createAddPostSchema = (): yup.ObjectSchema<AddPostFormType> =>
   yup.object({
     caption: yup.string().required(),
     petName: yup.string().required(),
-    where: yup.string().required(),
+    location: yup.string().required(),
     when: yup.date().required(),
-    photo: yup
+    image: yup
       .mixed<File>()
-      .nullable()
+      .required()
       .test(
         'fileSize',
         'File too large',

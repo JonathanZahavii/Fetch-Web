@@ -1,4 +1,6 @@
 import AppLogo from '@/assets/AppLogo.png';
+import AuthContext from '@/contexts/AuthContext';
+import { useAddPost } from '@/hooks/post/useAddPost';
 import theme from '@/Theme';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -12,13 +14,16 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AddPostFormType, AddPostProps, createAddPostSchema } from './AddPost.config';
+import Swal from 'sweetalert2';
 
 const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { currentUser } = useContext(AuthContext);
+  const { mutate: addPost } = useAddPost(onSuccess, onError);
 
   const {
     control,
@@ -28,26 +33,42 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
     setValue,
   } = useForm<AddPostFormType>({
     resolver: yupResolver<AddPostFormType>(createAddPostSchema()),
-    defaultValues: { caption: '', petName: '', where: '', when: undefined, photo: null },
+    defaultValues: { caption: '', petName: '', location: '', when: undefined, image: null },
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setValue('photo', file);
+    setValue('image', file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhotoPreview(reader.result as string);
+        setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
     } else {
-      setPhotoPreview(null);
+      setImagePreview(null);
     }
   };
 
+  const onSuccess = () => {
+    reset();
+    close();
+  };
+
+  const onError = (error: Error) => {
+    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+  };
+
   const onSubmit = async (data: AddPostFormType) => {
-    // TODO: Submit data to API
-    console.log(data);
+    const post = {
+      image: data.image!,
+      caption: data.caption,
+      petName: data.petName,
+      location: data.location,
+      when: data.when,
+      user: currentUser!,
+    };
+    addPost(post);
   };
   const onCancel = () => {
     reset();
@@ -56,19 +77,19 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
 
   return (
     <Dialog open={isOpen} onClose={close}>
-      <DialogTitle sx={{ color: theme.palette.primary.contrastText }}>Add Post</DialogTitle>
+      <DialogTitle sx={{ color: theme.palette.primary.main }}>Add Post</DialogTitle>
       <DialogContent>
         <Grid container direction={'column'}>
           <Grid item container sx={{ justifyContent: 'center', paddingY: '1vh' }}>
-            {photoPreview ? (
+            {imagePreview ? (
               <Box
                 component="img"
-                src={photoPreview || AppLogo}
+                src={imagePreview || AppLogo}
                 sx={{ width: '20vw', maxHeight: '45vh' }}
               />
             ) : (
               <Controller
-                name="photo"
+                name="image"
                 control={control}
                 render={({ field }) => (
                   <>
@@ -82,8 +103,8 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
                         handleFileChange(e);
                       }}
                     />
-                    {errors.photo?.message && (
-                      <Typography sx={{ color: 'red' }}>{errors.photo?.message}</Typography>
+                    {errors.image?.message && (
+                      <Typography sx={{ color: 'red' }}>{errors.image?.message}</Typography>
                     )}
                   </>
                 )}
@@ -98,7 +119,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
                 render={({ field, fieldState: { invalid } }) => (
                   <TextField
                     autoFocus
-                    helperText={errors.caption?.message}
+                    helperText={errors.image?.message}
                     label="Caption"
                     error={invalid}
                     sx={{ width: '20vw' }}
@@ -114,7 +135,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
                 render={({ field, fieldState: { invalid } }) => (
                   <TextField
                     autoFocus
-                    helperText={errors.caption?.message}
+                    helperText={errors.image?.message}
                     label="Pet Name"
                     error={invalid}
                     sx={{ width: '20vw' }}
@@ -128,12 +149,12 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
             <Grid item xs={6}>
               <Controller
                 control={control}
-                name="where"
+                name="location"
                 render={({ field, fieldState: { invalid } }) => (
                   <TextField
                     autoFocus
-                    helperText={errors.caption?.message}
-                    label="Where"
+                    helperText={errors.image?.message}
+                    label="location"
                     error={invalid}
                     sx={{ width: '20vw' }}
                     {...field}
@@ -149,7 +170,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
                   <TextField
                     type="datetime-local"
                     autoFocus
-                    helperText={errors.caption?.message}
+                    helperText={errors.image?.message}
                     label="When"
                     error={invalid}
                     sx={{ width: '20vw' }}
