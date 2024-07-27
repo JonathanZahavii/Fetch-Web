@@ -2,6 +2,7 @@ import AppLogo from '@/assets/AppLogo.png';
 import AuthContext from '@/contexts/AuthContext';
 import { useAddPost } from '@/hooks/post/useAddPost';
 import theme from '@/Theme';
+import { onError } from '@/utils/onError';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
@@ -16,7 +17,6 @@ import {
 } from '@mui/material';
 import React, { useContext, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import Swal from 'sweetalert2';
 import { AddPostFormType, AddPostProps, createAddPostSchema } from './AddPost.config';
 
 const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
@@ -55,9 +55,6 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }: AddPostProps) => {
     close();
   };
 
-  const onError = (error: Error) => {
-    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
-  };
   const { mutate: addPost } = useAddPost(onSuccess, onError);
 
   const onSubmit = async (data: AddPostFormType) => {

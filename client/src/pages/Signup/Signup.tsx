@@ -2,6 +2,7 @@ import AppLogo from '@/assets/AppLogo.png';
 import { PageWrapperCenter } from '@/components/PageWrapper';
 import { useSignup } from '@/hooks/user/useSignup';
 import { LOGIN_URL } from '@/router/router.const';
+import { onError } from '@/utils/onError';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Grid, TextField } from '@mui/material';
 import React from 'react';
@@ -19,8 +20,6 @@ const SignUp: React.FC = () => {
     Swal.fire({ icon: 'success', title: 'User added successfully' });
     navigate(LOGIN_URL);
   };
-  const onError = (error: Error) =>
-    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
 
   const { mutate: signup } = useSignup(onSuccess, onError);
 

@@ -4,6 +4,7 @@ import {
   ProfileForm as ProfileFormType,
   createProfileSchema,
 } from '@/pages/Profile/Profile.config';
+import { onError } from '@/utils/onError';
 import { yupResolver } from '@hookform/resolvers/yup';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveButton from '@mui/icons-material/Save';
@@ -11,7 +12,6 @@ import { Box, Button, Grid, IconButton, TextField, Typography } from '@mui/mater
 import { User } from '@shared/types/user.type';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import Swal from 'sweetalert2';
 type ProfileFormProps = {
   currentUser: User;
   setCurrentUser: (user: User) => void;
@@ -29,9 +29,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     setCurrentUser(updatedUser);
     setIsEdit(false);
   };
-  const onError = (error: Error) => {
-    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
-  };
+
   const { mutate: updateUser } = useUpdateUser(onSuccess, onError);
 
   const {
