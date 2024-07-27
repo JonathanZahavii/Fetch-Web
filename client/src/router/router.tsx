@@ -2,7 +2,6 @@ import AppLogo from '@/assets/AppLogo.png';
 import Navbar from '@/components/Navbar';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { getPagesRoutes } from '@/router/router.const';
-import theme from '@/Theme';
 import { Box, CircularProgress } from '@mui/material';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -19,7 +18,6 @@ function Router() {
             <Box
               sx={{
                 width: '100%',
-                minHeight: '100vh',
                 display: 'flex',
               }}
             >
