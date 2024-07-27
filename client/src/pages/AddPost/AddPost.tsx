@@ -2,8 +2,7 @@ import AppLogo from '@/assets/AppLogo.png';
 import ControlledFileField from '@/components/ControlledFileField';
 import ControlledTextField from '@/components/ControlledTextField';
 import AuthContext from '@/contexts/AuthContext';
-import { useAddPost } from '@/hooks/post/useAddPost';
-import theme from '@/Theme';
+import { useUpsertPost } from '@/hooks/post/useUpsertPost';
 import { handleFileChange } from '@/utils/handleFileChange';
 import { onError } from '@/utils/onError';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,14 +15,22 @@ import {
   DialogTitle,
   Grid,
 } from '@mui/material';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AddPostFormType, AddPostProps, createAddPostSchema } from './AddPost.config';
+import {
+  AddPostFormType,
+  AddPostProps,
+  createAddPostSchema,
+  getPostValues,
+} from './AddPost.config';
 
-const AddPost: React.FC<AddPostProps> = ({ isOpen, close }) => {
+const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { currentUser } = useContext(AuthContext);
+  const TITLE = post ? 'Edit Post' : 'Add Post';
+
+  const postValues = useMemo(() => getPostValues(post), [post]);
 
   const {
     control,
@@ -33,50 +40,55 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }) => {
     setValue,
   } = useForm<AddPostFormType>({
     resolver: yupResolver(createAddPostSchema()),
-    defaultValues: { caption: '', petName: '', location: '', when: undefined, image: null },
+    values: postValues,
   });
 
-  const onSuccess = () => {
+  const resetForm = () => {
     reset();
     setImagePreview(null);
     close();
   };
 
-  const { mutate: addPost } = useAddPost(onSuccess, onError);
+  const { mutate: upsertPost } = useUpsertPost(resetForm, onError);
 
   const onSubmit = (data: AddPostFormType) => {
-    data.image && currentUser && addPost({ ...data, user: currentUser, image: data.image });
+    upsertPost({ ...data, user: currentUser!, image: data.image!, when: new Date(data.when) });
   };
 
-  const onCancel = () => {
-    reset();
-    setImagePreview(null);
-    close();
-  };
+  useEffect(() => {
+    if (post?.image) {
+      const reader = new FileReader();
+      reader.onloadend = () => setImagePreview(reader.result as string);
+      reader.readAsDataURL(post.image);
+    } else {
+      setImagePreview(null);
+    }
+  }, [post, isOpen]);
 
   return (
-    <Dialog open={isOpen} onClose={close}>
-      <DialogTitle sx={{ color: theme.palette.primary.main }}>Add Post</DialogTitle>
+    <Dialog open={isOpen} onClose={resetForm}>
+      <DialogTitle color="primary">{TITLE}</DialogTitle>
       <DialogContent>
         <Grid container direction="column">
-          <Grid item container sx={{ justifyContent: 'center', paddingY: '1vh' }}>
-            {imagePreview ? (
+          {imagePreview && (
+            <Grid item container sx={{ justifyContent: 'center' }}>
               <Box
                 component="img"
                 src={imagePreview || AppLogo}
                 sx={{ width: '20vw', maxHeight: '45vh' }}
               />
-            ) : (
-              <ControlledFileField
-                name="image"
-                fileInputRef={fileInputRef}
-                handleFileChangeParent={event =>
-                  handleFileChange({ event, setValue, setImagePreview })
-                }
-                control={control}
-                errors={errors}
-              />
-            )}
+            </Grid>
+          )}
+          <Grid item container sx={{ justifyContent: 'center' }}>
+            <ControlledFileField
+              name="image"
+              fileInputRef={fileInputRef}
+              handleFileChangeParent={event =>
+                handleFileChange({ event, setValue, setImagePreview })
+              }
+              control={control}
+              errors={errors}
+            />
           </Grid>
           <Grid item container spacing={2}>
             <Grid item xs={6}>
@@ -122,7 +134,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button color="secondary" onClick={onCancel}>
+        <Button color="secondary" onClick={resetForm}>
           Cancel
         </Button>
         <Button color="primary" onClick={handleSubmit(onSubmit)}>

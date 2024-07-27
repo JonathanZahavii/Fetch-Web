@@ -4,12 +4,14 @@ import AuthContext from '@/contexts/AuthContext';
 import { useDeletePost } from '@/hooks/post/useDeletePost';
 import useDialog from '@/hooks/useDialog';
 import { useLikePost } from '@/hooks/useLikePost';
+import AddPost from '@/pages/AddPost/AddPost';
+import { formatDate } from '@/utils/formatDate.util';
 import { onError } from '@/utils/onError';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { Post as PostType } from '@shared/types/post.type';
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import CommentSection from './Comment/CommentSection';
 
 type PostProps = {
@@ -19,7 +21,9 @@ type PostProps = {
 
 const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
   const { isOpen: isOpenComment, close: closeComment, open: openComment } = useDialog();
+  const { isOpen: isOpenPost, close: closePost, open: openPost } = useDialog();
   const { currentUser } = useContext(AuthContext);
+  const formattedWhen = useMemo(() => formatDate(post.when), [post?.when]);
 
   const { mutate: likePost } = useLikePost(onError);
   const { mutate: deletePost } = useDeletePost(onError);
@@ -46,20 +50,28 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
           <Avatar src={post.user?.photoURL || AppLogo} />
         </Grid>
         <Grid container item sx={{ flexDirection: 'column' }} xs={8}>
-          <Typography variant="body1">{post.user.name}</Typography>
+          <Typography color="primary" variant="body1">
+            {post.user.name}
+          </Typography>
           <Grid container item xs={9}>
-            <Typography variant="body2">{post.createdAt}</Typography>
+            <Typography color="secondary" variant="body2">
+              {formattedWhen}
+            </Typography>
             &nbsp;
-            <Typography variant="body2">|</Typography>
+            <Typography color="secondary" variant="body2">
+              |
+            </Typography>
             &nbsp;
-            <Typography variant="body2">{post.location}</Typography>
+            <Typography color="secondary" variant="body2">
+              {post.location}
+            </Typography>
           </Grid>
         </Grid>
         <Grid container item xs={2.5} sx={{ justifyContent: 'flex-end' }}>
           {isEditable && (
             <>
               <Tooltip title="Edit">
-                <IconButton color="primary">
+                <IconButton color="primary" onClick={openPost}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
@@ -91,6 +103,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
         <Typography variant="h4">{post.caption}</Typography>
       </Grid>
       <CommentSection isOpen={isOpenComment} close={closeComment} comments={post.comments} />
+      <AddPost isOpen={isOpenPost} close={closePost} post={post} />
     </Grid>
   );
 };
