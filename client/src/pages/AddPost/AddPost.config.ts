@@ -13,6 +13,20 @@ export type AddPostFormType = Omit<
   'createdAt' | 'uuid' | 'user' | 'comments' | 'likes' | 'when'
 > & { when: string };
 
+export type LocationRecord = {
+  _id: number;
+  טבלה: string;
+  סמל_ישוב: number;
+  שם_ישוב: string;
+  שם_ישוב_לועזי: string;
+  סמל_נפה: number;
+  שם_נפה: string;
+  סמל_לשכת_מנא: number;
+  לשכה: string;
+  סמל_מועצה_איזורית: number;
+  שם_מועצה: string;
+};
+
 export const createAddPostSchema = (): yup.ObjectSchema<AddPostFormType> =>
   yup.object({
     caption: yup.string().required(),
