@@ -1,4 +1,4 @@
-import { User } from "./user.type" // Import the User type from the appropriate file
+import { User } from "./user.type"
 
 export type Comment = {
   uuid: string
@@ -22,4 +22,4 @@ export type Post = {
   when: Date
 }
 
-export type addPost = Omit<Post, "uuid" | "createdAt" | "comments" | "likes">
+export type upsertPost = Omit<Post, "uuid" | "createdAt" | "comments" | "likes">

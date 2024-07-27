@@ -1,17 +1,13 @@
+import { Post } from '@shared/types/post.type';
 import * as yup from 'yup';
 
 export type AddPostProps = {
   isOpen: boolean;
   close: () => void;
+  post?: Post;
 };
 
-export type AddPostFormType = {
-  image: File | null;
-  caption: string;
-  petName: string;
-  location: string;
-  when: Date;
-};
+export type AddPostFormType = Omit<Post, 'createdAt' | 'uuid' | 'user' | 'comments' | 'likes'>;
 
 export const createAddPostSchema = (): yup.ObjectSchema<AddPostFormType> =>
   yup.object({
@@ -33,3 +29,11 @@ export const createAddPostSchema = (): yup.ObjectSchema<AddPostFormType> =>
         value => !value || (value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type))
       ),
   });
+
+export const postDefaultValues = {
+  caption: '',
+  petName: '',
+  location: '',
+  when: new Date(),
+  image: new File([''], 'defaultImage.png', { type: 'image/png' }),
+};
