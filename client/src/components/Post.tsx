@@ -1,6 +1,8 @@
 import AppLogo from '@/assets/AppLogo.png';
 import Soli from '@/assets/soli.jpg';
+import { useDeletePost } from '@/hooks/post/useDeletePost';
 import useDialog from '@/hooks/useDialog';
+import { onError } from '@/utils/onError';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
@@ -15,6 +17,8 @@ type PostProps = {
 
 const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
   const { isOpen: isOpenComment, close: closeComment, open: openComment } = useDialog();
+
+  const { mutate: deletePost } = useDeletePost(onError);
 
   return (
     <Grid
@@ -48,7 +52,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete">
-                <IconButton color="primary">
+                <IconButton color="primary" onClick={() => deletePost(post.uuid)}>
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>

@@ -1,11 +1,11 @@
 import AuthContext from '@/contexts/AuthContext';
 import { useAddComment } from '@/hooks/post/useAddComment';
+import { onError } from '@/utils/onError';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import { Grid, IconButton, TextField } from '@mui/material';
 import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import Swal from 'sweetalert2';
 import * as yup from 'yup';
 
 type AddCommentType = {
@@ -19,10 +19,6 @@ const createAddCommentSchema = () =>
 
 const AddComment: React.FC = () => {
   const { currentUser } = useContext(AuthContext);
-
-  const onError = (error: Error) => {
-    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
-  };
 
   const { mutate: addComment } = useAddComment(onError);
 
