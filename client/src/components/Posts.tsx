@@ -18,7 +18,6 @@ const Posts: React.FC<PostsProps> = ({ posts, isEditable = false }) => {
           justifyContent: 'center',
           flexDirection: 'column',
           paddingX: '25vw',
-          paddingY: '3vh',
         }}
       >
         {posts?.map((post: PostType, index) => (

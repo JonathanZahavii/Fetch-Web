@@ -32,7 +32,7 @@ const ControlledTextField: React.FC<ControlledTextFieldProps> = ({
   };
 
   return (
-    <Controller
+    <Controller 
       control={control}
       name={name}
       render={({ field, fieldState: { invalid } }) => (
@@ -42,6 +42,8 @@ const ControlledTextField: React.FC<ControlledTextFieldProps> = ({
           error={invalid}
           helperText={getHelperText()}
           fullWidth
+          required
+          sx={{ margin: '0.5vw' }}
           {...field}
           {...textfieldProps}
         />

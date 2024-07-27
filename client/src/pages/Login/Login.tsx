@@ -1,19 +1,19 @@
 import AppLogo from '@/assets/AppLogo.png';
+import ControlledTextField from '@/components/ControlledTextField';
 import { PageWrapperCenter } from '@/components/PageWrapper';
 import AuthContext from '@/contexts/AuthContext';
 import { useGoogleLogin } from '@/hooks/user/useGoogleLogin';
 import { useLogin } from '@/hooks/user/useLogin';
 import { HOME_URL } from '@/router/router.const';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Button, Divider, Grid } from '@mui/material';
 import { GoogleLogin } from '@react-oauth/google';
 import { LoginRequest, LoginResponse } from '@shared/types/user.type';
 import React, { useContext } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { loginUserSchema } from './Login.schema';
-import Styles from './Login.style';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -38,65 +38,55 @@ const Login: React.FC = () => {
     values: { email: '', password: '' },
   });
 
-  const onSubmit = async (user: LoginRequest) => {
-    await login(user);
+  const onSubmit = (user: LoginRequest) => {
+    login(user);
   };
 
   return (
     <PageWrapperCenter container item>
-      <Box sx={Styles.innerBox}>
-        <Grid item container direction={'column'} alignItems={'center'}>
-          <Grid item>
-            <img src={AppLogo} width={100} height={'fit-content'} />
-          </Grid>
-        </Grid>
+      <Box>
+        <Box display="flex" justifyContent="center">
+          <Box component="img" src={AppLogo} sx={{ width: '20vw' }} />
+        </Box>
 
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
-            <Controller
-              control={control}
+        <Grid container justifyContent={'center'}>
+          <Grid item sm={12}>
+            <ControlledTextField
               name="email"
-              render={({ field, fieldState: { invalid } }) => (
-                <TextField
-                  {...Styles.baseFieldProps}
-                  helperText={errors.email?.message}
-                  id="email"
-                  label="Email Address"
-                  autoFocus
-                  placeholder="example@trainer.com"
-                  sx={Styles.baseField}
-                  {...field}
-                  error={invalid}
-                />
-              )}
+              label="Email"
+              control={control}
+              errors={errors}
+              textfieldProps={{
+                autoFocus: true,
+              }}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
-            <Controller
-              control={control}
+          <Grid item sm={12}>
+            <ControlledTextField
               name="password"
-              render={({ field, fieldState: { invalid } }) => (
-                <TextField
-                  {...Styles.baseFieldProps}
-                  type="password"
-                  helperText={errors.password?.message}
-                  label="Password"
-                  id="password"
-                  placeholder="******"
-                  sx={Styles.baseField}
-                  {...field}
-                  error={invalid}
-                />
-              )}
+              label="Password"
+              type="password"
+              control={control}
+              errors={errors}
             />
           </Grid>
 
-          <Grid item xs={12} sm={12}>
-            <Button onClick={handleSubmit(onSubmit)} {...Styles.buttonProps} sx={Styles.button}>
+          <Grid item>
+            <Button onClick={handleSubmit(onSubmit)} sx={{ padding: '1vw' }}>
               Log In
             </Button>
           </Grid>
-          <Grid container item>
+
+          <Divider
+            sx={{
+              width: '100%',
+              fontSize: '0.8rem',
+              fontWeight: '400',
+            }}
+          >
+            OR
+          </Divider>
+          <Grid item sx={{ padding: '1vw' }}>
             <GoogleLogin onSuccess={loginGoogle} onError={onError} />
           </Grid>
         </Grid>
