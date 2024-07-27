@@ -2,6 +2,7 @@ import { alpha, createTheme } from '@mui/material';
 const CREAM = '#F7F3D9';
 const PINK = '#FEAB97';
 const BLUE = '#58C2C7';
+const LIGHT_CREAM = '#FBF8E3';
 
 const theme = createTheme({
   breakpoints: {
@@ -45,6 +46,13 @@ const theme = createTheme({
           width: '0.5rem',
         },
       }),
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          backgroundColor: LIGHT_CREAM,
+        },
+      },
     },
   },
   palette: {

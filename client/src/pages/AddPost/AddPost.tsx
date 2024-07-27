@@ -109,7 +109,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }) => {
               <ControlledTextField
                 name="when"
                 label="When"
-                type='datetime-local'
+                type="datetime-local"
                 control={control}
                 errors={errors}
                 textfieldProps={{

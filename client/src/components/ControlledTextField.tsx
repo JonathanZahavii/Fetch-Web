@@ -42,6 +42,7 @@ const ControlledTextField: React.FC<ControlledTextFieldProps> = ({
           error={invalid}
           helperText={getHelperText()}
           fullWidth
+          required
           {...field}
           {...textfieldProps}
         />
