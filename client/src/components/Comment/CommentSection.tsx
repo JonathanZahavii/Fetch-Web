@@ -4,6 +4,7 @@ import React from 'react';
 import Loader from '../Loader';
 import AddComment from './AddComment';
 import Comment from './Comment';
+
 type CommentSectionProps = {
   comments: CommentType[];
   isOpen: boolean;
@@ -14,7 +15,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   comments,
   isOpen,
   close,
-}: CommentSectionProps) => {
+}) => {
   return (
     <Dialog open={isOpen} onClose={close} maxWidth={'md'} fullWidth>
       <DialogTitle>Comments</DialogTitle>

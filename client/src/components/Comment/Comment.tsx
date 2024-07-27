@@ -6,10 +6,10 @@ type CommentProps = {
   comment: CommentType;
 };
 
-const Comment: React.FC<CommentProps> = ({ comment }: CommentProps) => {
+const Comment: React.FC<CommentProps> = ({ comment }) => {
   return (
     <Grid container direction={'column'} paddingY={'2vh'}>
-      <Grid item container direction={'row'}>
+      <Grid item container>
         <Typography variant="body1">{comment.user.name}</Typography>
         &nbsp;
         <Typography variant="caption">{comment.createdAt}</Typography>

@@ -28,7 +28,7 @@ const SignUp: React.FC = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<UserForm>({
-    resolver: yupResolver<UserForm>(createUserSchema()),
+    resolver: yupResolver(createUserSchema()),
     values: { name: '', email: '', password: '', confirmPassword: '' },
   });
 
