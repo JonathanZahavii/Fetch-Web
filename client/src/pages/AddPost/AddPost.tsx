@@ -125,7 +125,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close }) => {
         <Button color="secondary" onClick={onCancel}>
           Cancel
         </Button>
-        <Button color="warning" onClick={handleSubmit(onSubmit)}>
+        <Button color="primary" onClick={handleSubmit(onSubmit)}>
           Post
         </Button>
       </DialogActions>

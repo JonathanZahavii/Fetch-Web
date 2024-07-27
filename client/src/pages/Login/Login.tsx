@@ -45,10 +45,12 @@ const Login: React.FC = () => {
   return (
     <PageWrapperCenter container item>
       <Box>
-        {/* {TODO:} */}
-        <Box component="img" src={AppLogo} sx={{ width: '6vw', alignItems: 'center' }} />
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
+        <Box display="flex" justifyContent="center">
+          <Box component="img" src={AppLogo} sx={{ width: '20vw' }} />
+        </Box>
+
+        <Grid container justifyContent={'center'}>
+          <Grid item sm={12}>
             <ControlledTextField
               name="email"
               label="Email"
@@ -59,7 +61,7 @@ const Login: React.FC = () => {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid item sm={12}>
             <ControlledTextField
               name="password"
               label="Password"
@@ -69,8 +71,10 @@ const Login: React.FC = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={12}>
-            <Button onClick={handleSubmit(onSubmit)}>Log In</Button>
+          <Grid item>
+            <Button onClick={handleSubmit(onSubmit)} sx={{ padding: '1vw' }}>
+              Log In
+            </Button>
           </Grid>
 
           <Divider
@@ -82,7 +86,7 @@ const Login: React.FC = () => {
           >
             OR
           </Divider>
-          <Grid container item>
+          <Grid item sx={{ padding: '1vw' }}>
             <GoogleLogin onSuccess={loginGoogle} onError={onError} />
           </Grid>
         </Grid>

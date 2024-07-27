@@ -2,7 +2,7 @@ import { alpha, createTheme } from '@mui/material';
 const CREAM = '#F7F3D9';
 const PINK = '#FEAB97';
 const BLUE = '#58C2C7';
-const LIGHT_CREAM = '#FBF8E3';
+export const LIGHT_CREAM = '#FBF8E3';
 
 const theme = createTheme({
   breakpoints: {
@@ -73,14 +73,12 @@ const theme = createTheme({
       '700': 'rgba(59, 59, 77, 1)',
     },
     primary: {
-      light: '#ffffff',
+      // light: LIGHT_CREAM,
       main: PINK,
-      contrastText: '#ffffff',
+      contrastText: CREAM,
     },
     secondary: {
-      light: '#D9D9D9',
-      main: '#BFBFBF',
-      dark: '#5E5E5E',
+      main: BLUE,
     },
     success: {
       main: '#74E69B',

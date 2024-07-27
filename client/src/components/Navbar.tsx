@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
             </Grid>
             {currentUser && (
               <Grid item>
-                <Button color="inherit" onClick={open}>
+                <Button color="secondary" onClick={open}>
                   Add Post
                 </Button>
               </Grid>
@@ -65,18 +65,12 @@ const Navbar: React.FC = () => {
             ) : (
               <>
                 <Grid item>
-                  <Button
-                    sx={{ backgroundColor: 'info.main', borderRadius: '15px', p: '6px 12px' }}
-                    onClick={() => navigate(LOGIN_URL)}
-                  >
+                  <Button color="secondary" onClick={() => navigate(LOGIN_URL)}>
                     SIGN IN
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button
-                    sx={{ backgroundColor: 'primary.light', borderRadius: '15px', p: '6px 12px' }}
-                    onClick={() => navigate(SIGNUP_URL)}
-                  >
+                  <Button color="inherit" onClick={() => navigate(SIGNUP_URL)}>
                     SIGN UP
                   </Button>
                 </Grid>
