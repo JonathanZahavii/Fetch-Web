@@ -51,8 +51,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
     });
   };
   return (
-    <>
-      <Grid item>
+    <Grid container sx={{ justifyContent: 'center', alignItems: 'center', padding: '3vh' }}>
+      <Grid
+        item
+        xs={isEdit ? 2 : 1}
+        sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}
+      >
         <Box component="img" src={imagePreview || AppLogo} sx={{ width: '6vw' }} />
         {isEdit && (
           <ControlledFileField
@@ -64,31 +68,29 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
           />
         )}
       </Grid>
-      <Grid item container justifyContent="center">
-        <Grid item>
-          <ControlledTextField
-            name="name"
-            label="Name"
-            control={control}
-            errors={errors}
-            textfieldProps={{
-              disabled: !isEdit,
-            }}
-          />
-        </Grid>
-        <Grid item alignItems={'center'} justifyContent={'center'}>
-          {!isEdit ? (
-            <IconButton onClick={() => setIsEdit(true)}>
-              <EditIcon />
-            </IconButton>
-          ) : (
-            <IconButton onClick={handleSubmit(onSubmit)}>
-              <SaveButton />
-            </IconButton>
-          )}
-        </Grid>
+      <Grid item xs={isEdit ? 7 : 8}>
+        <ControlledTextField
+          name="name"
+          label="Name"
+          control={control}
+          errors={errors}
+          textfieldProps={{
+            disabled: !isEdit,
+          }}
+        />
       </Grid>
-    </>
+      <Grid item xs={1} sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
+        {!isEdit ? (
+          <IconButton onClick={() => setIsEdit(true)}>
+            <EditIcon />
+          </IconButton>
+        ) : (
+          <IconButton onClick={handleSubmit(onSubmit)}>
+            <SaveButton />
+          </IconButton>
+        )}
+      </Grid>
+    </Grid>
   );
 };
 
