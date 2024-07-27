@@ -1,9 +1,9 @@
-import AppLogo from '@/assets/AppLogo.png';
 import AuthContext from '@/contexts/AuthContext';
 import Feed from '@/pages/Feed/Feed';
 import React, { useContext } from 'react';
+import Welcome from './Welcome';
 
 export const Home: React.FC = () => {
   const { accessToken } = useContext(AuthContext);
-  return accessToken ? <Feed /> : <img src={AppLogo} width={'600vw'} height={'250vh'} />;
+  return accessToken ? <Feed /> : <Welcome />;
 };

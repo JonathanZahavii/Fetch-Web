@@ -10,23 +10,21 @@ type PostsProps = {
 
 const Posts: React.FC<PostsProps> = ({ posts, isEditable = false }) => {
   return (
-    <Grid container direction={'column'} sx={{ paddingX: '10vh', justifyContent: 'center' }}>
-      <Grid
-        item
-        container
-        sx={{
-          justifyContent: 'center',
-          flexDirection: 'column',
-          paddingX: '25vw',
-        }}
-      >
-        {posts?.map((post: PostType, index) => (
-          <Fragment key={post.uuid}>
-            <Post post={post} key={post.uuid} isEditable={isEditable} />
-            {posts.length - 1 !== index && <Divider />}
-          </Fragment>
-        ))}
-      </Grid>
+    <Grid
+      item
+      container
+      sx={{
+        justifyContent: 'center',
+        flexDirection: 'column',
+        paddingX: '30vw',
+      }}
+    >
+      {posts?.map((post: PostType, index) => (
+        <Fragment key={post.uuid}>
+          <Post post={post} key={post.uuid} isEditable={isEditable} />
+          {posts.length - 1 !== index && <Divider />}
+        </Fragment>
+      ))}
     </Grid>
   );
 };
