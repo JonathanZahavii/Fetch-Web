@@ -1,11 +1,11 @@
 import { auth } from '@/configs/firebaseConfig';
 import { EmptyFunction } from '@shared/types/emptyFunction.type';
 import { ErrorFunction } from '@shared/types/errorFunction.type';
-import { NewUser } from '@shared/types/user.type';
+import { SignUpRequest } from '@shared/types/user.type';
 import { useMutation } from '@tanstack/react-query';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
-export const signup = async (user: NewUser) => {
+export const signup = async (user: SignUpRequest) => {
   // async (user: User) => await Api.post('/auth/user/', { user });
 
   const { email, password, name } = user;

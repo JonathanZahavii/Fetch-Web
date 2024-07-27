@@ -7,12 +7,11 @@ import { HOME_URL } from '@/router/router.const';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Grid, TextField } from '@mui/material';
 import { GoogleLogin } from '@react-oauth/google';
-import { responseLogin } from '@shared/types/user.type';
+import { LoginRequest, LoginResponse } from '@shared/types/user.type';
 import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { UserFormLogin } from './Login.config';
 import { loginUserSchema } from './Login.schema';
 import Styles from './Login.style';
 
@@ -20,7 +19,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login: loginAuth } = useContext(AuthContext);
 
-  const onSuccess = (data: responseLogin) => {
+  const onSuccess = (data: LoginResponse) => {
     loginAuth(data.user, data.token, data.refreshToken);
     navigate(HOME_URL);
   };
@@ -34,12 +33,12 @@ const Login: React.FC = () => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<UserFormLogin>({
-    resolver: yupResolver<UserFormLogin>(loginUserSchema()),
+  } = useForm<LoginRequest>({
+    resolver: yupResolver<LoginRequest>(loginUserSchema()),
     values: { email: '', password: '' },
   });
 
-  const onSubmit = async (user: UserFormLogin) => {
+  const onSubmit = async (user: LoginRequest) => {
     await login(user);
   };
 

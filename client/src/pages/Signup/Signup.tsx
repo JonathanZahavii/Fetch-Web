@@ -1,5 +1,6 @@
 import AppLogo from '@/assets/AppLogo.png';
 import { PageWrapperCenter } from '@/components/PageWrapper';
+import { useSignup } from '@/hooks/user/useSignup';
 import { LOGIN_URL } from '@/router/router.const';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Grid, TextField } from '@mui/material';
@@ -10,7 +11,6 @@ import Swal from 'sweetalert2';
 import { mapFormToPayload, UserForm } from './Signup.config';
 import { createUserSchema } from './Signup.schema';
 import Styles from './Signup.style';
-import { useSignup } from '@/hooks/user/useSignup';
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -23,6 +23,7 @@ const SignUp: React.FC = () => {
     Swal.fire({ icon: 'error', title: 'Error', text: error.message });
 
   const { mutate: signup } = useSignup(onSuccess, onError);
+
   const {
     control,
     formState: { errors },

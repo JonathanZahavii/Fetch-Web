@@ -5,13 +5,15 @@ export type User = {
   photoURL?: string
 }
 
-export type NewUser = {
+export type SignUpRequest = {
   name: string
   email: string
   password: string
 }
 
-export type responseLogin = {
+export type LoginRequest = { email: string; password: string }
+
+export type LoginResponse = {
   user: User
   token: string
   refreshToken: string

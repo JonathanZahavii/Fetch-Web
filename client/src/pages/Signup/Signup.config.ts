@@ -1,4 +1,4 @@
-import { NewUser } from '@shared/types/user.type';
+import { SignUpRequest } from '@shared/types/user.type';
 
 export type UserForm = {
   name: string;
@@ -7,7 +7,7 @@ export type UserForm = {
   confirmPassword: string;
 };
 
-export const mapFormToPayload = (data: UserForm): NewUser => {
+export const mapFormToPayload = (data: UserForm): SignUpRequest => {
   return {
     name: data.name,
     email: data.email,
