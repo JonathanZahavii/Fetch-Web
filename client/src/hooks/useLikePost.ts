@@ -8,7 +8,6 @@ type UseLikeProps = {
 };
 const likePost = async ({ postId, userId }: UseLikeProps) => {
   console.log('like post: ' + postId + ' by user: ' + userId);
-  alert('like post: ' + postId + ' by user: ' + userId);
   // await api.post(`/posts/${postId}/like`, { userId });
 };
 
