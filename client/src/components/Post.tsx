@@ -17,7 +17,7 @@ type PostProps = {
   isEditable?: boolean;
 };
 
-const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
+const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
   const { isOpen: isOpenComment, close: closeComment, open: openComment } = useDialog();
   const { currentUser } = useContext(AuthContext);
 
@@ -41,13 +41,13 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
         flexDirection: 'column',
       }}
     >
-      <Grid item container sx={{ alignItems: 'center', flexDirection: 'row' }}>
+      <Grid item container sx={{ alignItems: 'center' }}>
         <Grid item container xs={1.5} sx={{ justifyContent: 'center' }}>
           <Avatar src={post.user?.photoURL || AppLogo} />
         </Grid>
         <Grid container item sx={{ flexDirection: 'column' }} xs={8}>
           <Typography variant="body1">{post.user.name}</Typography>
-          <Grid container item sx={{ flexDirection: 'row' }} xs={9}>
+          <Grid container item xs={9}>
             <Typography variant="body2">{post.createdAt}</Typography>
             &nbsp;
             <Typography variant="body2">|</Typography>
@@ -77,7 +77,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
         <Box component="img" src={Soli} sx={{ width: '100%', height: '30vw' }} />
       </Grid>
 
-      <Grid container item sx={{ flexDirection: 'row', padding: '1vh' }}>
+      <Grid container item sx={{ padding: '1vh' }}>
         <Button variant="contained" color="primary" onClick={handleLike}>
           Likes ({post.likes})
         </Button>

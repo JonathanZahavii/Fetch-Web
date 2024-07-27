@@ -28,7 +28,7 @@ const AddComment: React.FC = () => {
     handleSubmit,
     reset,
   } = useForm<AddCommentType>({
-    resolver: yupResolver<AddCommentType>(createAddCommentSchema()),
+    resolver: yupResolver(createAddCommentSchema()),
     defaultValues: { comment: '' },
   });
 
@@ -39,7 +39,7 @@ const AddComment: React.FC = () => {
   };
 
   return (
-    <Grid container direction={'row'} paddingY={'2vh'}>
+    <Grid container paddingY={'2vh'}>
       <Grid item container xs={11} sx={{ justifyContent: 'center' }}>
         <Controller
           control={control}

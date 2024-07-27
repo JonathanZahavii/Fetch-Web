@@ -8,7 +8,7 @@ type PostsProps = {
   isEditable?: boolean;
 };
 
-const Posts: React.FC<PostsProps> = ({ posts, isEditable = false }: PostsProps) => {
+const Posts: React.FC<PostsProps> = ({ posts, isEditable = false }) => {
   return (
     <Grid container direction={'column'} sx={{ paddingX: '10vh', justifyContent: 'center' }}>
       <Grid

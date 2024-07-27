@@ -1,26 +1,26 @@
 import AppLogo from '@/assets/AppLogo.png';
+import ControlledFileField from '@/components/ControlledFileField';
+import ControlledTextField from '@/components/ControlledTextField';
 import { useUpdateUser } from '@/hooks/user/useUpdateUser';
 import {
   ProfileForm as ProfileFormType,
   createProfileSchema,
 } from '@/pages/Profile/Profile.config';
+import { handleFileChange } from '@/utils/handleFileChange';
 import { onError } from '@/utils/onError';
 import { yupResolver } from '@hookform/resolvers/yup';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveButton from '@mui/icons-material/Save';
-import { Box, Button, Grid, IconButton, TextField, Typography } from '@mui/material';
+import { Box, Grid, IconButton } from '@mui/material';
 import { User } from '@shared/types/user.type';
 import React, { useRef, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 type ProfileFormProps = {
   currentUser: User;
   setCurrentUser: (user: User) => void;
 };
 
-const ProfileForm: React.FC<ProfileFormProps> = ({
-  currentUser,
-  setCurrentUser,
-}: ProfileFormProps) => {
+const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }) => {
   const [isEdit, setIsEdit] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(AppLogo);
@@ -38,23 +38,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     handleSubmit,
     setValue,
   } = useForm<ProfileFormType>({
-    resolver: yupResolver<ProfileFormType>(createProfileSchema()),
+    resolver: yupResolver(createProfileSchema()),
     defaultValues: { name: currentUser?.name || '', photo: null },
   });
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setValue('photo', file);
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
-    }
-  };
 
   const onSubmit = async (data: ProfileFormType) => {
     updateUser({
@@ -69,45 +55,25 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       <Grid item>
         <Box component="img" src={imagePreview || AppLogo} sx={{ width: '6vw' }} />
         {isEdit && (
-          <Controller
-            name="photo"
+          <ControlledFileField
+            name="image"
+            fileInputRef={fileInputRef}
+            handleFileChangeParent={event => handleFileChange({ event, setValue, setImagePreview })}
             control={control}
-            render={({ field }) => (
-              <>
-                <Button onClick={() => fileInputRef.current?.click()}>Choose File</Button>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  hidden
-                  onChange={e => {
-                    field.onChange(e.target.files);
-                    handleFileChange(e);
-                  }}
-                />
-                {errors.photo?.message && (
-                  <Typography sx={{ color: 'red' }}>{errors.photo?.message}</Typography>
-                )}
-              </>
-            )}
+            errors={errors}
           />
         )}
       </Grid>
-      <Grid item container direction={'row'} justifyContent="center">
+      <Grid item container justifyContent="center">
         <Grid item>
-          <Controller
-            control={control}
+          <ControlledTextField
             name="name"
-            render={({ field, fieldState: { invalid } }) => (
-              <TextField
-                autoFocus
-                disabled={!isEdit}
-                helperText={errors.name?.message}
-                label="Name"
-                error={invalid}
-                sx={{ width: '20vw' }}
-                {...field}
-              />
-            )}
+            label="Name"
+            control={control}
+            errors={errors}
+            textfieldProps={{
+              disabled: !isEdit,
+            }}
           />
         </Grid>
         <Grid item alignItems={'center'} justifyContent={'center'}>

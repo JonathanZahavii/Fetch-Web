@@ -1,8 +1,7 @@
 import { alpha, createTheme } from '@mui/material';
 const CREAM = '#F7F3D9';
-const PINK = '#FEAB97'
+const PINK = '#FEAB97';
 const BLUE = '#58C2C7';
-const WHITE = '#ffffff';
 
 const theme = createTheme({
   breakpoints: {

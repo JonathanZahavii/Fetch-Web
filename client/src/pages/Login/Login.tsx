@@ -34,7 +34,7 @@ const Login: React.FC = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<LoginRequest>({
-    resolver: yupResolver<LoginRequest>(loginUserSchema()),
+    resolver: yupResolver(loginUserSchema()),
     values: { email: '', password: '' },
   });
 
