@@ -15,13 +15,13 @@ import {
   DialogTitle,
   Grid,
 } from '@mui/material';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   AddPostFormType,
   AddPostProps,
   createAddPostSchema,
-  postDefaultValues,
+  getPostValues,
 } from './AddPost.config';
 
 const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
@@ -29,6 +29,8 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { currentUser } = useContext(AuthContext);
   const TITLE = post ? 'Edit Post' : 'Add Post';
+
+  const postValues = useMemo(() => getPostValues(post), [post]);
 
   const {
     control,
@@ -38,7 +40,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
     setValue,
   } = useForm<AddPostFormType>({
     resolver: yupResolver(createAddPostSchema()),
-    values: post ?? postDefaultValues,
+    values: postValues,
   });
 
   const resetForm = () => {
@@ -50,7 +52,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const { mutate: upsertPost } = useUpsertPost(resetForm, onError);
 
   const onSubmit = (data: AddPostFormType) => {
-    upsertPost({ ...data, user: currentUser!, image: data.image! });
+    upsertPost({ ...data, user: currentUser!, image: data.image!, when: new Date(data.when) });
   };
 
   useEffect(() => {
