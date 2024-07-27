@@ -1,13 +1,15 @@
 import AppLogo from '@/assets/AppLogo.png';
 import Soli from '@/assets/soli.jpg';
+import AuthContext from '@/contexts/AuthContext';
 import { useDeletePost } from '@/hooks/post/useDeletePost';
 import useDialog from '@/hooks/useDialog';
+import { useLikePost } from '@/hooks/useLikePost';
 import { onError } from '@/utils/onError';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { Post as PostType } from '@shared/types/post.type';
-import React from 'react';
+import React, { useContext } from 'react';
 import CommentSection from './Comment/CommentSection';
 
 type PostProps = {
@@ -17,8 +19,18 @@ type PostProps = {
 
 const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
   const { isOpen: isOpenComment, close: closeComment, open: openComment } = useDialog();
+  const { currentUser } = useContext(AuthContext);
 
+  const { mutate: likePost } = useLikePost(onError);
   const { mutate: deletePost } = useDeletePost(onError);
+
+  const handleLike = () => {
+    likePost({ postId: post.uuid, userId: currentUser?.uuid ?? '' });
+  };
+
+  const handleDelete = () => {
+    deletePost(post.uuid);
+  };
 
   return (
     <Grid
@@ -52,7 +64,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete">
-                <IconButton color="primary" onClick={() => deletePost(post.uuid)}>
+                <IconButton color="primary" onClick={handleDelete}>
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>
@@ -66,7 +78,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }: PostProps) => {
       </Grid>
 
       <Grid container item sx={{ flexDirection: 'row', padding: '1vh' }}>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleLike}>
           Likes ({post.likes})
         </Button>
         &nbsp;

@@ -2,7 +2,7 @@ import AppLogo from '@/assets/AppLogo.png';
 import AuthContext from '@/contexts/AuthContext';
 import useDialog from '@/hooks/useDialog';
 import AddPost from '@/pages/AddPost/AddPost';
-import { HOME_URL, LOGIN_URL, PROFILE_URL, SIGNUP_URL, WORKOUTS_URL } from '@/router/router.const';
+import { HOME_URL, LOGIN_URL, PROFILE_URL, SIGNUP_URL } from '@/router/router.const';
 import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,19 +21,21 @@ const Navbar: React.FC = () => {
           <IconButton onClick={() => navigate(HOME_URL)}>
             <Box component="img" src={AppLogo} sx={{ width: '6vw' }} />
           </IconButton>
-          <Button color="inherit" onClick={open}>
-            Add Post
-          </Button>
-          <Button color="inherit" onClick={() => navigate(WORKOUTS_URL)}>
+          {currentUser && (
+            <Button color="inherit" onClick={open}>
+              Add Post
+            </Button>
+          )}
+          {/* <Button color="inherit" onClick={() => navigate(WORKOUTS_URL)}>
             WORKOUTS
-          </Button>
+          </Button> */}
         </Box>
 
         {/* Spacer to push content to the right */}
         <Box sx={{ flexGrow: 1 }} />
 
         {/* Right Side: Conditional Rendering */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
           {currentUser ? (
             <>
               <Button onClick={() => navigate(PROFILE_URL)}>
@@ -45,10 +47,10 @@ const Navbar: React.FC = () => {
                     onClick={() => navigate(PROFILE_URL)}
                   />
                 ) : (
-                  <Avatar src="" sx={{ marginRight: 1 }} onClick={() => navigate(PROFILE_URL)} />
+                  <Avatar src="" onClick={() => navigate(PROFILE_URL)} />
                 )}
               </Button>
-              <Typography variant="body1" color="inherit" sx={{ marginRight: 2 }}>
+              <Typography variant="body1" color="inherit">
                 Hello, {currentUser.name}
               </Typography>
               <LogoutButton />
