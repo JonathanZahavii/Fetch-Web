@@ -45,7 +45,7 @@ const fetchPosts = async (userUuid?: string) => {
         },
       ],
       likes: 10,
-      location: 'New York City',
+      location: 'HOLON',
     },
     {
       image: new File([''], 'image1.jpg', { type: 'image/jpeg' }),

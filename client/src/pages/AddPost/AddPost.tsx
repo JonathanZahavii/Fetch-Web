@@ -1,4 +1,6 @@
+import locationApi from '@/api/locationApi';
 import AppLogo from '@/assets/AppLogo.png';
+import ControlledAutoComplete from '@/components/ControlledAutoComplete';
 import ControlledFileField from '@/components/ControlledFileField';
 import ControlledTextField from '@/components/ControlledTextField';
 import AuthContext from '@/contexts/AuthContext';
@@ -22,6 +24,7 @@ import {
   AddPostProps,
   createAddPostSchema,
   getPostValues,
+  LocationRecord,
 } from './AddPost.config';
 
 const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
@@ -29,8 +32,17 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { currentUser } = useContext(AuthContext);
   const TITLE = post ? 'Edit Post' : 'Add Post';
-
   const postValues = useMemo(() => getPostValues(post), [post]);
+  const [locations, setLocations] = useState<string[]>([]);
+
+  const getLocations = async () => {
+    const response = await locationApi.get('', {
+    });
+    const cities = response.data.result.records.map(
+      (record: LocationRecord) => record.שם_ישוב_לועזי
+    );
+    setLocations(cities);
+  };
 
   const {
     control,
@@ -55,6 +67,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
     upsertPost({ ...data, user: currentUser!, image: data.image!, when: new Date(data.when) });
   };
 
+  // TODO: Use useMemo?
   useEffect(() => {
     if (post?.image) {
       const reader = new FileReader();
@@ -63,7 +76,11 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
     } else {
       setImagePreview(null);
     }
-  }, [post, isOpen]);
+  }, [post]);
+
+  useEffect(() => {
+    getLocations();
+  });
 
   return (
     <Dialog open={isOpen} onClose={resetForm}>
@@ -110,9 +127,10 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
           </Grid>
           <Grid item container spacing={2}>
             <Grid item xs={6}>
-              <ControlledTextField
+              <ControlledAutoComplete
                 name="location"
                 label="Where"
+                locationSelector={locations}
                 control={control}
                 errors={errors}
               />
