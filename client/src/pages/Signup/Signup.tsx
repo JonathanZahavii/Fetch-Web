@@ -1,5 +1,5 @@
 import AppLogo from '@/assets/AppLogo.png';
-import ControlledTextField from '@/components/ControlledTextField';
+import ControlledTextField from '@/components/Controlled/ControlledTextField';
 import { PageWrapperCenter } from '@/components/PageWrapper';
 import { useSignup } from '@/hooks/user/useSignup';
 import { LOGIN_URL } from '@/router/router.const';
@@ -37,49 +37,45 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <PageWrapperCenter container item>
-      <Box>
-        <Box display="flex" justifyContent="center">
-          <Box component="img" src={AppLogo} sx={{ width: '20vw' }} />
-        </Box>
+    <PageWrapperCenter container item sx={{ paddingX: '20vw' }}>
+      <Grid item>
+        <Box component="img" src={AppLogo} sx={{ width: '20vw' }} />
+      </Grid>
 
-        <Grid container justifyContent={'center'}>
-          <Grid container spacing={2}>
-            <Grid item xs={6} sm={6}>
-              <ControlledTextField name="name" label="Name" control={control} errors={errors} />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <ControlledTextField name="email" label="Email" control={control} errors={errors} />
-            </Grid>
-          </Grid>
-
-          <Grid item sm={12}>
-            <ControlledTextField
-              name="password"
-              label="Password"
-              type="password"
-              control={control}
-              errors={errors}
-            />
-          </Grid>
-
-          <Grid item sm={12}>
-            <ControlledTextField
-              name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              control={control}
-              errors={errors}
-            />
-          </Grid>
-
-          <Grid item>
-            <Button onClick={handleSubmit(onSubmit)} sx={{ padding: '1vw' }}>
-              Sign Up
-            </Button>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6} sm={6}>
+          <ControlledTextField name="name" label="Name" control={control} errors={errors} />
         </Grid>
-      </Box>
+        <Grid item xs={6} sm={6}>
+          <ControlledTextField name="email" label="Email" control={control} errors={errors} />
+        </Grid>
+      </Grid>
+
+      <Grid item container>
+        <ControlledTextField
+          name="password"
+          label="Password"
+          type="password"
+          control={control}
+          errors={errors}
+        />
+      </Grid>
+
+      <Grid item container>
+        <ControlledTextField
+          name="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          control={control}
+          errors={errors}
+        />
+      </Grid>
+
+      <Grid item>
+        <Button onClick={handleSubmit(onSubmit)} sx={{ padding: '1vw' }}>
+          Sign Up
+        </Button>
+      </Grid>
     </PageWrapperCenter>
   );
 };

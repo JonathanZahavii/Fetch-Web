@@ -1,5 +1,5 @@
 import AppLogo from '@/assets/AppLogo.png';
-import ControlledTextField from '@/components/ControlledTextField';
+import ControlledTextField from '@/components/Controlled/ControlledTextField';
 import { PageWrapperCenter } from '@/components/PageWrapper';
 import AuthContext from '@/contexts/AuthContext';
 import { useGoogleLogin } from '@/hooks/user/useGoogleLogin';
@@ -43,54 +43,49 @@ const Login: React.FC = () => {
   };
 
   return (
-    <PageWrapperCenter container item>
-      <Box>
-        <Box display="flex" justifyContent="center">
-          <Box component="img" src={AppLogo} sx={{ width: '20vw' }} />
-        </Box>
+    <PageWrapperCenter container item sx={{ paddingX: '20vw' }}>
+      <Grid item>
+        <Box component="img" src={AppLogo} sx={{ width: '20vw' }} />
+      </Grid>
+      <Grid item container>
+        <ControlledTextField
+          name="email"
+          label="Email"
+          control={control}
+          errors={errors}
+          textfieldProps={{
+            autoFocus: true,
+          }}
+        />
+      </Grid>
+      <Grid item container>
+        <ControlledTextField
+          name="password"
+          label="Password"
+          type="password"
+          control={control}
+          errors={errors}
+        />
+      </Grid>
 
-        <Grid container justifyContent={'center'}>
-          <Grid item sm={12}>
-            <ControlledTextField
-              name="email"
-              label="Email"
-              control={control}
-              errors={errors}
-              textfieldProps={{
-                autoFocus: true,
-              }}
-            />
-          </Grid>
-          <Grid item sm={12}>
-            <ControlledTextField
-              name="password"
-              label="Password"
-              type="password"
-              control={control}
-              errors={errors}
-            />
-          </Grid>
+      <Grid item>
+        <Button onClick={handleSubmit(onSubmit)} sx={{ padding: '1vw' }}>
+          Log In
+        </Button>
+      </Grid>
 
-          <Grid item>
-            <Button onClick={handleSubmit(onSubmit)} sx={{ padding: '1vw' }}>
-              Log In
-            </Button>
-          </Grid>
-
-          <Divider
-            sx={{
-              width: '100%',
-              fontSize: '0.8rem',
-              fontWeight: '400',
-            }}
-          >
-            OR
-          </Divider>
-          <Grid item sx={{ padding: '1vw' }}>
-            <GoogleLogin onSuccess={loginGoogle} onError={onError} />
-          </Grid>
-        </Grid>
-      </Box>
+      <Divider
+        sx={{
+          width: '100%',
+          fontSize: '0.8rem',
+          fontWeight: '400',
+        }}
+      >
+        OR
+      </Divider>
+      <Grid item sx={{ padding: '1vw' }}>
+        <GoogleLogin onSuccess={loginGoogle} onError={onError} />
+      </Grid>
     </PageWrapperCenter>
   );
 };
