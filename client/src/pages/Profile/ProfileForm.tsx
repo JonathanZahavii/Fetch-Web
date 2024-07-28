@@ -1,6 +1,6 @@
 import AppLogo from '@/assets/AppLogo.png';
-import ControlledFileField from '@/components/ControlledFileField';
-import ControlledTextField from '@/components/ControlledTextField';
+import ControlledFileField from '@/components/Controlled/ControlledFileField';
+import ControlledTextField from '@/components/Controlled/ControlledTextField';
 import { useUpdateUser } from '@/hooks/user/useUpdateUser';
 import {
   ProfileForm as ProfileFormType,

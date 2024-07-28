@@ -1,8 +1,8 @@
 import locationApi from '@/api/locationApi';
 import AppLogo from '@/assets/AppLogo.png';
-import ControlledAutoComplete from '@/components/ControlledAutoComplete';
-import ControlledFileField from '@/components/ControlledFileField';
-import ControlledTextField from '@/components/ControlledTextField';
+import ControlledAutoComplete from '@/components/Controlled/ControlledAutoComplete';
+import ControlledFileField from '@/components/Controlled/ControlledFileField';
+import ControlledTextField from '@/components/Controlled/ControlledTextField';
 import AuthContext from '@/contexts/AuthContext';
 import { useUpsertPost } from '@/hooks/post/useUpsertPost';
 import { handleFileChange } from '@/utils/handleFileChange';
@@ -36,8 +36,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const [locations, setLocations] = useState<string[]>([]);
 
   const getLocations = async () => {
-    const response = await locationApi.get('', {
-    });
+    const response = await locationApi.get('', {});
     const cities = response.data.result.records.map(
       (record: LocationRecord) => record.שם_ישוב_לועזי
     );
