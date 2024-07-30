@@ -2,15 +2,15 @@ import AppLogo from '@/assets/AppLogo.png';
 import Soli from '@/assets/soli.jpg';
 import AuthContext from '@/contexts/AuthContext';
 import { useDeletePost } from '@/hooks/post/useDeletePost';
+import { useLikePost } from '@/hooks/post/useLikePost';
 import useDialog from '@/hooks/useDialog';
-import { useLikePost } from '@/hooks/useLikePost';
 import AddPost from '@/pages/AddPost/AddPost';
 import { formatDate } from '@/utils/formatDate.util';
 import { onError } from '@/utils/onError';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
-import { Post as PostType } from '@shared/types/post.type';
+import { Post as PostType, PostType as PostTypeEnum } from '@shared/types/post.type';
 import React, { useContext, useMemo } from 'react';
 import CommentSection from './Comment/CommentSection';
 
@@ -23,7 +23,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
   const { isOpen: isOpenComment, close: closeComment, open: openComment } = useDialog();
   const { isOpen: isOpenPost, close: closePost, open: openPost } = useDialog();
   const { currentUser } = useContext(AuthContext);
-  const formattedWhen = useMemo(() => formatDate(post.when), [post?.when]);
+  const formattedWhen = useMemo(() => post?.when && formatDate(post.when), [post?.when]);
 
   const { mutate: likePost } = useLikePost(onError);
   const { mutate: deletePost } = useDeletePost(onError);
@@ -55,16 +55,20 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
           </Typography>
           <Grid container item xs={9}>
             <Typography color="secondary" variant="body2">
-              {formattedWhen}
-            </Typography>
-            &nbsp;
-            <Typography color="secondary" variant="body2">
-              |
-            </Typography>
-            &nbsp;
-            <Typography color="secondary" variant="body2">
               {post.location}
             </Typography>
+            {post.type === PostTypeEnum.PLAYDATE && (
+              <>
+                &nbsp;
+                <Typography color="secondary" variant="body2">
+                  |
+                </Typography>
+                &nbsp;
+                <Typography color="secondary" variant="body2">
+                  {formattedWhen}
+                </Typography>
+              </>
+            )}
           </Grid>
         </Grid>
         <Grid container item xs={2.5} sx={{ justifyContent: 'flex-end' }}>

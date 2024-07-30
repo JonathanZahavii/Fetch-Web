@@ -17,6 +17,7 @@ import {
   DialogTitle,
   Grid,
 } from '@mui/material';
+import { PostType as PostTypeEnum } from '@shared/types/post.type';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -27,7 +28,7 @@ import {
   LocationRecord,
 } from './AddPost.config';
 
-const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
+const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post, type }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { currentUser } = useContext(AuthContext);
@@ -63,7 +64,14 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const { mutate: upsertPost } = useUpsertPost(resetForm, onError);
 
   const onSubmit = (data: AddPostFormType) => {
-    upsertPost({ ...data, user: currentUser!, image: data.image!, when: new Date(data.when) });
+    upsertPost({
+      user: currentUser!,
+      image: data.image!,
+      when: data?.when ? new Date(data.when) : undefined,
+      caption: '',
+      location: '',
+      petName: '',
+    });
   };
 
   // TODO: Use useMemo?
@@ -134,19 +142,21 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
                 errors={errors}
               />
             </Grid>
-            <Grid item xs={6}>
-              <ControlledTextField
-                name="when"
-                label="When"
-                type="datetime-local"
-                control={control}
-                errors={errors}
-                textfieldProps={{
-                  InputLabelProps: { shrink: true },
-                  inputProps: { inputProps: { max: new Date().toISOString().slice(0, 16) } },
-                }}
-              />
-            </Grid>
+            {(type === PostTypeEnum.PLAYDATE || post?.type === PostTypeEnum.PLAYDATE) && (
+              <Grid item xs={6}>
+                <ControlledTextField
+                  name="when"
+                  label="When"
+                  type="datetime-local"
+                  control={control}
+                  errors={errors}
+                  textfieldProps={{
+                    InputLabelProps: { shrink: true },
+                    inputProps: { inputProps: { max: new Date().toISOString().slice(0, 16) } },
+                  }}
+                />
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </DialogContent>

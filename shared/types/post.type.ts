@@ -1,5 +1,10 @@
 import { User } from "./user.type"
 
+export enum PostType {
+  SINGLE = "SINGLE",
+  PLAYDATE = "PLAYDATE",
+}
+
 export type Comment = {
   uuid: string
   content: string
@@ -19,7 +24,8 @@ export type Post = {
   likes: number
   location: string
   petName: string
-  when: Date
+  when?: Date
+  type: PostType
 }
 
-export type upsertPost = Omit<Post, "uuid" | "createdAt" | "comments" | "likes">
+export type upsertPost = Omit<Post, "uuid" | "createdAt" | "comments" | "likes" | "type">

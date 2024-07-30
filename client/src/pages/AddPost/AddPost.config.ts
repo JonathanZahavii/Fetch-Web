@@ -1,17 +1,18 @@
 import { formatDatePicker } from '@/utils/formatDate.util';
-import { Post } from '@shared/types/post.type';
+import { Post, PostType } from '@shared/types/post.type';
 import * as yup from 'yup';
 
 export type AddPostProps = {
   isOpen: boolean;
   close: () => void;
   post?: Post;
+  type?: PostType;
 };
 
 export type AddPostFormType = Omit<
   Post,
-  'createdAt' | 'uuid' | 'user' | 'comments' | 'likes' | 'when'
-> & { when: string };
+  'createdAt' | 'uuid' | 'user' | 'comments' | 'likes' | 'when' | 'type'
+> & { when?: string };
 
 export type LocationRecord = {
   _id: number;
@@ -32,7 +33,10 @@ export const createAddPostSchema = (): yup.ObjectSchema<AddPostFormType> =>
     caption: yup.string().required(),
     petName: yup.string().required(),
     location: yup.string().required(),
-    when: yup.string().required(),
+    when:
+    yup.string().test('type', '', value => value === PostType.PLAYDATE)
+        ? yup.string().required()
+        : yup.string(),
     image: yup
       .mixed<File>()
       .required()
@@ -62,7 +66,7 @@ export const getPostValues = (post?: Post) => {
       caption: post.caption,
       petName: post.petName,
       location: post.location,
-      when: formatDatePicker(post.when),
+      when: post?.when && formatDatePicker(post.when),
       image: post.image,
     };
   return postDefaultValues;

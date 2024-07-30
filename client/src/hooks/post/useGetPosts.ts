@@ -1,4 +1,4 @@
-import { Post } from '@shared/types/post.type';
+import { Post, PostType } from '@shared/types/post.type';
 import { useQuery } from '@tanstack/react-query';
 
 export const USE_GET_POSTS_KEY = 'posts';
@@ -46,6 +46,7 @@ const fetchPosts = async (userUuid?: string) => {
       ],
       likes: 10,
       location: 'HOLON',
+      type: PostType.SINGLE,
     },
     {
       image: new File([''], 'image1.jpg', { type: 'image/jpeg' }),
@@ -86,6 +87,7 @@ const fetchPosts = async (userUuid?: string) => {
       ],
       likes: 20,
       location: 'New York City',
+      type: PostType.PLAYDATE,
     },
   ];
   return mockPosts;
