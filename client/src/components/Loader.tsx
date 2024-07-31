@@ -14,7 +14,7 @@ const Loader: React.FC = () => {
 
   return (
     <Box sx={loaderBox}>
-      <CircularProgress color="error" />
+      <CircularProgress color="primary" />
     </Box>
   );
 };

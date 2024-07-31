@@ -1,6 +1,7 @@
 import { ErrorFunction } from '@shared/types/errorFunction.type';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { USE_GET_POSTS_KEY } from './useGetPosts';
+import api from '@/api/api';
 
 type UseLikeProps = {
   postId: string;
@@ -8,7 +9,7 @@ type UseLikeProps = {
 };
 const likePost = async ({ postId, userId }: UseLikeProps) => {
   console.log('like post: ' + postId + ' by user: ' + userId);
-  // await api.post(`/posts/${postId}/like`, { userId });
+  await api.post(`/posts/like/${postId}`, { userId });
 };
 
 export const useLikePost = (onError: ErrorFunction) => {

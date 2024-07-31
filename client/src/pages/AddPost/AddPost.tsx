@@ -31,7 +31,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { currentUser } = useContext(AuthContext);
-  const TITLE = post ? 'Edit Post' : 'Add Post';
+  const TITLE = post ? 'Edit Playdate' : 'Add Playdate';
   const postValues = useMemo(() => getPostValues(post), [post]);
   const [locations, setLocations] = useState<string[]>([]);
 
@@ -79,7 +79,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
 
   useEffect(() => {
     getLocations();
-  });
+  }, []);
 
   return (
     <Dialog open={isOpen} onClose={resetForm}>

@@ -1,10 +1,11 @@
 import { ErrorFunction } from '@shared/types/errorFunction.type';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { USE_GET_POSTS_KEY } from './useGetPosts';
+import api from '@/api/api';
 
 const deletePost = async (postId: string) => {
   console.log('delete post: ' + postId);
-  // await api.delete(`/posts/${postId}`);
+  await api.delete(`/posts/${postId}`);
 };
 
 export const useDeletePost = (onError: ErrorFunction) => {

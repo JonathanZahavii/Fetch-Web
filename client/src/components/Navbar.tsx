@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
             {currentUser && (
               <Grid item>
                 <Button color="secondary" onClick={open}>
-                  Add Post
+                  Add Playdate
                 </Button>
               </Grid>
             )}
