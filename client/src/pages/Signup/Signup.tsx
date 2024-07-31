@@ -32,8 +32,8 @@ const SignUp: React.FC = () => {
     values: { name: '', email: '', password: '', confirmPassword: '' },
   });
 
-  const onSubmit = async (data: UserForm) => {
-    await signup(mapFormToPayload(data));
+  const onSubmit = (data: UserForm) => {
+    signup(mapFormToPayload(data));
   };
 
   return (

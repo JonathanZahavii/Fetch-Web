@@ -9,7 +9,7 @@ export const googleLogin = async (credentialResponse: CredentialResponse) => {
   // return await Api.post('/auth/user/googleLogin', { credential: credentialResponse.credential });
   console.log(credentialResponse.credential);
   return {
-    user: { email: 'j@g.com', name: 'Jonathan', uuid: uuidv4() },
+    user: { email: 'j@g.com', name: 'Jonathan', _id: uuidv4() },
     token: '1234',
     refreshToken: '1234',
   };
