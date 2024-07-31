@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { Post as PostType, upsertPost } from '@shared/types/post.type';
+import { Post as PostType } from '@shared/types/post.type';
 
 interface IPost extends Document, Omit<PostType, 'image' | 'user' | 'comments'> {
   user: string;
