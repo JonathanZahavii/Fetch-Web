@@ -2,33 +2,25 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express, { Express } from "express";
-import morgan from "morgan";
-import logger from "./utils/logger.util";
 import routes from "./routes";
-import helmet from "helmet";
-import cors from "cors";
 import swaggerOptions from "./swagger/swaggerOptions";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import connectDB from './database';
+import postRoutes from './routes/postRoutes';
+import commentRoutes from './routes/commentRoutes';
 
 const app: Express = express();
 
-app.use(
-  morgan("combined", {
-    stream: {
-      write: (message) => logger.info(message.trim()),
-    },
-  })
-);
+// Connect to MongoDB
+connectDB();
 
-// Middleware to parse JSON requests
+// Middleware
 app.use(express.json());
 
-// Security middleware
-app.use(helmet());
-
-// CORS middleware
-app.use(cors());
+// Routes
+app.use('/api/posts', postRoutes);
+app.use('/api/comments', commentRoutes);
 
 // Swagger Config
 const specs = swaggerJsdoc(swaggerOptions);

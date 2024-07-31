@@ -23,6 +23,7 @@
     "redis": "^4.6.15",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "vite": "^5.3.5",
     "winston": "^3.13.1",
     "winston-daily-rotate-file": "^5.0.0"
   },

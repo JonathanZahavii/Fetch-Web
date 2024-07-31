@@ -3,7 +3,7 @@ import Soli from '@/assets/soli.jpg';
 import AuthContext from '@/contexts/AuthContext';
 import { useDeletePost } from '@/hooks/post/useDeletePost';
 import useDialog from '@/hooks/useDialog';
-import { useLikePost } from '@/hooks/useLikePost';
+import { useLikePost } from '@/hooks/post/useLikePost';
 import AddPost from '@/pages/AddPost/AddPost';
 import { formatDate } from '@/utils/formatDate.util';
 import { onError } from '@/utils/onError';
