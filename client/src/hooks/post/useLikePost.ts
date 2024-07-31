@@ -1,6 +1,6 @@
 import { ErrorFunction } from '@shared/types/errorFunction.type';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { USE_GET_POSTS_KEY } from './post/useGetPosts';
+import { USE_GET_POSTS_KEY } from './useGetPosts';
 
 type UseLikeProps = {
   postId: string;
