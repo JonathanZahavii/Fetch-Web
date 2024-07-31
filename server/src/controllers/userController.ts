@@ -1,7 +1,15 @@
 import { SignUpRequest } from '@shared/types/user.type';
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import User from '../models/userModel';
+
+const getTokens = (user: any) => {
+  const { ACCESS_TOKEN_SECRET = '', REFRESH_TOKEN_SECRET = '', JWT_EXPIRATION } = process.env;
+  const accessToken = jwt.sign({ user }, ACCESS_TOKEN_SECRET, { expiresIn: JWT_EXPIRATION });
+  const refreshToken = jwt.sign({ user }, REFRESH_TOKEN_SECRET);
+  return { accessToken, refreshToken };
+};
 
 export const signUp = async (req: Request, res: Response) => {
   try {
@@ -31,18 +39,24 @@ export const signUp = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email, password });
+    const { email, password } = req.body.user;
+    const user = await User.findOne({ email }).lean();
     if (!user) {
-      res.status(404).json({ message: 'User not found' });
+      res.status(401).json({ message: 'User not found' });
       return;
     }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      res.status(401).json({ message: 'Invalid password' });
+      return;
+    }
+
     // Remove password from user object
     const { password: p, ...userWithoutPassword } = user;
+    const { accessToken, refreshToken } = getTokens(userWithoutPassword);
 
-    res.status(200).json(userWithoutPassword);
-    // Return token and refresh token
-    res.status(200).json(user);
+    res.status(200).json({ user: userWithoutPassword, accessToken, refreshToken });
   } catch (err) {
     if (err instanceof Error) {
       res.status(500).json({ message: err.message });
@@ -50,4 +64,10 @@ export const login = async (req: Request, res: Response) => {
       res.status(500).json({ message: 'Unknown error occurred' });
     }
   }
+};
+
+export const refreshToken = async (req: Request, res: Response) => {
+  const { user, refreshToken } = req.body;
+  const { accessToken, refreshToken: newRefreshToken } = getTokens(user);
+  res.status(200).json({ accessToken, refreshToken: newRefreshToken });
 };

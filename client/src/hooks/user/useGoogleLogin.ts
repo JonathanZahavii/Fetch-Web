@@ -10,7 +10,7 @@ export const googleLogin = async (credentialResponse: CredentialResponse) => {
   console.log(credentialResponse.credential);
   return {
     user: { email: 'j@g.com', name: 'Jonathan', _id: uuidv4() },
-    token: '1234',
+    accessToken: '1234',
     refreshToken: '1234',
   };
 };
