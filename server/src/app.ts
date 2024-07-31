@@ -1,39 +1,30 @@
-import dotenv from "dotenv";
+import express from "express";
+import routes from "./routes";
+import postRoutes from './routes/postRoutes';
+import commentRoutes from './routes/commentRoutes';
+import mongoose from "mongoose";
+import dotenv from 'dotenv';
 dotenv.config();
 
-import express, { Express } from "express";
-import morgan from "morgan";
-import logger from "./utils/logger.util";
-import routes from "./routes";
-import helmet from "helmet";
-import cors from "cors";
-import swaggerOptions from "./swagger/swaggerOptions";
-import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
-import redisClient from "./services/redis.service";
+const app = express();
 
-const app: Express = express();
+// Connect to MongoDB
+console.log(process.env.DB_URL)
+mongoose.connect(process.env.DB_URL as string);
+const db = mongoose.connection 
+db.on('error', error => {console.error(error)})
+db.once('open', ()=> console.log('connected to mongodb!!'))
 
-app.use(
-  morgan("combined", {
-    stream: {
-      write: (message) => logger.info(message.trim()),
-    },
-  })
-);
-
-// Middleware to parse JSON requests
+// Middleware
 app.use(express.json());
 
-// Security middleware
-app.use(helmet());
-
-// CORS middleware
-app.use(cors());
+// Routes
+app.use('/api/posts', postRoutes);
+app.use('/api/comments', commentRoutes);
 
 // Swagger Config
-const specs = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+// const specs = swaggerJsdoc(swaggerOptions);
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Router Config
 app.use("/api/v1", routes);
