@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import routes from './routes';
 import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
+import userRoutes from './routes/userRoutes';
 dotenv.config();
 
 const app = express();
@@ -32,6 +33,7 @@ app.use(express.json());
 // Routes
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
+app.use('/api/auth', userRoutes);
 
 // Swagger Config
 // const specs = swaggerJsdoc(swaggerOptions);

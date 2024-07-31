@@ -8,7 +8,7 @@ import ProfileForm from './ProfileForm';
 
 const Profile: React.FC = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
-  const { data, isLoading } = useGetPosts(currentUser?.uuid);
+  const { data, isLoading } = useGetPosts(currentUser?._id);
   return (
     <Grid container direction="column" alignItems="center" justifyContent="flex-start">
       {currentUser && <ProfileForm currentUser={currentUser} setCurrentUser={setCurrentUser} />}

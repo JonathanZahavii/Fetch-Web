@@ -2,8 +2,8 @@ import AppLogo from '@/assets/AppLogo.png';
 import Soli from '@/assets/soli.jpg';
 import AuthContext from '@/contexts/AuthContext';
 import { useDeletePost } from '@/hooks/post/useDeletePost';
-import useDialog from '@/hooks/useDialog';
 import { useLikePost } from '@/hooks/post/useLikePost';
+import useDialog from '@/hooks/useDialog';
 import AddPost from '@/pages/AddPost/AddPost';
 import { formatDate } from '@/utils/formatDate.util';
 import { onError } from '@/utils/onError';
@@ -29,7 +29,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
   const { mutate: deletePost } = useDeletePost(onError);
 
   const handleLike = () => {
-    likePost({ postId: post.uuid, userId: currentUser?.uuid ?? '' });
+    likePost({ postId: post.uuid, userId: currentUser?._id ?? '' });
   };
 
   const handleDelete = () => {
