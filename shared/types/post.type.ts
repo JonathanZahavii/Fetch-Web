@@ -26,6 +26,10 @@ export type Post = {
   petName: string
   when?: Date
   type: PostType
+  playdateMates?: User[]
 }
 
-export type upsertPost = Omit<Post, "uuid" | "createdAt" | "comments" | "likes" | "type">
+export type upsertPost = Omit<
+  Post,
+  "uuid" | "createdAt" | "comments" | "likes" | "type"
+>

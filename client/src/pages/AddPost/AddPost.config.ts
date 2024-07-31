@@ -68,6 +68,7 @@ export const getPostValues = (post?: Post) => {
       location: post.location,
       when: post?.when && formatDatePicker(post.when),
       image: post.image,
+      type
     };
   return postDefaultValues;
 };
