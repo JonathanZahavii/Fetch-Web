@@ -32,6 +32,25 @@ export const editPost = async (req: Request, res: Response) => {
   }
 };
 
+export const upsertPost = async (req: Request, res: Response) => {
+  try {
+    const postData: UpsertPostType = req.body;
+
+    // Define the filter to find the post by uuid
+    const filter = { uuid: req.body.uuid };
+
+    // Perform the upsert operation
+    const post = await Post.findOneAndUpdate(filter, postData, {
+      new: true,  // Return the updated document
+      upsert: true,  // Create the document if it does not exist
+    });
+
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
+  }
+};
+
 export const deletePost = async (req: Request, res: Response) => {
   try {
     const post = await Post.findByIdAndDelete(req.params.id);
