@@ -20,7 +20,7 @@ const Login: React.FC = () => {
   const { login: loginAuth } = useContext(AuthContext);
 
   const onSuccess = (data: LoginResponse) => {
-    loginAuth(data.user, data.token, data.refreshToken);
+    loginAuth(data.user, data.accessToken, data.refreshToken);
     navigate(HOME_URL);
   };
   const onError = (error?: Error) =>
