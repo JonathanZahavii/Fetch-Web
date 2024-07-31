@@ -1,19 +1,30 @@
-import express from "express";
-import routes from "./routes";
-import postRoutes from './routes/postRoutes';
-import commentRoutes from './routes/commentRoutes';
-import mongoose from "mongoose";
+import cors from 'cors';
 import dotenv from 'dotenv';
+import express from 'express';
+import mongoose from 'mongoose';
+import routes from './routes';
+import commentRoutes from './routes/commentRoutes';
+import postRoutes from './routes/postRoutes';
 dotenv.config();
 
 const app = express();
 
+// Configure CORS to allow requests from http://localhost:5173 with credentials
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 // Connect to MongoDB
-console.log(process.env.DB_URL)
+console.log(process.env.DB_URL);
 mongoose.connect(process.env.DB_URL as string);
-const db = mongoose.connection 
-db.on('error', error => {console.error(error)})
-db.once('open', ()=> console.log('connected to mongodb!!'))
+const db = mongoose.connection;
+db.on('error', error => {
+  console.error(error);
+});
+db.once('open', () => console.log('connected to mongodb!!'));
 
 // Middleware
 app.use(express.json());
@@ -27,6 +38,6 @@ app.use('/api/comments', commentRoutes);
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Router Config
-app.use("/api/v1", routes);
+app.use('/api/v1', routes);
 
 export default app;
