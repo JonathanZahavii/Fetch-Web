@@ -47,7 +47,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
       name: data.name,
       email: currentUser?.email || '',
       photoURL: currentUser?.photoURL,
-      uuid: currentUser?.uuid || '',
+      _id: currentUser?._id || '',
     });
   };
   return (

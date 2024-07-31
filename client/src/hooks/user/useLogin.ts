@@ -10,7 +10,7 @@ export const login = async (user: LoginRequest) => {
   const { email, password } = user;
   const u = await signInWithEmailAndPassword(auth, email, password);
   return {
-    user: { email: u.user?.email ?? '', name: u.user?.displayName ?? '', uuid: uuidv4() },
+    user: { email: u.user?.email ?? '', name: u.user?.displayName ?? '', _id: uuidv4() },
     token: '1234',
     refreshToken: '1234',
   };
