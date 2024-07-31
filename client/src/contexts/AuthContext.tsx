@@ -24,7 +24,7 @@ const initialContext: AuthContext = {
 const AuthContext = createContext<AuthContext>(initialContext);
 
 const CURRENT_USER_STORAGE_ITEM = 'currentUser';
-const ACCESS_TOKEN_STORAGE_ITEM = 'accessToken';
+export const ACCESS_TOKEN_STORAGE_ITEM = 'accessToken';
 const REFRESH_TOKEN_STORAGE_ITEM = 'refreshToken';
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {

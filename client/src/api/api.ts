@@ -1,7 +1,5 @@
-import AuthContext from '@/contexts/AuthContext';
-import { BASE_PATH } from '@/router/router.const';
+import { ACCESS_TOKEN_STORAGE_ITEM } from '@/contexts/AuthContext';
 import axios from 'axios';
-import { useContext } from 'react';
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -11,18 +9,18 @@ const Api = axios.create({
   withCredentials: true,
 });
 
-// Api.interceptors.request.use(
-//   config => {
-//     const { accessToken } = useContext(AuthContext);
-//     if (accessToken) {
-//       config.headers.Authorization = `Bearer ${accessToken}`;
-//     }
-//     return config;
-//   },
-//   error => {
-//     return Promise.reject(error);
-//   }
-// );
+Api.interceptors.request.use(
+  config => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_ITEM) as string;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 // Api.interceptors.response.use(
 //   response => {

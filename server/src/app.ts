@@ -2,6 +2,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import { authanticate } from './middlewares/auth.middleware';
 import routes from './routes';
 import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
@@ -31,8 +32,8 @@ db.once('open', () => console.log('connected to mongodb!!'));
 app.use(express.json());
 
 // Routes
-app.use('/api/posts', postRoutes);
-app.use('/api/comments', commentRoutes);
+app.use('/api/posts', authanticate, postRoutes);
+app.use('/api/comments', authanticate, commentRoutes);
 app.use('/api/auth', userRoutes);
 
 // Swagger Config
