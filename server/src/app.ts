@@ -6,6 +6,10 @@ import routes from './routes';
 import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
 import userRoutes from './routes/userRoutes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerOptions from './swagger/swaggerOptions'; // Path to your Swagger options
+
 dotenv.config();
 
 const app = express();
@@ -36,8 +40,9 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/auth', userRoutes);
 
 // Swagger Config
-// const specs = swaggerJsdoc(swaggerOptions);
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
 
 // Router Config
 app.use('/api/v1', routes);
