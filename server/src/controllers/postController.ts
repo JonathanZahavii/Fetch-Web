@@ -2,33 +2,20 @@ import { Request, Response } from 'express';
 import Post from '../models/postModel';
 import { upsertPost as UpsertPostType } from '@shared/types/post.type';
 
-export const addPost = async (req: Request, res: Response) => {
+export const upsertPost = async (req: Request, res: Response) => {
   try {
     const postData: UpsertPostType = req.body;
-    const post = new Post(postData);
-    await post.save();
-    res.status(201).json(post);
-  } catch (err) {
-    if (err instanceof Error) {
-      res.status(500).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: 'Unknown error occurred' });
-    }
-  }
-};
 
-export const editPost = async (req: Request, res: Response) => {
-  try {
-    const postData: UpsertPostType = req.body;
-    const post = await Post.findByIdAndUpdate(req.params.id, postData, { new: true });
-    if (!post) return res.status(404).json({ message: 'Post not found' });
+    const filter = { uuid: req.body.uuid };
+
+    const post = await Post.findOneAndUpdate(filter, postData, {
+      new: true, 
+      upsert: true,  
+    });
+
     res.status(200).json(post);
   } catch (err) {
-    if (err instanceof Error) {
-      res.status(500).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: 'Unknown error occurred' });
-    }
+    res.status(500).json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
   }
 };
 
@@ -38,11 +25,7 @@ export const deletePost = async (req: Request, res: Response) => {
     if (!post) return res.status(404).json({ message: 'Post not found' });
     res.status(200).json({ message: 'Post deleted' });
   } catch (err) {
-    if (err instanceof Error) {
-      res.status(500).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: 'Unknown error occurred' });
-    }
+    res.status(500).json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
   }
 };
 
@@ -51,11 +34,7 @@ export const getPosts = async (req: Request, res: Response) => {
     const posts = await Post.find();
     res.status(200).json(posts);
   } catch (err) {
-    if (err instanceof Error) {
-      res.status(500).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: 'Unknown error occurred' });
-    }
+    res.status(500).json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
   }
 };
 
@@ -67,10 +46,6 @@ export const likePost = async (req: Request, res: Response) => {
     await post.save();
     res.status(200).json(post);
   } catch (err) {
-    if (err instanceof Error) {
-      res.status(500).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: 'Unknown error occurred' });
-    }
+    res.status(500).json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
   }
 };

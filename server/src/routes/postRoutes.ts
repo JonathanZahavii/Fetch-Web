@@ -1,10 +1,9 @@
 import { Router } from 'express';
-import { addPost, editPost, deletePost, getPosts, likePost } from '../controllers/postController';
+import { upsertPost, deletePost, getPosts, likePost } from '../controllers/postController';
 
 const router = Router();
 
-router.post('/add', addPost);
-router.put('/edit/:id', editPost);
+router.post('/', upsertPost);
 router.delete('/delete/:id', deletePost);
 router.get('/', getPosts);
 router.put('/like/:id', likePost);
