@@ -21,6 +21,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use('/uploads', express.static('uploads'));
 
 // Connect to MongoDB
 console.log(process.env.DB_URL);

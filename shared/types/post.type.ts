@@ -10,7 +10,7 @@ export type Comment = {
 export type addComment = Omit<Comment, "uuid" | "createdAt">
 
 export type Post = {
-  image: File
+  image: string
   caption: string
   createdAt: string
   uuid: string

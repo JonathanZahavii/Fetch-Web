@@ -1,16 +1,24 @@
+// src/controllers/postController.ts
 import { Request, Response } from 'express';
 import Post from '../models/postModel';
 import { upsertPost as UpsertPostType } from '@shared/types/post.type';
 
-export const upsertPost = async (req: Request, res: Response) => {
+interface MulterRequest extends Request {
+  file?: Express.Multer.File;
+}
+
+export const upsertPost = async (req: MulterRequest, res: Response) => {
   try {
     const postData: UpsertPostType = req.body;
+    if (req.file) {
+      postData.image = req.file.path; // Update the image path
+    }
 
     const filter = { uuid: req.body.uuid };
 
     const post = await Post.findOneAndUpdate(filter, postData, {
-      new: true, 
-      upsert: true,  
+      new: true,
+      upsert: true,
     });
 
     res.status(200).json(post);

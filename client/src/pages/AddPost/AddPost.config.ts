@@ -10,8 +10,8 @@ export type AddPostProps = {
 
 export type AddPostFormType = Omit<
   Post,
-  'createdAt' | 'uuid' | 'user' | 'comments' | 'likes' | 'when'
-> & { when: string };
+  'createdAt' | 'uuid' | 'user' | 'comments' | 'likes' | 'when' | 'image'
+> & { when: string; image: File | null };
 
 export type LocationRecord = {
   _id: number;
@@ -53,7 +53,7 @@ export const postDefaultValues = {
   petName: '',
   location: '',
   when: formatDatePicker(new Date()),
-  image: new File([''], 'defaultImage.png', { type: 'image/png' }),
+  image: null,
 };
 
 export const getPostValues = (post?: Post) => {
@@ -63,7 +63,7 @@ export const getPostValues = (post?: Post) => {
       petName: post.petName,
       location: post.location,
       when: formatDatePicker(post.when),
-      image: post.image,
+      image: null,
     };
   return postDefaultValues;
 };
