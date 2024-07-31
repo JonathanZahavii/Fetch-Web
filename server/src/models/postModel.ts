@@ -15,7 +15,7 @@ const PostSchema: Schema = new Schema({
   createdAt: { type: Date, default: Date.now },
   uuid: { type: String, required: true, default: uuidv4, unique: true },
   user: { type: String, required: true },
-  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  comments: { type: [Schema.Types.ObjectId], default: [], ref: 'Comment' },
   likes: { type: Number, default: 0 },
   location: { type: String },
   petName: { type: String },
