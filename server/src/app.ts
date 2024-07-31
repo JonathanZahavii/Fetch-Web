@@ -10,7 +10,6 @@ import cors from "cors";
 import swaggerOptions from "./swagger/swaggerOptions";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import redisClient from "./services/redis.service";
 
 const app: Express = express();
 
