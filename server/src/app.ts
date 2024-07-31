@@ -1,19 +1,19 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-import express, { Express } from "express";
+import express from "express";
 import routes from "./routes";
-import swaggerOptions from "./swagger/swaggerOptions";
-import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
-import connectDB from './database';
 import postRoutes from './routes/postRoutes';
 import commentRoutes from './routes/commentRoutes';
+import mongoose from "mongoose";
+import dotenv from 'dotenv';
+dotenv.config();
 
-const app: Express = express();
+const app = express();
 
 // Connect to MongoDB
-connectDB();
+console.log(process.env.DB_URL)
+mongoose.connect(process.env.DB_URL as string);
+const db = mongoose.connection 
+db.on('error', error => {console.error(error)})
+db.once('open', ()=> console.log('connected to mongodb!!'))
 
 // Middleware
 app.use(express.json());
@@ -23,8 +23,8 @@ app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 
 // Swagger Config
-const specs = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+// const specs = swaggerJsdoc(swaggerOptions);
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Router Config
 app.use("/api/v1", routes);
