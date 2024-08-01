@@ -1,5 +1,5 @@
-import app from "./app";
-import logger from "./utils/logger.util";
+import app from './app';
+import logger from './utils/logger.util';
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {

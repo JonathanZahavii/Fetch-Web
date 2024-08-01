@@ -30,7 +30,7 @@ Api.interceptors.response.use(
   async error => {
     const { logout, setAccessToken, refreshToken } = getAuthContextValues();
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error?.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       if (refreshToken) {
         try {
