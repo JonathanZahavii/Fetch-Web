@@ -1,5 +1,4 @@
 import AppLogo from '@/assets/AppLogo.png';
-import Soli from '@/assets/soli.jpg';
 import AuthContext from '@/contexts/AuthContext';
 import { useDeletePost } from '@/hooks/post/useDeletePost';
 import { useLikePost } from '@/hooks/post/useLikePost';
@@ -51,7 +50,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
         </Grid>
         <Grid container item sx={{ flexDirection: 'column' }} xs={8}>
           <Typography color="primary" variant="body1">
-            {post.user.name}
+            {post.user?.name || "user-not-found"}
           </Typography>
           <Grid container item xs={9}>
             <Typography color="secondary" variant="body2">
@@ -86,7 +85,12 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
       </Grid>
 
       <Grid container item sx={{ padding: '1vh', justifyContent: 'center' }}>
-        <Box component="img" src={Soli} sx={{ width: '100%', height: '30vw' }} />
+        {/* Display the image from the server */}
+        <Box
+          component="img"
+          src={post.image ? `http://localhost:3000/${post.image}` : AppLogo}
+          sx={{ width: '100%', height: '30vw' }}
+        />
       </Grid>
 
       <Grid container item sx={{ padding: '1vh' }}>

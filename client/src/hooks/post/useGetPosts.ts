@@ -7,6 +7,8 @@ export const USE_GET_POSTS_KEY = 'posts';
 const fetchPosts = async (userUuid?: string) => {
   console.log(userUuid);
     const res = (await api.get<Post[]>(`/posts`));
+    console.log("get posts!!!!!")
+    console.log(res.data)
     return res.data;
   // const mockPosts: Post[] = [
   //   {
