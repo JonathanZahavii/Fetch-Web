@@ -7,6 +7,7 @@ import routes from './routes';
 import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
 import userRoutes from './routes/userRoutes';
+import logger from './utils/logger.util';
 dotenv.config();
 
 const app = express();
@@ -20,13 +21,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Connect to MongoDB
-console.log(process.env.DB_URL);
+logger.info(process.env.DB_URL);
 mongoose.connect(process.env.DB_URL as string);
 const db = mongoose.connection;
 db.on('error', error => {
   console.error(error);
 });
-db.once('open', () => console.log('connected to mongodb!!'));
+db.once('open', () => logger.info('connected to mongodb!!'));
 
 // Middleware
 app.use(express.json());
