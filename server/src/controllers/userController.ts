@@ -154,3 +154,16 @@ export const logout = async (req: Request, res: Response) => {
       .json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
   }
 };
+
+export const updateUser = async (req: Request, res: Response) => {
+  const { user } = req.body;
+  try {
+    const updatedUser = await User.findByIdAndUpdate(user._id, user, { new: true });
+    if (!updatedUser) return res.status(404).send('User not found');
+    return res.status(200).send(updatedUser);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
+  }
+};
