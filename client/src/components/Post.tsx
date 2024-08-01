@@ -85,7 +85,6 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
       </Grid>
 
       <Grid container item sx={{ padding: '1vh', justifyContent: 'center' }}>
-        {/* Display the image from the server */}
         <Box
           component="img"
           src={post.image ? `http://localhost:3000/${post.image}` : AppLogo}

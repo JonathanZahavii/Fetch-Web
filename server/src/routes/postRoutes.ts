@@ -125,6 +125,7 @@ const router = Router();
  *         description: Invalid input
  */
 router.post('/upsert', upload.single('image'), upsertPost);
+
 /**
  * @swagger
  * /api/posts/delete/{id}:
