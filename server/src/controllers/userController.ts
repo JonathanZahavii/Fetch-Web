@@ -9,6 +9,7 @@ import logger from '../utils/logger.util';
 dotenv.config();
 
 const { REFRESH_TOKEN_SECRET = '', GOOGLE_CLIENT_ID = '' } = process.env;
+const client = new OAuth2Client();
 
 const getTokens = (user: any) => {
   const { ACCESS_TOKEN_SECRET = '', REFRESH_TOKEN_SECRET = '', JWT_EXPIRATION } = process.env;
@@ -107,7 +108,6 @@ export const refreshToken = async (req: Request, res: Response) => {
   });
 };
 
-const client = new OAuth2Client();
 export const googleLogin = async (req: Request, res: Response) => {
   const { credential } = req.body;
   try {
@@ -126,5 +126,31 @@ export const googleLogin = async (req: Request, res: Response) => {
   } catch (err) {
     logger.error(err);
     return res.status(400).send('Error: missing email or password');
+  }
+};
+
+export const logout = async (req: Request, res: Response) => {
+  const refreshToken: string = req.body.refreshToken;
+  try {
+    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, async (err, { user }: any) => {
+      if (err) res.status(200).send();
+      const userId = user?._id;
+
+      const dbUser = await User.findById(userId);
+      if (!dbUser) return res.status(401).send('User not found');
+      else if (!dbUser.tokens?.includes(refreshToken)) {
+        dbUser.tokens = [];
+        await dbUser.save();
+        return res.status(403).send('Unauthorized');
+      }
+
+      dbUser.tokens.splice(dbUser.tokens.indexOf(refreshToken), 1);
+      await dbUser.save();
+      res.status(200).send();
+    });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
   }
 };
