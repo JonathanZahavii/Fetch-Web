@@ -1,20 +1,21 @@
-import { Options } from 'swagger-jsdoc';
+import { SwaggerOptions } from 'swagger-ui-express';
 
-const options: Options = {
-  definition: {
+const swaggerOptions: SwaggerOptions = {
+  swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'Prompt Service',
+      title: 'Fetch API',
+      description: 'API documentation for fetch project',
       version: '1.0.0',
-      description: 'Advanced service - chatGPT Prompt engineering',
     },
     servers: [
       {
-        url: 'http://localhost:3000/api/v1',
+        url: 'http://localhost:3000',
+        description: 'Local server',
       },
     ],
   },
-  apis: ['./src/routes/*.ts'], // files containing annotations as above
+  apis: ['./src/routes/*.ts'],
 };
 
-export default options;
+export default swaggerOptions;

@@ -7,6 +7,10 @@ import routes from './routes';
 import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
 import userRoutes from './routes/userRoutes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerOptions from './swagger/swaggerOptions'; // Path to your Swagger options
+
 import logger from './utils/logger.util';
 dotenv.config();
 
@@ -19,6 +23,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use('/uploads', express.static('uploads'));
 
 // Connect to MongoDB
 logger.info(process.env.DB_URL);
@@ -38,8 +43,9 @@ app.use('/api/comments', authanticate, commentRoutes);
 app.use('/api/auth', userRoutes);
 
 // Swagger Config
-// const specs = swaggerJsdoc(swaggerOptions);
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
 
 // Router Config
 app.use('/api/v1', routes);

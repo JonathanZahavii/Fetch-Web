@@ -51,7 +51,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
     setValue,
   } = useForm<AddPostFormType>({
     resolver: yupResolver(createAddPostSchema()),
-    values: postValues,
+    defaultValues: postValues,
   });
 
   const resetForm = () => {
@@ -63,15 +63,28 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const { mutate: upsertPost } = useUpsertPost(resetForm, onError);
 
   const onSubmit = (data: AddPostFormType) => {
-    upsertPost({ ...data, user: currentUser!, image: data.image!, when: new Date(data.when) });
+    const formData = new FormData();
+    formData.append('caption', data.caption);
+    formData.append('petName', data.petName);
+    formData.append('location', data.location);
+    formData.append('when', data.when);
+    
+    if (data.image instanceof File) {
+      formData.append('image', data.image);
+    }
+
+    upsertPost(formData);
   };
 
-  // TODO: Use useMemo?
   useEffect(() => {
     if (post?.image) {
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result as string);
-      reader.readAsDataURL(post.image);
+      fetch(post.image)
+        .then(response => response.blob())
+        .then(blob => {
+          const reader = new FileReader();
+          reader.onloadend = () => setImagePreview(reader.result as string);
+          reader.readAsDataURL(blob);
+        });
     } else {
       setImagePreview(null);
     }
