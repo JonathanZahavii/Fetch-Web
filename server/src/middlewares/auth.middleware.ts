@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import logger from '../utils/logger.util';
 dotenv.config();
 
 const { ACCESS_TOKEN_SECRET = '' } = process.env;
@@ -20,7 +21,7 @@ export const authanticate = async (req: Request, res: Response, next: NextFuncti
     if (err) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
-    console.log(user);
+    logger.info(user);
     req.user = user?.user?._id;
     next();
   });
