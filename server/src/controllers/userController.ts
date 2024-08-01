@@ -15,6 +15,13 @@ const getTokens = (user: any) => {
   return { accessToken, refreshToken };
 };
 
+const getTokens = (user: any) => {
+  const { ACCESS_TOKEN_SECRET = '', REFRESH_TOKEN_SECRET = '', JWT_EXPIRATION } = process.env;
+  const accessToken = jwt.sign({ user }, ACCESS_TOKEN_SECRET, { expiresIn: JWT_EXPIRATION });
+  const refreshToken = jwt.sign({ user }, REFRESH_TOKEN_SECRET);
+  return { accessToken, refreshToken };
+};
+
 export const signUp = async (req: Request, res: Response) => {
   try {
     const userData: SignUpRequest = req.body.user;
