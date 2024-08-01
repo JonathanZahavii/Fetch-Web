@@ -1,3 +1,4 @@
+import { setAuthContextValues } from '@/api/authContextHelper';
 import { User } from '@shared/types/user.type';
 import { createContext, FC, ReactNode, useEffect, useState } from 'react';
 
@@ -52,7 +53,10 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       ? localStorage.setItem(REFRESH_TOKEN_STORAGE_ITEM, refreshToken)
       : localStorage.removeItem(REFRESH_TOKEN_STORAGE_ITEM);
   }, [refreshToken]);
-
+  useEffect(() => {
+    setAuthContextValues(accessToken, refreshToken, setAccessToken, logout);
+  }, [accessToken, refreshToken, setAccessToken]);
+  
   const login = (user: User, accessToken: string, refreshToken: string) => {
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
