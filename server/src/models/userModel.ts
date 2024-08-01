@@ -13,6 +13,7 @@ const userSchema: Schema = new Schema<IUser>({
   email: { type: String, required: true },
   photoURL: { type: String },
   password: { type: String, required: true },
+  tokens: { type: [String], default: null },
 });
 
 export default mongoose.model<IUser>('User', userSchema);

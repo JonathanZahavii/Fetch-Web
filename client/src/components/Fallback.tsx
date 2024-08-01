@@ -4,19 +4,23 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PageWrapperCenter } from './PageWrapper';
 
-const Unauthorized: React.FC = () => {
+const Fallback: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <PageWrapperCenter container item sx={{ paddingX: '20vw', paddingY:'30vh', flexDirection: 'column' }}>
+    <PageWrapperCenter
+      container
+      item
+      sx={{ paddingX: '20vw', paddingY: '30vh', flexDirection: 'column' }}
+    >
       <Grid item>
         <Typography variant={'h1'} color="error" fontWeight={600}>
-          Unauthorized
+          Oops... Something Happend 🙈
         </Typography>
       </Grid>
       <Grid item>
         <Typography variant={'h4'} color={'primary.light'}>
-          You are not authorized to access this page.
+          Let's go back home and try again.
         </Typography>
       </Grid>
       <Grid item>
@@ -34,4 +38,4 @@ const Unauthorized: React.FC = () => {
   );
 };
 
-export default Unauthorized;
+export default Fallback;

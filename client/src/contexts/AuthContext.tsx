@@ -1,3 +1,4 @@
+import { setAuthContextValues } from '@/api/authContextHelper';
 import { User } from '@shared/types/user.type';
 import { createContext, FC, ReactNode, useEffect, useState } from 'react';
 
@@ -24,16 +25,14 @@ const initialContext: AuthContext = {
 const AuthContext = createContext<AuthContext>(initialContext);
 
 const CURRENT_USER_STORAGE_ITEM = 'currentUser';
-const ACCESS_TOKEN_STORAGE_ITEM = 'accessToken';
-const REFRESH_TOKEN_STORAGE_ITEM = 'refreshToken';
+export const ACCESS_TOKEN_STORAGE_ITEM = 'accessToken';
+export const REFRESH_TOKEN_STORAGE_ITEM = 'refreshToken';
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const getCurrentUser = () =>
     JSON.parse(localStorage.getItem(CURRENT_USER_STORAGE_ITEM) as string);
-  const getAccessToken = () =>
-    JSON.parse(localStorage.getItem(ACCESS_TOKEN_STORAGE_ITEM) as string);
-  const getRefreshToken = () =>
-    JSON.parse(localStorage.getItem(REFRESH_TOKEN_STORAGE_ITEM) as string);
+  const getAccessToken = () => localStorage.getItem(ACCESS_TOKEN_STORAGE_ITEM) as string;
+  const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN_STORAGE_ITEM) as string;
 
   const [currentUser, setCurrentUser] = useState<User | undefined>(getCurrentUser());
   const [accessToken, setAccessToken] = useState<string | undefined>(getAccessToken());
@@ -54,7 +53,10 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       ? localStorage.setItem(REFRESH_TOKEN_STORAGE_ITEM, refreshToken)
       : localStorage.removeItem(REFRESH_TOKEN_STORAGE_ITEM);
   }, [refreshToken]);
-
+  useEffect(() => {
+    setAuthContextValues(accessToken, refreshToken, setAccessToken, logout);
+  }, [accessToken, refreshToken, setAccessToken]);
+  
   const login = (user: User, accessToken: string, refreshToken: string) => {
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);

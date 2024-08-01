@@ -2,6 +2,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import { authanticate } from './middlewares/auth.middleware';
 import routes from './routes';
 import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
@@ -10,6 +11,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerOptions from './swagger/swaggerOptions'; // Path to your Swagger options
 
+import logger from './utils/logger.util';
 dotenv.config();
 
 const app = express();
@@ -24,20 +26,20 @@ app.use(cors(corsOptions));
 app.use('/uploads', express.static('uploads'));
 
 // Connect to MongoDB
-console.log(process.env.DB_URL);
+logger.info(process.env.DB_URL);
 mongoose.connect(process.env.DB_URL as string);
 const db = mongoose.connection;
 db.on('error', error => {
   console.error(error);
 });
-db.once('open', () => console.log('connected to mongodb!!'));
+db.once('open', () => logger.info('connected to mongodb!!'));
 
 // Middleware
 app.use(express.json());
 
 // Routes
-app.use('/api/posts', postRoutes);
-app.use('/api/comments', commentRoutes);
+app.use('/api/posts', authanticate, postRoutes);
+app.use('/api/comments', authanticate, commentRoutes);
 app.use('/api/auth', userRoutes);
 
 // Swagger Config

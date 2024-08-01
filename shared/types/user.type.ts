@@ -3,6 +3,7 @@ export type User = {
   name: string
   email: string
   photoURL?: string
+  tokens?: string[]
 }
 
 export type SignUpRequest = {
@@ -15,6 +16,6 @@ export type LoginRequest = { email: string; password: string }
 
 export type LoginResponse = {
   user: User
-  token: string
+  accessToken: string
   refreshToken: string
 }

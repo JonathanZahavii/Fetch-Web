@@ -1,8 +1,8 @@
-import AppLogo from '@/assets/AppLogo.png';
+import Fallback from '@/components/Fallback';
 import Navbar from '@/components/Navbar';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { getPagesRoutes } from '@/router/router.const';
-import { Box, CircularProgress } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
@@ -12,9 +12,7 @@ function Router() {
     {
       path: '/',
       element: (
-        <ErrorBoundary
-          FallbackComponent={() => <Box component="img" src={AppLogo} sx={{ width: '20vw' }} />}
-        >
+        <ErrorBoundary FallbackComponent={() => <Fallback />}>
           <AuthProvider>
             <Navbar />
             <Outlet />
