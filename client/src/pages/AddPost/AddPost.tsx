@@ -68,6 +68,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
     formData.append('petName', data.petName);
     formData.append('location', data.location);
     formData.append('when', data.when);
+    formData.append('user', JSON.stringify(currentUser));
     
     if (data.image instanceof File) {
       formData.append('image', data.image);
