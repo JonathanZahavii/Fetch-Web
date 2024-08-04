@@ -41,10 +41,10 @@ const Navbar: React.FC = () => {
               <>
                 <Grid item>
                   <Button onClick={handleNavigateProfile}>
-                    {currentUser.photoURL ? (
+                    {currentUser.image ? (
                       <Box
                         component="img"
-                        src={currentUser.photoURL}
+                        src={currentUser.image}
                         sx={{ width: '6vw' }}
                         onClick={handleNavigateProfile}
                       />

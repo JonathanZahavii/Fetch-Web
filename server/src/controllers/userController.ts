@@ -1,4 +1,4 @@
-import { SignUpRequest } from '@shared/types/user.type';
+import { SignUpRequest, UpdateUser } from '@shared/types/user.type';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
@@ -156,7 +156,7 @@ export const logout = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-  const { user } = req.body;
+  const user: UpdateUser = req.body;
   try {
     const updatedUser = await User.findByIdAndUpdate(user._id, user, { new: true });
     if (!updatedUser) return res.status(404).send('User not found');

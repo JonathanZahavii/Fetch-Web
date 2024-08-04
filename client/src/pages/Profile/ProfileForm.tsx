@@ -39,17 +39,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
     setValue,
   } = useForm<ProfileFormType>({
     resolver: yupResolver(createProfileSchema()),
-    defaultValues: { name: currentUser?.name || '', photo: null },
+    defaultValues: { name: currentUser?.name || '', image: null },
   });
 
   const onSubmit = async (data: ProfileFormType) => {
-    updateUser({
+    const user = {
+      _id: currentUser?._id || '',
       name: data.name,
       email: currentUser?.email || '',
-      photoURL: currentUser?.photoURL,
-      _id: currentUser?._id || '',
-    });
+      image: data.image!
+    };
+    updateUser(user);
   };
+
   return (
     <Grid container sx={{ justifyContent: 'center', alignItems: 'center', padding: '3vh' }}>
       <Grid

@@ -2,13 +2,13 @@ import * as yup from 'yup';
 
 export type ProfileForm = {
   name: string;
-  photo?: File | null;
+  image?: File | null;
 };
 
 export const createProfileSchema = (): yup.ObjectSchema<ProfileForm> =>
   yup.object({
     name: yup.string().required(),
-    photo: yup
+    image: yup
       .mixed<File>()
       .nullable()
       .test(
