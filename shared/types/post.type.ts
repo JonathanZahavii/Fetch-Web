@@ -12,7 +12,7 @@ export type addComment = Omit<Comment, "uuid" | "createdAt">
 export type Post = {
   image: string
   caption: string
-  createdAt: string
+  createdAt: Date
   _id: string
   user: User
   comments: Comment[]
@@ -22,4 +22,7 @@ export type Post = {
   when: Date
 }
 
-export type upsertPost = Omit<Post, "uuid" | "createdAt" | "comments" | "likes">
+export type upsertPost = Omit<
+  Post,
+  "_id" | "createdAt" | "comments" | "likes" | "image"
+> & { image: File }

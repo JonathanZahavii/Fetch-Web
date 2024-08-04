@@ -50,7 +50,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
         </Grid>
         <Grid container item sx={{ flexDirection: 'column' }} xs={8}>
           <Typography color="primary" variant="body1">
-            {post.user?.name || "user-not-found"}
+            {post.user?.name || 'user-not-found'}
           </Typography>
           <Grid container item xs={9}>
             <Typography color="secondary" variant="body2">

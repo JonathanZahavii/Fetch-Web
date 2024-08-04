@@ -1,21 +1,16 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import { Post as PostType } from '@shared/types/post.type';
+import { Post } from '@shared/types/post.type';
+import mongoose, { Schema } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-interface IPost extends Document, Omit<PostType, 'image' | 'user' | 'comments'> {
-  user: string;
-  _id: string;
-  caption: string;
-  image: string;
-}
+type IPost = Document & Post;
 
-const PostSchema: Schema = new Schema({
+const PostSchema: Schema = new Schema<IPost>({
   image: { type: String, required: true },
   caption: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   _id: { type: String, required: true, default: uuidv4(), unique: true },
-  user: { type: String, required: true },
-  comments: { type: [Schema.Types.ObjectId], default: [], ref: 'Comment' },
+  user: { type: Object, ref: 'User', required: true },
+  comments: { type: [Object], ref: 'Comment', default: [] },
   likes: { type: Number, default: 0 },
   location: { type: String },
   petName: { type: String },

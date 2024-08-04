@@ -63,32 +63,11 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const { mutate: upsertPost } = useUpsertPost(resetForm, onError);
 
   const onSubmit = (data: AddPostFormType) => {
-    const formData = new FormData();
-    formData.append('caption', data.caption);
-    formData.append('petName', data.petName);
-    formData.append('location', data.location);
-    formData.append('when', data.when);
-    formData.append('user', JSON.stringify(currentUser));
-
-    if (data.image instanceof File) {
-      formData.append('image', data.image);
-    }
-
-    upsertPost(formData);
+    upsertPost({ ...data, user: currentUser!, image: data.image!, when: new Date(data.when) });
   };
 
   useEffect(() => {
-    if (post?.image) {
-      fetch(post.image)
-        .then(response => response.blob())
-        .then(blob => {
-          const reader = new FileReader();
-          reader.onloadend = () => setImagePreview(reader.result as string);
-          reader.readAsDataURL(blob);
-        });
-    } else {
-      setImagePreview(null);
-    }
+    setImagePreview(post?.image ? `http://localhost:3000/${post.image}` : null);
   }, [post]);
 
   useEffect(() => {
