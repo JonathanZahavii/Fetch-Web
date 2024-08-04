@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { deletePost, getPosts, likePost, upsertPost } from '../controllers/postController';
-import { upload } from '../files/uploadConfig';
+import upload from '../files/uploadConfig';
 
 const router = Router();
 

@@ -1,40 +1,35 @@
-import multer from 'multer';
+import { getUploadDirectory } from '@/utils/file.util';
+import { Request } from 'express';
+import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
-import { Request, Response } from 'express';
-import Post from '../models/postModel';
+
+const ALLOWED_FILE_TYPES = ['JPG', 'JPEG', 'PNG'];
+const multerTypeCheck = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
+  if (!file.originalname) {
+    cb(new Error('File name is missing'));
+  }
+
+  const typeAllowed = ALLOWED_FILE_TYPES.some(fileType =>
+    file.originalname.toUpperCase().endsWith(fileType)
+  );
+
+  if (!typeAllowed) {
+    cb(new Error('File type is not allowed'));
+  }
+
+  cb(null, typeAllowed);
+};
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    const uploadDirectory = getUploadDirectory(req.baseUrl);
+    cb(null, uploadDirectory);
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({ fileFilter: multerTypeCheck, storage });
 
-export { upload }; // Named export
-
-export const upsertPostHandler = async (req: Request, res: Response) => {
-  try {
-    const postData = {
-      caption: req.body.caption,
-      petName: req.body.petName,
-      location: req.body.location,
-      when: req.body.when,
-      image: req.file ? req.file.path : undefined, // Save image path if uploaded
-    };
-
-    const filter = { _id: req.body._id };
-
-    const post = await Post.findOneAndUpdate(filter, postData, {
-      new: true,
-      upsert: true,
-    });
-
-    res.status(200).json(post);
-  } catch (err) {
-    res.status(500).json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
-  }
-};
+export default upload;
