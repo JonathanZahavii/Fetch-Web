@@ -10,7 +10,7 @@ export type AddPostProps = {
 
 export type AddPostFormType = Omit<
   Post,
-  'createdAt' | 'uuid' | 'user' | 'comments' | 'likes' | 'when' | 'image'
+  'createdAt' | '_id' | 'user' | 'comments' | 'likes' | 'when' | 'image'
 > & { when: string; image: File | null };
 
 export type LocationRecord = {

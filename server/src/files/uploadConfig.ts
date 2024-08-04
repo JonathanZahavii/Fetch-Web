@@ -26,7 +26,7 @@ export const upsertPostHandler = async (req: Request, res: Response) => {
       image: req.file ? req.file.path : undefined, // Save image path if uploaded
     };
 
-    const filter = { uuid: req.body.uuid };
+    const filter = { _id: req.body._id };
 
     const post = await Post.findOneAndUpdate(filter, postData, {
       new: true,
