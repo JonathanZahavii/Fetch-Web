@@ -49,10 +49,20 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
           <Avatar src={post.user?.photoURL || AppLogo} />
         </Grid>
         <Grid container item sx={{ flexDirection: 'column' }} xs={8}>
-          <Typography color="primary" variant="body1">
-            {post.user?.name || 'user-not-found'}
-          </Typography>
-          <Grid container item xs={9}>
+          <Grid container item>
+            <Typography color="primary" variant="body1">
+              {post.user?.name || 'user-not-found'}
+            </Typography>
+            &nbsp;
+            <Typography color="primary" variant="body1">
+              |
+            </Typography>
+            &nbsp;
+            <Typography color="primary" variant="body1">
+              {post.petName}
+            </Typography>
+          </Grid>
+          <Grid container item>
             <Typography color="secondary" variant="body2">
               {formattedWhen}
             </Typography>
