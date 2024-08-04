@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { Post as PostType } from '@shared/types/post.type';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import CommentSection from './Comment/CommentSection';
 
 type PostProps = {
@@ -35,6 +35,10 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
     deletePost(post._id);
   };
 
+  useEffect(() => {
+    console.log(post);
+  }, [post]);
+
   return (
     <Grid
       container
@@ -50,7 +54,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
         </Grid>
         <Grid container item sx={{ flexDirection: 'column' }} xs={8}>
           <Typography color="primary" variant="body1">
-            {post.user?.name || "user-not-found"}
+            {post.user?.name || 'user-not-found'}
           </Typography>
           <Grid container item xs={9}>
             <Typography color="secondary" variant="body2">

@@ -22,4 +22,7 @@ export type Post = {
   when: Date
 }
 
-export type upsertPost = Omit<Post, "uuid" | "createdAt" | "comments" | "likes">
+export type upsertPost = Omit<
+  Post,
+  "_id" | "createdAt" | "comments" | "likes" | "image"
+> & { image: File }
