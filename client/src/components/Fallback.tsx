@@ -1,4 +1,3 @@
-import { HOME_URL } from '@/router/router.const';
 import { Button, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +26,7 @@ const Fallback: React.FC = () => {
         <Button
           color={'error'}
           sx={{ textDecoration: 'underline' }}
-          onClick={() => navigate(HOME_URL)}
+          onClick={() => window.location.reload()}
         >
           <Typography variant={'h4'} color={'error'} fontWeight={600}>
             Go Home
