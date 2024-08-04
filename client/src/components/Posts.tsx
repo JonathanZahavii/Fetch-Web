@@ -20,8 +20,8 @@ const Posts: React.FC<PostsProps> = ({ posts, isEditable = false }) => {
       }}
     >
       {posts?.map((post: PostType, index) => (
-        <Fragment key={post.uuid}>
-          <Post post={post} key={post.uuid} isEditable={isEditable} />
+        <Fragment key={post._id}>
+          <Post post={post} key={post._id} isEditable={isEditable} />
           {posts.length - 1 !== index && <Divider />}
         </Fragment>
       ))}

@@ -17,7 +17,7 @@ const router = Router();
  *           schema:
  *             type: object
  *             properties:
- *               uuid:
+ *               _id:
  *                 type: string
  *                 description: The UUID of the post.
  *               caption:
@@ -39,7 +39,7 @@ const router = Router();
  *                 items:
  *                   type: object
  *                   properties:
- *                     uuid:
+ *                     _id:
  *                       type: string
  *                     content:
  *                       type: string
@@ -49,7 +49,7 @@ const router = Router();
  *                     user:
  *                       type: object
  *                       properties:
- *                         uuid:
+ *                         _id:
  *                           type: string
  *                         name:
  *                           type: string
@@ -78,7 +78,7 @@ const router = Router();
  *             schema:
  *               type: object
  *               properties:
- *                 uuid:
+ *                 _id:
  *                   type: string
  *                 caption:
  *                   type: string
@@ -104,7 +104,7 @@ const router = Router();
  *                       user:
  *                         type: object
  *                         properties:
- *                           uuid:
+ *                           _id:
  *                             type: string
  *                           name:
  *                             type: string
@@ -163,7 +163,7 @@ router.delete('/delete/:id', deletePost);
  *               items:
  *                 type: object
  *                 properties:
- *                   uuid:
+ *                   _id:
  *                     type: string
  *                   caption:
  *                     type: string
@@ -189,7 +189,7 @@ router.delete('/delete/:id', deletePost);
  *                         user:
  *                           type: object
  *                           properties:
- *                             uuid:
+ *                             _id:
  *                               type: string
  *                             name:
  *                               type: string

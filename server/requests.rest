@@ -11,7 +11,7 @@ Content-Type: application/json
   "image": "path/to/image.jpg",
   "caption": "This is a test post",
   "createdAt": "2023-08-31T00:00:00.000Z",
-  "uuid": "unique-post-idd",
+  "_id": "unique-post-idd",
   "user": "user-id",
   "comments": [],
   "likes": 0,

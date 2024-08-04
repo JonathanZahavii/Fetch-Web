@@ -14,7 +14,7 @@ export const upsertPost = async (req: MulterRequest, res: Response) => {
       postData.image = req.file.path;
     }
 
-    const filter = { uuid: req.body.uuid || uuidv4() };
+    const filter = { _id: req.body._id || uuidv4() };
 
     const post = await Post.findOneAndUpdate(filter, postData, {
       new: true,

@@ -13,7 +13,7 @@ export type Post = {
   image: string
   caption: string
   createdAt: string
-  uuid: string
+  _id: string
   user: User
   comments: Comment[]
   likes: number

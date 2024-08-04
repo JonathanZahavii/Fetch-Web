@@ -28,11 +28,11 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
   const { mutate: deletePost } = useDeletePost(onError);
 
   const handleLike = () => {
-    likePost({ postId: post.uuid, userId: currentUser?._id ?? '' });
+    likePost({ postId: post._id, userId: currentUser?._id ?? '' });
   };
 
   const handleDelete = () => {
-    deletePost(post.uuid);
+    deletePost(post._id);
   };
 
   return (
