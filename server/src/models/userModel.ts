@@ -1,11 +1,8 @@
 import { User } from '@shared/types/user.type';
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-interface IUser extends Document, User {
-  _id: string;
-  password: string;
-}
+type IUser = Document & User & { password: string };
 
 const userSchema: Schema = new Schema<IUser>({
   _id: { type: String, default: uuidv4, required: true },
