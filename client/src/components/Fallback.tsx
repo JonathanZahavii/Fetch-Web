@@ -1,11 +1,8 @@
 import { Button, Grid, Typography } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { PageWrapperCenter } from './PageWrapper';
 
 const Fallback: React.FC = () => {
-  const navigate = useNavigate();
-
   return (
     <PageWrapperCenter
       container
@@ -18,7 +15,7 @@ const Fallback: React.FC = () => {
         </Typography>
       </Grid>
       <Grid item>
-        <Typography variant={'h4'} color={'primary.light'}>
+        <Typography variant={'h4'} color={'error'}>
           Let's go back home and try again.
         </Typography>
       </Grid>
