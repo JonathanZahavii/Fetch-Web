@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { upsertPost, deletePost, getPosts, likePost } from '../controllers/postController';
-import { upload  } from '../files/uploadConfig'
+import { deletePost, getPosts, likePost, upsertPost } from '../controllers/postController';
+import { upload } from '../files/uploadConfig';
 
 const router = Router();
 
@@ -145,7 +145,7 @@ router.post('/upsert', upload.single('image'), upsertPost);
  *       404:
  *         description: Post not found
  */
-router.delete('/delete/:id', deletePost);
+router.delete('/:id', deletePost);
 
 /**
  * @swagger

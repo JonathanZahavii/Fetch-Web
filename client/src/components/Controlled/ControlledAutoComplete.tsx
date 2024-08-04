@@ -42,6 +42,7 @@ const ControlledTextField: React.FC<ControlledTextFieldProps> = ({
           renderInput={params => (
             <TextField
               {...params}
+              id={params.id}
               label={label}
               error={invalid}
               helperText={getHelperText()}
