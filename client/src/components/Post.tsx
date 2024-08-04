@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { Post as PostType } from '@shared/types/post.type';
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import CommentSection from './Comment/CommentSection';
 
 type PostProps = {
@@ -34,10 +34,6 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
   const handleDelete = () => {
     deletePost(post._id);
   };
-
-  useEffect(() => {
-    console.log(post);
-  }, [post]);
 
   return (
     <Grid
