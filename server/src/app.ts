@@ -8,6 +8,7 @@ import { authanticate } from './middlewares/auth.middleware';
 import routes from './routes';
 import postRoutes from './routes/postRoutes';
 import userRoutes from './routes/userRoutes';
+import authRoutes from './routes/authRoutes';
 import swaggerOptions from './swagger/swaggerOptions'; // Path to your Swagger options
 
 import logger from './utils/logger.util';
@@ -38,7 +39,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api/posts', authanticate, postRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 // Swagger Config
 const specs = swaggerJsdoc(swaggerOptions);
