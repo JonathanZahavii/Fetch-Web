@@ -94,7 +94,6 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
           )}
         </Grid>
       </Grid>
-
       <Grid container item sx={{ padding: '1vh', justifyContent: 'center' }}>
         <Box
           component="img"
@@ -102,7 +101,6 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
           sx={{ width: '100%', height: '30vw' }}
         />
       </Grid>
-
       <Grid container item sx={{ padding: '1vh' }}>
         <Button variant="contained" color="primary" onClick={handleLike}>
           Join! ({post.likes.length})
@@ -112,7 +110,6 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
           Comment ({post.comments.length})
         </Button>
       </Grid>
-
       <Grid container item sx={{ flexDirection: 'column' }}>
         <Typography variant="h4">{post.caption}</Typography>
       </Grid>
@@ -122,7 +119,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
         comments={post.comments}
         postId={post._id}
       />
-      <AddPost isOpen={isOpenPost} close={closePost} post={post} />
+      {isOpenPost && <AddPost isOpen={isOpenPost} close={closePost} post={post} />}
     </Grid>
   );
 };

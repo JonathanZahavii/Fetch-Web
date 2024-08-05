@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
           </Grid>
         </Grid>
       </Toolbar>
-      <AddPost isOpen={isOpen} close={close} />
+      {isOpen && <AddPost isOpen={isOpen} close={close} />}{' '}
     </AppBar>
   );
 };

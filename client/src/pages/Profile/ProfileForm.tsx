@@ -62,8 +62,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
         xs={isEdit ? 2 : 1}
         sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}
       >
-        {/* <Box component="img" src={imagePreview || AppLogo} sx={{ width: '6vw' }} /> */}
-
         <Avatar src={imagePreview || ''} sx={{ width: '6vw', height: '6vw' }} />
         {isEdit && (
           <ControlledFileField
