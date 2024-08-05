@@ -26,6 +26,7 @@ import {
   getPostValues,
   LocationRecord,
 } from './AddPost.config';
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -73,7 +74,7 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   };
 
   useEffect(() => {
-    setImagePreview(post?.image ? `http://localhost:3000/${post.image}` : null);
+    setImagePreview(post?.image ? `${VITE_BASE_URL}/${post.image}` : null);
   }, [post]);
 
   useEffect(() => {
