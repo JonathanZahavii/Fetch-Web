@@ -26,6 +26,7 @@ import {
   getPostValues,
   LocationRecord,
 } from './AddPost.config';
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -63,11 +64,17 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const { mutate: upsertPost } = useUpsertPost(resetForm, onError);
 
   const onSubmit = (data: AddPostFormType) => {
-    upsertPost({ ...data, user: currentUser!._id, image: data.image!, when: new Date(data.when) });
+    upsertPost({
+      ...data,
+      user: currentUser!._id,
+      image: data.image!,
+      when: new Date(data.when),
+      _id: post?._id,
+    });
   };
 
   useEffect(() => {
-    setImagePreview(post?.image ? `http://localhost:3000/${post.image}` : null);
+    setImagePreview(post?.image ? `${VITE_BASE_URL}/${post.image}` : null);
   }, [post]);
 
   useEffect(() => {

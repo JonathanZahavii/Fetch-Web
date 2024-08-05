@@ -14,6 +14,8 @@ import { Avatar, Grid, IconButton } from '@mui/material';
 import { User } from '@shared/types/user.type';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
 type ProfileFormProps = {
   currentUser: User;
   setCurrentUser: (user: User) => void;
@@ -23,7 +25,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
   const [isEdit, setIsEdit] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(
-    currentUser?.image ? `http://localhost:3000/${currentUser.image}` : ''
+    currentUser?.image ? `${VITE_BASE_URL}/${currentUser.image}` : ''
   );
 
   const onSuccess = (updatedUser: User) => {
@@ -60,8 +62,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
         xs={isEdit ? 2 : 1}
         sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}
       >
-        {/* <Box component="img" src={imagePreview || AppLogo} sx={{ width: '6vw' }} /> */}
-
         <Avatar src={imagePreview || ''} sx={{ width: '6vw', height: '6vw' }} />
         {isEdit && (
           <ControlledFileField

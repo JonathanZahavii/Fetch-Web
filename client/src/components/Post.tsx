@@ -12,6 +12,7 @@ import { Avatar, Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui
 import { Post as PostType } from '@shared/types/post.type';
 import React, { useContext, useMemo } from 'react';
 import CommentSection from './Comment/CommentSection';
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 type PostProps = {
   post: PostType;
@@ -46,7 +47,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
     >
       <Grid item container sx={{ alignItems: 'center' }}>
         <Grid item container xs={1.5} sx={{ justifyContent: 'center' }}>
-          <Avatar src={post.user?.image ? `http://localhost:3000/${post.user.image}` : ''} />
+          <Avatar src={post.user?.image ? `${VITE_BASE_URL}/${post.user.image}` : ''} />
         </Grid>
         <Grid container item sx={{ flexDirection: 'column' }} xs={8}>
           <Grid container item>
@@ -93,15 +94,13 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
           )}
         </Grid>
       </Grid>
-
       <Grid container item sx={{ padding: '1vh', justifyContent: 'center' }}>
         <Box
           component="img"
-          src={post.image ? `http://localhost:3000/${post.image}` : AppLogo}
+          src={post.image ? `${VITE_BASE_URL}/${post.image}` : AppLogo}
           sx={{ width: '100%', height: '30vw' }}
         />
       </Grid>
-
       <Grid container item sx={{ padding: '1vh' }}>
         <Button variant="contained" color="primary" onClick={handleLike}>
           Join! ({post.likes.length})
@@ -111,12 +110,16 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
           Comment ({post.comments.length})
         </Button>
       </Grid>
-
       <Grid container item sx={{ flexDirection: 'column' }}>
         <Typography variant="h4">{post.caption}</Typography>
       </Grid>
-      <CommentSection isOpen={isOpenComment} close={closeComment} comments={post.comments} postId={post._id}/>
-      <AddPost isOpen={isOpenPost} close={closePost} post={post} />
+      <CommentSection
+        isOpen={isOpenComment}
+        close={closeComment}
+        comments={post.comments}
+        postId={post._id}
+      />
+      {isOpenPost && <AddPost isOpen={isOpenPost} close={closePost} post={post} />}
     </Grid>
   );
 };

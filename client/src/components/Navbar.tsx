@@ -7,6 +7,7 @@ import { AppBar, Avatar, Box, Button, Grid, IconButton, Toolbar, Typography } fr
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const Navbar: React.FC = () => {
                 <Grid item>
                   <Button onClick={handleNavigateProfile}>
                     <Avatar
-                      src={currentUser?.image ? `http://localhost:3000/${currentUser.image}` : ''}
+                      src={currentUser?.image ? `${VITE_BASE_URL}/${currentUser.image}` : ''}
                       sx={{ width: '3vw', height: '3vw' }}
                       onClick={handleNavigateProfile}
                     />
@@ -74,7 +75,7 @@ const Navbar: React.FC = () => {
           </Grid>
         </Grid>
       </Toolbar>
-      <AddPost isOpen={isOpen} close={close} />
+      {isOpen && <AddPost isOpen={isOpen} close={close} />}{' '}
     </AppBar>
   );
 };
