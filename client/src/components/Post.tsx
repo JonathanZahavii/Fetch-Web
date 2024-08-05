@@ -115,7 +115,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
       <Grid container item sx={{ flexDirection: 'column' }}>
         <Typography variant="h4">{post.caption}</Typography>
       </Grid>
-      <CommentSection isOpen={isOpenComment} close={closeComment} comments={post.comments} />
+      <CommentSection isOpen={isOpenComment} close={closeComment} comments={post.comments} postId={post._id}/>
       <AddPost isOpen={isOpenPost} close={closePost} post={post} />
     </Grid>
   );

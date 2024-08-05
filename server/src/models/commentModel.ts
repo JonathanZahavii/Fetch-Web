@@ -1,17 +1,12 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { Comment as CommentType, addComment } from '@shared/types/post.type';
+import { Comment } from '@shared/types/post.type';
 
-interface IComment extends Document, Omit<CommentType, 'uuid' | 'createdAt' | 'user'> {
-  linkedPostId: string;
-  creatingUserId: string;
-  text: string;
-}
+type IComment = Document & Comment;
 
-const CommentSchema: Schema = new Schema({
-  linkedPostId: { type: String, required: true },
-  creatingUserId: { type: String, required: true },
+export const CommentSchema: Schema = new Schema<IComment>({
   content: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
+  userId: { type: String, required: true },
+  userName: { type: String, required: true },
 });
 
-export default mongoose.model<IComment>('Comment', CommentSchema);

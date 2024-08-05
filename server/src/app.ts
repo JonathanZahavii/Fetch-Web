@@ -2,13 +2,12 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import { authanticate } from './middlewares/auth.middleware';
 import routes from './routes';
-import commentRoutes from './routes/commentRoutes';
 import postRoutes from './routes/postRoutes';
 import userRoutes from './routes/userRoutes';
-import swaggerUi from 'swagger-ui-express';
-import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerOptions from './swagger/swaggerOptions'; // Path to your Swagger options
 
 import logger from './utils/logger.util';
@@ -39,13 +38,11 @@ app.use(express.json());
 
 // Routes
 app.use('/api/posts', authanticate, postRoutes);
-app.use('/api/comments', authanticate, commentRoutes);
 app.use('/api/auth', userRoutes);
 
 // Swagger Config
 const specs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-
 
 // Router Config
 app.use('/api/v1', routes);
