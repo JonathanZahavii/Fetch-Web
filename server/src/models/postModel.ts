@@ -1,5 +1,5 @@
 import { Post } from '@shared/types/post.type';
-import mongoose, { Schema } from 'mongoose';
+import { Document, Schema, model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
 type IPost = Document & Post;
@@ -17,4 +17,4 @@ const PostSchema: Schema = new Schema<IPost>({
   when: { type: Date },
 });
 
-export default mongoose.model<IPost>('Post', PostSchema);
+export default model<IPost>('Post', PostSchema);
