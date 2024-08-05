@@ -16,7 +16,7 @@ export type Post = {
   _id: string
   user: User
   comments: Comment[]
-  likes: number
+  likes: string[]
   location: string
   petName: string
   when: Date

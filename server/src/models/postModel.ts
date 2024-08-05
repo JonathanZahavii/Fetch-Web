@@ -11,7 +11,7 @@ const PostSchema: Schema = new Schema<IPost>({
   _id: { type: String, required: true, default: uuidv4() },
   user: { type: Object, ref: 'User', required: true },
   comments: { type: [Object], ref: 'Comment', default: [] },
-  likes: { type: Number, default: 0 },
+  likes: { type: [String], default: [] },
   location: { type: String },
   petName: { type: String },
   when: { type: Date },

@@ -1,4 +1,4 @@
-import { Post as PostType, upsertPost as UpsertPostType } from '@shared/types/post.type';
+import { Post as PostType } from '@shared/types/post.type';
 import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import Post from '../models/postModel';
@@ -23,7 +23,7 @@ export const upsertPost = async (req: MulterRequest, res: Response) => {
 
     res.status(200).json(post);
   } catch (err) {
-      res
+    res
       .status(500)
       .json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
   }
@@ -56,7 +56,11 @@ export const likePost = async (req: Request, res: Response) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: 'Post not found' });
-    post.likes += 1;
+    if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+
+    if (post.likes.includes(req.user)) post.likes = post.likes.filter(id => id !== req.user);
+    else post.likes.push(req.user);
+
     await post.save();
     res.status(200).json(post);
   } catch (err) {

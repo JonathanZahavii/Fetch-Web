@@ -9,7 +9,7 @@ type UseLikeProps = {
 };
 const likePost = async ({ postId, userId }: UseLikeProps) => {
   console.log('like post: ' + postId + ' by user: ' + userId);
-  await api.post(`/posts/like/${postId}`, { userId });
+  await api.put(`/posts/like/${postId}`);
 };
 
 export const useLikePost = (onError: ErrorFunction) => {
