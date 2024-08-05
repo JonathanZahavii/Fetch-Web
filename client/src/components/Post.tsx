@@ -46,7 +46,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
     >
       <Grid item container sx={{ alignItems: 'center' }}>
         <Grid item container xs={1.5} sx={{ justifyContent: 'center' }}>
-          <Avatar src={post.user?.image || AppLogo} />
+          <Avatar src={post.user?.image ? `http://localhost:3000/${post.user.image}` : ''} />
         </Grid>
         <Grid container item sx={{ flexDirection: 'column' }} xs={8}>
           <Grid container item>

@@ -1,4 +1,3 @@
-import { getUploadDirectory } from '@/utils/file.util';
 import { Request } from 'express';
 import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
@@ -22,8 +21,7 @@ const multerTypeCheck = (req: Request, file: Express.Multer.File, cb: FileFilter
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDirectory = getUploadDirectory(req.baseUrl);
-    cb(null, uploadDirectory);
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));

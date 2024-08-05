@@ -41,16 +41,11 @@ const Navbar: React.FC = () => {
               <>
                 <Grid item>
                   <Button onClick={handleNavigateProfile}>
-                    {currentUser.image ? (
-                      <Box
-                        component="img"
-                        src={currentUser.image}
-                        sx={{ width: '6vw' }}
-                        onClick={handleNavigateProfile}
-                      />
-                    ) : (
-                      <Avatar src="" onClick={handleNavigateProfile} />
-                    )}
+                    <Avatar
+                      src={currentUser?.image ? `http://localhost:3000/${currentUser.image}` : ''}
+                      sx={{ width: '3vw', height: '3vw' }}
+                      onClick={handleNavigateProfile}
+                    />
                   </Button>
                 </Grid>
                 <Grid item>
