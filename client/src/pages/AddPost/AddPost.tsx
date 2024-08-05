@@ -63,7 +63,13 @@ const AddPost: React.FC<AddPostProps> = ({ isOpen, close, post }) => {
   const { mutate: upsertPost } = useUpsertPost(resetForm, onError);
 
   const onSubmit = (data: AddPostFormType) => {
-    upsertPost({ ...data, user: currentUser!._id, image: data.image!, when: new Date(data.when) });
+    upsertPost({
+      ...data,
+      user: currentUser!._id,
+      image: data.image!,
+      when: new Date(data.when),
+      _id: post?._id,
+    });
   };
 
   useEffect(() => {
