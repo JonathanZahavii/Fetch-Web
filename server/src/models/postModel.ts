@@ -1,5 +1,5 @@
 import { Post } from '@shared/types/post.type';
-import mongoose, { Schema } from 'mongoose';
+import { Document, Schema, model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
 type IPost = Document & Post;
@@ -8,7 +8,7 @@ const PostSchema: Schema = new Schema<IPost>({
   image: { type: String, required: true },
   caption: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  _id: { type: String, required: true, default: uuidv4(), unique: true },
+  _id: { type: String, required: true, default: uuidv4() },
   user: { type: Object, ref: 'User', required: true },
   comments: { type: [Object], ref: 'Comment', default: [] },
   likes: { type: Number, default: 0 },
@@ -17,4 +17,4 @@ const PostSchema: Schema = new Schema<IPost>({
   when: { type: Date },
 });
 
-export default mongoose.model<IPost>('Post', PostSchema);
+export default model<IPost>('Post', PostSchema);

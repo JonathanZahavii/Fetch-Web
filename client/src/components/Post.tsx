@@ -46,13 +46,23 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
     >
       <Grid item container sx={{ alignItems: 'center' }}>
         <Grid item container xs={1.5} sx={{ justifyContent: 'center' }}>
-          <Avatar src={post.user?.photoURL || AppLogo} />
+          <Avatar src={post.user?.image ? `http://localhost:3000/${post.user.image}` : ''} />
         </Grid>
         <Grid container item sx={{ flexDirection: 'column' }} xs={8}>
-          <Typography color="primary" variant="body1">
-            {post.user?.name || 'user-not-found'}
-          </Typography>
-          <Grid container item xs={9}>
+          <Grid container item>
+            <Typography color="primary" variant="body1">
+              {post.user?.name || 'user-not-found'}
+            </Typography>
+            &nbsp;
+            <Typography color="primary" variant="body1">
+              |
+            </Typography>
+            &nbsp;
+            <Typography color="primary" variant="body1">
+              {post.petName}
+            </Typography>
+          </Grid>
+          <Grid container item>
             <Typography color="secondary" variant="body2">
               {formattedWhen}
             </Typography>

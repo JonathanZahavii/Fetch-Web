@@ -1,4 +1,3 @@
-import AppLogo from '@/assets/AppLogo.png';
 import ControlledFileField from '@/components/Controlled/ControlledFileField';
 import ControlledTextField from '@/components/Controlled/ControlledTextField';
 import { useUpdateUser } from '@/hooks/user/useUpdateUser';
@@ -11,7 +10,7 @@ import { onError } from '@/utils/onError';
 import { yupResolver } from '@hookform/resolvers/yup';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveButton from '@mui/icons-material/Save';
-import { Box, Grid, IconButton } from '@mui/material';
+import { Avatar, Grid, IconButton } from '@mui/material';
 import { User } from '@shared/types/user.type';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -23,7 +22,9 @@ type ProfileFormProps = {
 const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }) => {
   const [isEdit, setIsEdit] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(AppLogo);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    currentUser?.image ? `http://localhost:3000/${currentUser.image}` : ''
+  );
 
   const onSuccess = (updatedUser: User) => {
     setCurrentUser(updatedUser);
@@ -39,17 +40,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
     setValue,
   } = useForm<ProfileFormType>({
     resolver: yupResolver(createProfileSchema()),
-    defaultValues: { name: currentUser?.name || '', photo: null },
+    defaultValues: { name: currentUser?.name || '', image: null },
   });
 
   const onSubmit = async (data: ProfileFormType) => {
-    updateUser({
+    const user = {
+      _id: currentUser?._id || '',
       name: data.name,
       email: currentUser?.email || '',
-      photoURL: currentUser?.photoURL,
-      _id: currentUser?._id || '',
-    });
+      image: data.image!,
+    };
+    updateUser(user);
   };
+
   return (
     <Grid container sx={{ justifyContent: 'center', alignItems: 'center', padding: '3vh' }}>
       <Grid
@@ -57,7 +60,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
         xs={isEdit ? 2 : 1}
         sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}
       >
-        <Box component="img" src={imagePreview || AppLogo} sx={{ width: '6vw' }} />
+        {/* <Box component="img" src={imagePreview || AppLogo} sx={{ width: '6vw' }} /> */}
+
+        <Avatar src={imagePreview || ''} sx={{ width: '6vw', height: '6vw' }} />
         {isEdit && (
           <ControlledFileField
             name="image"

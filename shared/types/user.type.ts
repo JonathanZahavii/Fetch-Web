@@ -2,7 +2,7 @@ export type User = {
   _id: string
   name: string
   email: string
-  photoURL?: string
+  image?: string
   tokens?: string[]
 }
 
@@ -19,3 +19,5 @@ export type LoginResponse = {
   accessToken: string
   refreshToken: string
 }
+
+export type UpdateUser = Omit<User, "tokens" | "image"> & { image: File }

@@ -1,6 +1,14 @@
 import { Router } from 'express';
-import { googleLogin, login, logout, refreshToken, signUp, updateUser } from '../controllers/userController';
+import {
+  googleLogin,
+  login,
+  logout,
+  refreshToken,
+  signUp,
+  updateUser,
+} from '../controllers/userController';
 import { authanticate } from '../middlewares/auth.middleware';
+import upload from '../middlewares/file.middleware';
 
 const router = Router();
 
@@ -34,6 +42,6 @@ router.post('/login', login);
 router.post('/refreshToken/:refreshToken', refreshToken);
 router.post('/googleLogin', googleLogin);
 router.post('/logout', authanticate, logout);
-router.put('/user', authanticate, updateUser);
+router.put('/user', authanticate, upload.single('image'), updateUser);
 
 export default router;
