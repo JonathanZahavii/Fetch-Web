@@ -11,7 +11,7 @@ export type AddPostProps = {
 export type AddPostFormType = Omit<
   Post,
   'createdAt' | '_id' | 'user' | 'comments' | 'likes' | 'when' | 'image'
-> & { when: string; image: File | null };
+> & { when: string; image: File | null, _id: string };
 
 export type LocationRecord = {
   _id: number;
@@ -33,6 +33,7 @@ export const createAddPostSchema = (): yup.ObjectSchema<AddPostFormType> =>
     petName: yup.string().required(),
     location: yup.string().required(),
     when: yup.string().required(),
+    _id: yup.string().required(),
     image: yup
       .mixed<File>()
       .required()
@@ -64,6 +65,7 @@ export const getPostValues = (post?: Post) => {
       location: post.location,
       when: formatDatePicker(post.when),
       image: null,
+      _id: post._id
     };
   return postDefaultValues;
 };

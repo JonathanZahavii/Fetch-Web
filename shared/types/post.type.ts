@@ -24,5 +24,5 @@ export type Post = {
 
 export type upsertPost = Omit<
   Post,
-  "_id" | "createdAt" | "comments" | "likes" | "image" | "user"
-> & { image: File, user: string }
+  "createdAt" | "comments" | "likes" | "image" | "user"
+> & { image: File, user: string, _id: string }
