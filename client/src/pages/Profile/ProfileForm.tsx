@@ -22,7 +22,9 @@ type ProfileFormProps = {
 const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }) => {
   const [isEdit, setIsEdit] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(currentUser?.image || null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    currentUser?.image ? `http://localhost:3000/${currentUser.image}` : ''
+  );
 
   const onSuccess = (updatedUser: User) => {
     setCurrentUser(updatedUser);
@@ -60,10 +62,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ currentUser, setCurrentUser }
       >
         {/* <Box component="img" src={imagePreview || AppLogo} sx={{ width: '6vw' }} /> */}
 
-        <Avatar
-          src={imagePreview ?? currentUser?.image ? `http://localhost:3000/${imagePreview}` : ''}
-          sx={{ width: '6vw', height: '6vw' }}
-        />
+        <Avatar src={imagePreview || ''} sx={{ width: '6vw', height: '6vw' }} />
         {isEdit && (
           <ControlledFileField
             name="image"
