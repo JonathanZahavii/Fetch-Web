@@ -104,7 +104,7 @@ const Post: React.FC<PostProps> = ({ post, isEditable = false }) => {
 
       <Grid container item sx={{ padding: '1vh' }}>
         <Button variant="contained" color="primary" onClick={handleLike}>
-          Likes ({post.likes.length})
+          Join! ({post.likes.length})
         </Button>
         &nbsp;
         <Button variant="contained" color="primary" onClick={openComment}>

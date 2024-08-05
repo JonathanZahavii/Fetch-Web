@@ -1,4 +1,3 @@
-import { Post as PostType } from '@shared/types/post.type';
 import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import Post from '../models/postModel';
@@ -10,7 +9,7 @@ interface MulterRequest extends Request {
 
 export const upsertPost = async (req: MulterRequest, res: Response) => {
   try {
-    const postData: PostType = req.body;
+    const postData = req.body;
     if (req.file) {
       postData.image = req.file.path;
     }
@@ -44,7 +43,19 @@ export const deletePost = async (req: Request, res: Response) => {
 
 export const getPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate('user').exec();
+    res.status(200).json(posts);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
+  }
+};
+
+export const getMyPosts = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user;
+    const posts = await Post.find({ user: userId }).populate('user').exec();
     res.status(200).json(posts);
   } catch (err) {
     res
@@ -85,7 +96,7 @@ export const commentPost = async (req: Request, res: Response) => {
       userName: user.name,
     };
     post.comments.push(comment);
-    
+
     await post.save();
     res.status(200).json(post);
   } catch (err) {
