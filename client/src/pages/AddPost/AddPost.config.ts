@@ -11,7 +11,7 @@ export type AddPostProps = {
 export type AddPostFormType = Omit<
   Post,
   'createdAt' | '_id' | 'user' | 'comments' | 'likes' | 'when' | 'image'
-> & { when: string; image: File | null };
+> & { when: string; image?: File | null; imagePath?: string };
 
 export type LocationRecord = {
   _id: number;
@@ -35,7 +35,11 @@ export const createAddPostSchema = (): yup.ObjectSchema<AddPostFormType> =>
     when: yup.string().required(),
     image: yup
       .mixed<File>()
-      .required()
+      .when('imagePath', {
+        is: (imagePath?: string) => !imagePath,
+        then: () => yup.mixed<File>().required(),
+        otherwise: () => yup.mixed<File>().notRequired().nullable(),
+      })
       .test(
         'fileSize',
         'File too large',
@@ -46,6 +50,7 @@ export const createAddPostSchema = (): yup.ObjectSchema<AddPostFormType> =>
         'Unsupported Format',
         value => !value || (value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type))
       ),
+    imagePath: yup.string(),
   });
 
 export const postDefaultValues = {
