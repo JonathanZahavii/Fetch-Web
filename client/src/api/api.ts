@@ -5,7 +5,7 @@ import { getAuthContextValues } from './authContextHelper';
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Api = axios.create({
-  baseURL: `${VITE_BASE_URL}`,
+  baseURL: `${VITE_BASE_URL}/api/`,
   responseType: 'json',
   withCredentials: true,
 });
@@ -34,7 +34,7 @@ Api.interceptors.response.use(
       originalRequest._retry = true;
       if (refreshToken) {
         try {
-          const response = await axios.post(`${VITE_BASE_URL}auth/refreshToken/${refreshToken}`);
+          const response = await axios.post(`${VITE_BASE_URL}/api/auth/refreshToken/${refreshToken}`);
           const newAccessToken = response.data.accessToken;
           setAccessToken && setAccessToken(newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
