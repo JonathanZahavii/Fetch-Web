@@ -141,7 +141,6 @@ export const logout = async (req: Request, res: Response) => {
       else if (!dbUser.tokens?.includes(refreshToken)) {
         dbUser.tokens = [];
         await dbUser.save();
-        return res.status(403).send('Unauthorized');
       }
 
       dbUser.tokens.splice(dbUser.tokens.indexOf(refreshToken), 1);

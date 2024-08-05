@@ -1,14 +1,14 @@
 import Loader from '@/components/Loader';
 import Posts from '@/components/Posts';
 import AuthContext from '@/contexts/AuthContext';
-import { useGetPosts } from '@/hooks/post/useGetPosts';
+import { useGetMyPosts } from '@/hooks/post/useGetMyPosts';
 import { Grid } from '@mui/material';
 import React, { useContext } from 'react';
 import ProfileForm from './ProfileForm';
 
 const Profile: React.FC = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
-  const { data, isLoading } = useGetPosts(currentUser?._id);
+  const { data, isLoading } = useGetMyPosts();
   return (
     <Grid container direction="column" alignItems="center" justifyContent="flex-start">
       {currentUser && <ProfileForm currentUser={currentUser} setCurrentUser={setCurrentUser} />}

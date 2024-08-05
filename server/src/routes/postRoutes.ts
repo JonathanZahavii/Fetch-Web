@@ -1,5 +1,12 @@
 import { Router } from 'express';
-import { commentPost, deletePost, getPosts, likePost, upsertPost } from '../controllers/postController';
+import {
+  commentPost,
+  deletePost,
+  getMyPosts,
+  getPosts,
+  likePost,
+  upsertPost,
+} from '../controllers/postController';
 import upload from '../middlewares/file.middleware';
 
 const router = Router();
@@ -208,6 +215,8 @@ router.delete('/:id', deletePost);
  *                     format: date-time
  */
 router.get('/', getPosts);
+
+router.get('/my', getMyPosts);
 
 /**
  * @swagger
