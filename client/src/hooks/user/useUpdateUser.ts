@@ -6,7 +6,7 @@ import { USE_GET_POSTS_KEY } from '../post/useGetPosts';
 
 export const updateUser = async (user: UpdateUser) => {
   return (
-    await api.put('/auth/user/', user, {
+    await api.put('/user/', user, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

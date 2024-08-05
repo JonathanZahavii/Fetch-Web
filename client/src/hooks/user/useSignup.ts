@@ -5,7 +5,7 @@ import { SignUpRequest } from '@shared/types/user.type';
 import { useMutation } from '@tanstack/react-query';
 
 export const signup = async (user: SignUpRequest) => {
-  await api.post('/auth/signup/', { user });
+  await api.post('/user/', { user });
 };
 
 export const useSignup = (onSuccess: EmptyFunction, onError: ErrorFunction) => {
