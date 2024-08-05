@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { deletePost, getPosts, likePost, upsertPost } from '../controllers/postController';
+import { commentPost, deletePost, getPosts, likePost, upsertPost } from '../controllers/postController';
 import upload from '../middlewares/file.middleware';
 
 const router = Router();
@@ -229,5 +229,7 @@ router.get('/', getPosts);
  *         description: Post not found
  */
 router.put('/like/:id', likePost);
+
+router.put('/comment/:id', commentPost);
 
 export default router;

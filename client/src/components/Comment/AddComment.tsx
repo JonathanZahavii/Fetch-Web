@@ -1,15 +1,17 @@
-import AuthContext from '@/contexts/AuthContext';
 import { useAddComment } from '@/hooks/post/useAddComment';
 import { onError } from '@/utils/onError';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import { Grid, IconButton, TextField } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 type AddCommentType = {
   comment: string;
+};
+type AddCommentProps = {
+  postId: string;
 };
 
 const createAddCommentSchema = () =>
@@ -17,9 +19,7 @@ const createAddCommentSchema = () =>
     comment: yup.string().required(),
   });
 
-const AddComment: React.FC = () => {
-  const { currentUser } = useContext(AuthContext);
-
+const AddComment: React.FC<AddCommentProps> = ({ postId }) => {
   const { mutate: addComment } = useAddComment(onError);
 
   const {
@@ -33,8 +33,7 @@ const AddComment: React.FC = () => {
   });
 
   const onSubmit = async (data: AddCommentType) => {
-    const comment = { content: data.comment, user: currentUser! };
-    addComment(comment);
+    addComment({ comment: data.comment, postId });
     reset();
   };
 

@@ -2,6 +2,7 @@ import { Post as PostType } from '@shared/types/post.type';
 import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import Post from '../models/postModel';
+import User from '../models/userModel';
 
 interface MulterRequest extends Request {
   file?: Express.Multer.File;
@@ -61,6 +62,30 @@ export const likePost = async (req: Request, res: Response) => {
     if (post.likes.includes(req.user)) post.likes = post.likes.filter(id => id !== req.user);
     else post.likes.push(req.user);
 
+    await post.save();
+    res.status(200).json(post);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: err instanceof Error ? err.message : 'Unknown error occurred' });
+  }
+};
+
+export const commentPost = async (req: Request, res: Response) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: 'Post not found' });
+    const user = await User.findById(req.user);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const comment = {
+      content: req.body.comment,
+      createdAt: new Date(),
+      userId: user._id,
+      userName: user.name,
+    };
+    post.comments.push(comment);
+    
     await post.save();
     res.status(200).json(post);
   } catch (err) {

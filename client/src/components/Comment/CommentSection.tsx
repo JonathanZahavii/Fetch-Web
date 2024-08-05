@@ -9,22 +9,19 @@ type CommentSectionProps = {
   comments: CommentType[];
   isOpen: boolean;
   close: () => void;
+  postId: string;
 };
 
-const CommentSection: React.FC<CommentSectionProps> = ({
-  comments,
-  isOpen,
-  close,
-}) => {
+const CommentSection: React.FC<CommentSectionProps> = ({ comments, isOpen, close, postId }) => {
   return (
     <Dialog open={isOpen} onClose={close} maxWidth={'md'} fullWidth>
-      <DialogTitle>Comments</DialogTitle>
+      <DialogTitle color={'primary'}>Comments</DialogTitle>
       <DialogContent>
-        <AddComment />
+        <AddComment postId={postId} />
         {!comments ? (
           <Loader />
         ) : (
-          comments.map(comment => <Comment key={comment.uuid} comment={comment} />)
+          comments.map((comment, index) => <Comment key={index} comment={comment} />)
         )}
       </DialogContent>
     </Dialog>

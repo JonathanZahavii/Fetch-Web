@@ -1,13 +1,13 @@
 import { User } from "./user.type"
 
 export type Comment = {
-  uuid: string
   content: string
-  createdAt: string
-  user: User
+  createdAt: Date
+  userId: string
+  userName: string
 }
 
-export type addComment = Omit<Comment, "uuid" | "createdAt">
+export type addComment = Omit<Comment, "createdAt">
 
 export type Post = {
   image: string
