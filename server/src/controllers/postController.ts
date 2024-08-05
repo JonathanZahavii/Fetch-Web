@@ -43,7 +43,10 @@ export const deletePost = async (req: Request, res: Response) => {
 
 export const getPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await Post.find().populate('user').exec();
+    const posts = await Post.find()
+      .sort({ ['createdAt']: -1 })
+      .populate('user')
+      .exec();
     res.status(200).json(posts);
   } catch (err) {
     res
@@ -55,7 +58,10 @@ export const getPosts = async (req: Request, res: Response) => {
 export const getMyPosts = async (req: Request, res: Response) => {
   try {
     const userId = req.user;
-    const posts = await Post.find({ user: userId }).populate('user').exec();
+    const posts = await Post.find({ user: userId })
+      .sort({ ['createdAt']: -1 })
+      .populate('user')
+      .exec();
     res.status(200).json(posts);
   } catch (err) {
     res
