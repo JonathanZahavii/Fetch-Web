@@ -9,7 +9,8 @@ import routes from './routes';
 import postRoutes from './routes/postRoutes';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
-import swaggerOptions from './swagger/swaggerOptions'; // Path to your Swagger options
+import swaggerOptions from './swagger/swaggerOptions';
+import path from "path";
 
 import logger from './utils/logger.util';
 dotenv.config();
@@ -48,5 +49,16 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Router Config
 app.use('/api/v1', routes);
+
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req, res) => {
+    if (!req.path.startsWith("/api")) {
+      const filePath = `../client/dist${
+        req.path === "/" ? "/index.html" : req.path
+      }`;
+      res.sendFile(path.resolve(filePath));
+    }
+  });
+}
 
 export default app;
